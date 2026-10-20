@@ -1,5 +1,6 @@
 @import 'sidebar.css';
 @import './page/dashboardPage.css';
+@import './page/projectPage.css';
 
 :root {
     --surface: #0D1627;

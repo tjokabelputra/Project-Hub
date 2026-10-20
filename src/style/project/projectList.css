@@ -1,0 +1,77 @@
+.project-list {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding: 24px;
+    gap: 24px;
+}
+
+.project-list__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-list__header h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.project-list__header p {
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+.project-list__header-action {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-list__header-action input {
+    width: 60%;
+    height: 48px;
+    padding-inline: 16px;
+    padding-block: 8px;
+    font-size: 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+}
+
+.project-list__header-action button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding-inline: 16px;
+    padding-block: 8px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.project-list__filter {
+    display: flex;
+    gap: 24px;
+    list-style-type: none;
+    border-bottom: 1px solid var(--border)
+}
+
+.project-list__filter li {
+    color: var(--text-primary);
+    padding-bottom: 16px;
+    font-size: 14px;
+}
+
+.project-list__filter li:hover {
+    cursor: pointer;
+}
+
+.project-list__filter-selected {
+    color: var(--primary);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary);
+}
