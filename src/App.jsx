@@ -1,11 +1,21 @@
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router';
+import { dummyUser } from './data/dummy.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncGetProjects } from './states/projects/action.js';
 import DashboardPage from './page/DashboardPage.jsx';
 import ProjectPage from './page/ProjectPage.jsx';
 import InputUpdatePage from './page/InputUpdatePage.jsx';
 import SidebarComponent from './components/SidebarComponent.jsx';
-import { dummyUser } from './data/dummy.js';
 
 function App() {
+  const projects = useSelector((states) => states.projects);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(asyncGetProjects());
+  }, [dispatch]);
+
   return (
     <>
       <div className="app-container">
@@ -13,7 +23,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage projects={projects}/>} />
             <Route path="/projects" element={<ProjectPage />} />
             <Route path="/updates" element={<InputUpdatePage />} />
           </Routes>

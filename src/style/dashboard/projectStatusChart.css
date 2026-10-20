@@ -1,0 +1,73 @@
+.project-status-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.project-status-chart__title {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.project-status-chart__content {
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.project-status-chart__donut {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+}
+
+.project-status-chart__center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.project-status-chart__center-count {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.project-status-chart__center-title {
+    color: var(--text-tertiary);
+    font-size: 16px;
+}
+
+.project-status-chart__legend {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+}
+
+.project-status-chart__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    color: var(--text-primary);
+}
+
+.project-status-chart__dot {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-right: 4px;
+}

@@ -1,0 +1,18 @@
+.project-stage-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.project-stage-chart__title {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+.project-stage-chart__content {
+    height: 200px;
+}
