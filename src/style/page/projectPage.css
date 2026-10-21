@@ -4,6 +4,8 @@
 @import '../project/projectInformation.css';
 @import '../project/projectStagesTable.css';
 @import '../project/projectDocumentList.css';
+@import '../project/projectTypeInput.css';
+@import '../project/pageIndicator.css';
 
 .project-page {
     display: flex;

@@ -1,0 +1,128 @@
+.project-input-layout__first {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+}
+
+.project-input__header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    color: var(--text-primary);
+}
+
+.project-input__back {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.project-input__header h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.project-type__main {
+    background: var(--surface-secondary);
+    border-radius: 24px;
+}
+
+.project-type__options-layout {
+    padding-inline: 40px;
+}
+
+.project-type__options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-block: 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.project-type__options-title {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.project-type__options-choice {
+    display: flex;
+    gap: 36px;
+}
+
+.project-type__new , .project-type__existing {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-block: 16px;
+    padding-inline: 24px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+}
+
+.project-type__new-icon, .project-type__existing-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--background);
+    border-radius: 8px;
+    font-size: 24px;
+    color: var(--text-primary);
+}
+
+.project-type__new-info, .project-type__existing-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.project-type__new-info p:first-child, .project-type__existing-info p:first-child {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.project-type__new-info p:last-child, .project-type__existing-info p:last-child {
+    font-size: 14px;
+}
+
+.project-type__selected {
+    border: 2px solid var(--primary)
+}
+
+.project-type__selected div:first-child {
+    color: var(--primary);
+    background: var(--primary-surface);
+}
+
+.project-type__actions {
+    display: flex;
+    justify-content: end;
+    padding-inline: 40px;
+    padding-block: 24px;
+}
+
+.project-type__button-next {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-tertiary);
+    font-weight: bold;
+    padding-inline: 16px;
+    padding-block: 8px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.project-type__button-enabled {
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--text-secondary);
+}

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import useInput from '../../hooks/useInput.js';
+import useInput from '../../../hooks/useInput.js';
 import { FaPlus } from 'react-icons/fa';
-import ProjectListTable from './ProjectListTable.jsx';
+import ProjectListTable from '../ProjectListTable.jsx';
 
-function ProjectListComponent({ projects, onDeleteProject }) {
+function ProjectListComponent({ projects, nextPage, onDeleteProject }) {
   const [filterIndex, setFilterIndex] = useState(0);
   const [keyword, onKeywordChange] = useInput('');
 
@@ -30,7 +30,7 @@ function ProjectListComponent({ projects, onDeleteProject }) {
         </div>
         <div className="project-list__header-action">
           <input value={keyword} onChange={onKeywordChange} placeholder="Cari nama project..."/>
-          <button><FaPlus/> Upload Project</button>
+          <button onClick={nextPage}><FaPlus/> Upload Project</button>
         </div>
       </div>
       <ul className="project-list__filter">
