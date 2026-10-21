@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '../../util/util.js';
 
 function PriorityProjectCard({ projects }) {
   const upcomingProjects = projects
@@ -13,14 +14,7 @@ function PriorityProjectCard({ projects }) {
         { upcomingProjects.map((project) => (
           <div className="priority-project-card__info" key={project.id}>
             <p className="priority-project-card__name">{project.name}</p>
-            <p className="priority-project-card__stage">
-              {new Date(`${project.targetGoLive}T00:00:00`)
-                .toLocaleDateString('id-ID', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                })}
-            </p>
+            <p className="priority-project-card__stage">{formatDate(project.targetGoLive)}</p>
           </div>
         ))}
       </div>

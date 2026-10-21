@@ -1,0 +1,48 @@
+.project-detail-modal-layout {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: color-mix(in srgb, var(--background) 50%, transparent);
+    z-index: 1000;
+}
+
+.project-detail-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    width: 60%;
+    background: var(--surface-secondary);
+    border-radius: 16px;
+}
+
+.project-detail-modal__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.project-detail-modal__header h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.project-detail-modal__exit {
+    width: 24px;
+    height: 24px;
+}
+
+.project-detail-modal__info, .project-detail-modal__stages, .project-detail-modal__documents {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-detail-modal__label {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+}

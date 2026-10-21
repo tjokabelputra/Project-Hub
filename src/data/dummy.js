@@ -49,16 +49,12 @@ export const dummyProjects = [
     id: 'PRJ-002',
     code: 'PRJ-002',
     name: 'Upgrade HCMS Core',
-    description:
-        'Peningkatan sistem inti Human Capital Management System.',
+    description: 'Peningkatan sistem inti Human Capital Management System.',
     category: 'CAT-002',
     projectType: 'TYPE-002',
     priority: 'HIGH',
     status: 'ON_PROGRESS',
-    pm: {
-      id: 'PM-002',
-      name: 'Nadia Putri',
-    },
+    pm: 'PM-002',
     bp: 'BP-002',
     requestingUnit: 'UNIT-001',
     owner: 'Budi Santoso',
@@ -82,6 +78,13 @@ export const dummyProjects = [
     supportingDocuments: [
       {
         id: 'DOC-002',
+        name: 'HCMS Upgrade Plan.pdf',
+        type: 'application/pdf',
+        size: 1843200,
+        url: '/mock-files/hcms-upgrade-plan.pdf',
+      },
+      {
+        id: 'DOC-003',
         name: 'HCMS Upgrade Plan.pdf',
         type: 'application/pdf',
         size: 1843200,
@@ -115,9 +118,9 @@ export const dummyProjects = [
       notes: 'Menunggu penyelesaian review teknis.',
     },
     committeeTIA: {
-      date: null,
-      status: 'NOT_STARTED',
-      notes: '',
+      date: '2026-12-01',
+      status: 'PLANNED',
+      notes: 'Menunggu hasil pembahasan Komite TIB.',
     },
     supportingDocuments: [],
   },
@@ -206,14 +209,14 @@ export const dummyProjects = [
       notes: 'Kebutuhan bisnis telah dikumpulkan.',
     },
     committeeTIB: {
-      date: null,
-      status: 'NOT_STARTED',
+      date: '2026-08-12',
+      status: 'PLANNED',
       notes: 'Menunggu keputusan prioritas proyek.',
     },
     committeeTIA: {
-      date: null,
-      status: 'NOT_STARTED',
-      notes: '',
+      date: '2026-10-12',
+      status: 'PLANNED',
+      notes: 'menunggu hasil komite TI B.',
     },
     supportingDocuments: [],
   },
@@ -243,10 +246,51 @@ export const dummyProjects = [
       notes: 'Dokumen teknis sedang direview.',
     },
     committeeTIA: {
-      date: null,
-      status: 'NOT_STARTED',
-      notes: '',
+      date: '2027-01-10',
+      status: 'PLANNED',
+      notes: 'menunggu hasil komite TI B.',
     },
     supportingDocuments: [],
   },
+];
+
+export const dummyPMs = [
+  { id: 'PM-001', name: 'Riswan Saputra' },
+  { id: 'PM-002', name: 'Nadia Putri' },
+  { id: 'PM-003', name: 'Dimas Pratama' },
+  { id: 'PM-004', name: 'Rizky Firmansyah' },
+  { id: 'PM-005', name: 'Aditya Nugraha' },
+  { id: 'PM-006', name: 'Fajar Ramadhan' },
+  { id: 'PM-007', name: 'Yoga Prakoso' },
+];
+
+export const dummyBPs = [
+  { id: 'BP-001', name: 'Budi Santoso' },
+  { id: 'BP-002', name: 'Siti Aisyah' },
+  { id: 'BP-003', name: 'Siti Rahmawati' },
+  { id: 'BP-004', name: 'Maya Putri' },
+  { id: 'BP-005', name: 'Nadia Safitri' },
+  { id: 'BP-006', name: 'Dewi Anggraini' },
+  { id: 'BP-007', name: 'Intan Permata' },
+];
+
+export const dummyProjectCategories = [
+  { id: 'CAT-001', name: 'FS' },
+  { id: 'CAT-002', name: 'CR Form' },
+  { id: 'CAT-003', name: 'AIR Form' },
+  { id: 'CAT-004', name: 'IC Form' },
+  { id: 'CAT-005', name: 'SF Form' },
+];
+
+export const dummyProjectTypes = [
+  { id: 'TYPE-001', name: 'New' },
+  { id: 'TYPE-002', name: 'Addendum' },
+];
+
+export const dummyRequestingUnits = [
+  { id: 'UNIT-001', name: 'HCS' },
+  { id: 'UNIT-002', name: 'DMA' },
+  { id: 'UNIT-003', name: 'AML' },
+  { id: 'UNIT-004', name: 'BNU' },
+  { id: 'UNIT-005', name: 'IAM' },
 ];

@@ -1,0 +1,36 @@
+.project-information {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--background);
+    border-radius: 16px;
+}
+
+.project-information__content-left, .project-information__content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-information__content-left {
+    width: 60%;
+}
+
+.project-information__info-content {
+    display: flex;
+    gap: 8px;
+}
+
+.project-information__info-content p {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.project-information__info-content p:first-child {
+    text-wrap: nowrap;
+    color: var(--text-tertiary);
+}
+
+.project-information__info-content p:last-child {
+    color: var(--text-primary);
+}

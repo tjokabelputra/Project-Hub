@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ProjectListComponent from '../components/ProjectPage/ProjectListComponent.jsx';
 
-function ProjectPage({ projects }) {
+function ProjectPage({ projects, onDeleteProject }) {
   const [pageIndex, setPageIndex] = useState(0);
 
   return (
@@ -9,7 +9,8 @@ function ProjectPage({ projects }) {
       { pageIndex === 0 &&
           (
             <ProjectListComponent
-              projects={projects}/>
+              projects={projects}
+              onDeleteProject={onDeleteProject}/>
           )
       }
     </section>

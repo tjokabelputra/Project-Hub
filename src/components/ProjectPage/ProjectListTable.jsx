@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { FaPencil } from 'react-icons/fa6';
+import ProjectDetailModal from './ProjectDetailModal.jsx';
+import { formatStatus } from '../../util/util.js';
 
-function ProjectListTable({ projects, filterIndex }) {
+function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
+  const [displayDetail, setDisplayDetail] = useState(false);
+  const [selectedProject, setSelectedProject] = useState('');
 
   const tableSize = 10;
   const pageCount = Math.ceil(filteredProjects.length / tableSize);
@@ -46,12 +50,9 @@ function ProjectListTable({ projects, filterIndex }) {
     setFilter();
   }, [projects, filterIndex]);
 
-  const formatStatus = (status) => {
-    return status
-      .toLowerCase()
-      .split('_')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  const displayProjectDetail = (project) => {
+    setDisplayDetail(true);
+    setSelectedProject(project);
   };
 
   const projectStep = (project) => {
@@ -92,13 +93,17 @@ function ProjectListTable({ projects, filterIndex }) {
               <td>{projectStep(project)}</td>
               <td className="project-list-table__action">
                 <div className="project-list-table__action-buttons">
-                  <button className="project-list-table__action-detail">
+                  <button
+                    className="project-list-table__action-detail"
+                    onClick={() => displayProjectDetail(project)}>
                     <FaEye />
                   </button>
                   <button className="project-list-table__action-edit">
                     <FaPencil />
                   </button>
-                  <button className="project-list-table__action-delete">
+                  <button
+                    className="project-list-table__action-delete"
+                    onClick={() => onDeleteProject(project.id)}>
                     <FaTrash />
                   </button>
                 </div>
@@ -156,6 +161,11 @@ function ProjectListTable({ projects, filterIndex }) {
           </button>
         </div>
       </div>
+      { displayDetail && (
+        <ProjectDetailModal
+          project={selectedProject}
+          onClose={() => setDisplayDetail(false)}/>
+      )}
     </div>
   );
 }

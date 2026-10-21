@@ -1,5 +1,9 @@
 @import '../project/projectList.css';
 @import '../project/projectTable.css';
+@import '../project/projectDetail.css';
+@import '../project/projectInformation.css';
+@import '../project/projectStagesTable.css';
+@import '../project/projectDocumentList.css';
 
 .project-page {
     display: flex;
