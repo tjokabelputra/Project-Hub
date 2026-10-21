@@ -104,7 +104,14 @@
     padding: 0;
     font-size: 18px;
     cursor: pointer;
-    color: var(--primary);
+}
+
+.project-list-table__action-detail, .project-list-table__action-edit {
+    color: var(--primary)
+}
+
+.project-list-table__action-delete {
+    color: var(--danger);
 }
 
 .project-list-table tbody tr:hover {
@@ -114,4 +121,26 @@
 .project-list-layout__footer{
     display: flex;
     padding: 16px;
+    justify-content: space-between;
+}
+
+.project-list-layout__pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 8px
+}
+
+.project-list-layout__page {
+    padding-inline: 16px;
+    padding-block: 4px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--background);
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.project-list-layout__page--active {
+    background: var(--primary);
+    color: var(--text-secondary);
+    border: 2px solid var(--primary);
 }

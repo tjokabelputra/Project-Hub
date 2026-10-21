@@ -4,6 +4,24 @@ import { FaPencil } from 'react-icons/fa6';
 
 function ProjectListTable({ projects, filterIndex }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const tableSize = 10;
+  const pageCount = Math.ceil(filteredProjects.length / tableSize);
+  const startIndex = (currentPage - 1) * tableSize;
+  const endIndex = startIndex + tableSize;
+
+  const visiblePageCount = 3;
+  const startPage = Math.min(
+    currentPage,
+    Math.max(1, pageCount - visiblePageCount + 1),
+  );
+  const visiblePages = Array.from(
+    {
+      length: Math.min(visiblePageCount, pageCount),
+    },
+    (_, index) => startPage + index
+  );
 
   useEffect(() => {
     const setFilter = () => {
@@ -65,9 +83,9 @@ function ProjectListTable({ projects, filterIndex }) {
           </tr>
         </thead>
         <tbody className="project-list-table__body">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.slice(startIndex, endIndex).map((project, index) => (
             <tr key={project.id}>
-              <td>{index + 1}</td>
+              <td>{startIndex + index + 1}</td>
               <td className="project-list-table__name">{project.name}</td>
               <td>{project.code}</td>
               <td className={`project-list-table__status project-list-table__status-${project.status.toLowerCase()}`}><p>{formatStatus(project.status)}</p></td>
@@ -90,7 +108,53 @@ function ProjectListTable({ projects, filterIndex }) {
         </tbody>
       </table>
       <div className="project-list-layout__footer">
-        <p>Menampilkan {filteredProjects.length} Projects</p>
+        <p>
+          Menampilkan{' '}
+          {filteredProjects.length === 0 ? 0 : startIndex + 1}
+          {' - '}
+          {Math.min(endIndex, filteredProjects.length)}
+          {' dari '}
+          {filteredProjects.length} project
+        </p>
+        <div className="project-list-layout__pagination">
+          <button
+            type="button"
+            className={
+              currentPage !== 1
+                ? 'project-list-layout__page project-list-layout__page--active'
+                : 'project-list-layout__page'
+            }
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((page) => page - 1)}>
+            Sebelumnya
+          </button>
+
+          {visiblePages.map((page) => (
+            <button
+              key={page}
+              type="button"
+              className={
+                currentPage === page
+                  ? 'project-list-layout__page project-list-layout__page--active'
+                  : 'project-list-layout__page'
+              }
+              onClick={() => setCurrentPage(page)}>
+              {page}
+            </button>
+          ))}
+          <button
+            type="button"
+            className={
+              currentPage === pageCount || pageCount === 0
+                ? 'project-list-layout__page'
+                : 'project-list-layout__page project-list-layout__page--active'
+            }
+            disabled={currentPage === pageCount || pageCount === 0}
+            onClick={() => setCurrentPage((page) => page + 1)}
+          >
+            Selanjutnya
+          </button>
+        </div>
       </div>
     </div>
   );
