@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDate, formatStatus } from '../../util/util.js';
 
 function ProjectStagesTable({ projects }) {
@@ -52,5 +53,9 @@ function ProjectStagesTable({ projects }) {
     </div>
   );
 }
+
+ProjectStagesTable.propTypes = {
+  projects: PropTypes.array.isRequired
+};
 
 export default ProjectStagesTable;

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FaChevronDown } from 'react-icons/fa';
 
 function DropdownInputComponent({ options, value, onValueChange, id, label, placeholder }) {
@@ -68,5 +69,14 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
     </div>
   );
 }
+
+DropdownInputComponent.propTypes = {
+  options: PropTypes.array.isRequired,
+  value: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
 
 export default DropdownInputComponent;

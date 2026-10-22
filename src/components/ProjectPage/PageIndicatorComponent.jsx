@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function PageIndicatorComponent({ currentPage }) {
   const pages = [
@@ -36,5 +37,9 @@ function PageIndicatorComponent({ currentPage }) {
     </div>
   );
 }
+
+PageIndicatorComponent.propTypes = {
+  currentPage: PropTypes.number.isRequired
+};
 
 export default PageIndicatorComponent;

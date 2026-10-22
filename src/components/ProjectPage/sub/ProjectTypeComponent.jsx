@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaArrowRight } from 'react-icons/fa';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import { LuFilePen, LuFilePlus } from 'react-icons/lu';
@@ -54,5 +55,13 @@ function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, ne
     </div>
   );
 }
+
+ProjectTypeComponent.propTypes = {
+  pageIndex: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  onTypeChange: PropTypes.func.isRequired,
+  onBackPressed: PropTypes.func.isRequired,
+  nextPage: PropTypes.func.isRequired,
+};
 
 export default ProjectTypeComponent;

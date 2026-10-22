@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 const STATUS_CONFIG = [
@@ -77,5 +78,9 @@ function ProjectStatusChart({ projects }) {
     </div>
   );
 }
+
+ProjectStatusChart.propTypes = {
+  projects: PropTypes.array.isRequired,
+};
 
 export default ProjectStatusChart;

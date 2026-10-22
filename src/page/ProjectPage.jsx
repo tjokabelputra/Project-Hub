@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import ProjectListComponent from '../components/ProjectPage/sub/ProjectListComponent.jsx';
 import ProjectTypeComponent from '../components/ProjectPage/sub/ProjectTypeComponent.jsx';
 import ProjectInfoComponent from '../components/ProjectPage/sub/ProjectInfoComponent.jsx';
@@ -64,6 +65,20 @@ function ProjectPage({ projects, onDeleteProject }) {
     setDesc(project.description);
   };
 
+  const projectInfo = {
+    code, onCodeChange, onCodeSelected,
+    name, onNameChange,
+    desc, onDescChange,
+    category, setCategory,
+    status, setStatus,
+    PM, setPM,
+    BP, setBP,
+    unit, setUnit,
+    owner, onOwnerChange,
+    projectDate, onProjectDateChange,
+    targetDate, onTargetDateChange
+  };
+
   return (
     <section className="project-page">
       { pageIndex === 0 &&
@@ -90,34 +105,17 @@ function ProjectPage({ projects, onDeleteProject }) {
           type={type}
           projects={projects}
           onBackPressed={onBackPressed}
-          code={code}
-          onCodeChange={onCodeChange}
-          onCodeSelected={onCodeSelected}
-          name={name}
-          onNameChange={onNameChange}
-          desc={desc}
-          onDescChange={onDescChange}
-          category={category}
-          onCategoryChange={setCategory}
-          status={status}
-          onStatusChange={setStatus}
-          pm={PM}
-          onPMChange={setPM}
-          bp={BP}
-          onBPChange={setBP}
-          unit={unit}
-          onUnitChange={setUnit}
-          owner={owner}
-          onOwnerChange={onOwnerChange}
-          projectDate={projectDate}
-          onProjectDateChange={onProjectDateChange}
-          targetDate={targetDate}
-          onTargetDateChange={onTargetDateChange}
+          projectInfo={projectInfo}
           onPreviousPage={prevPage}
           onNextPage={nextPage}/>
       )}
     </section>
   );
 }
+
+ProjectPage.propTypes = {
+  projects: PropTypes.array.isRequired,
+  onDeleteProject: PropTypes.func.isRequired
+};
 
 export default ProjectPage;

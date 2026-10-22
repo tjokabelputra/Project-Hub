@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function GeneralInputComponent({ id, label, type, placeholder, value, onChange, disabled = false }) {
   return (
@@ -14,5 +15,15 @@ function GeneralInputComponent({ id, label, type, placeholder, value, onChange, 
     </div>
   );
 }
+
+GeneralInputComponent.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
 
 export default GeneralInputComponent;

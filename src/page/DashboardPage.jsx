@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaFolder, FaRegClock, FaCheck, FaRegPauseCircle } from 'react-icons/fa';
 import ProjectCard from '../components/DashboardPage/ProjectCard.jsx';
 import ProjectStatusChart from '../components/DashboardPage/ProjectStatusChart.jsx';
@@ -70,5 +71,9 @@ function DashboardPage({ projects }) {
     </section>
   );
 }
+
+DashboardPage.propTypes = {
+  projects: PropTypes.array.isRequired
+};
 
 export default DashboardPage;

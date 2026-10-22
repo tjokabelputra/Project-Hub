@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
@@ -9,42 +10,26 @@ import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateInputs } from '../../../states/shared/action.js';
 
-function ProjectInfoComponent({
-  pageIndex,
-  type,
-  projects,
-  onBackPressed,
-  code,
-  onCodeChange,
-  onCodeSelected,
-  name,
-  onNameChange,
-  desc,
-  onDescChange,
-  category,
-  onCategoryChange,
-  status,
-  onStatusChange,
-  pm,
-  onPMChange,
-  bp,
-  onBPChange,
-  unit,
-  onUnitChange,
-  owner,
-  onOwnerChange,
-  projectDate,
-  onProjectDateChange,
-  targetDate,
-  onTargetDateChange,
-  onPreviousPage,
-  onNextPage
-})
+function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage })
 {
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
   const units = useSelector((states) => states.units);
   const dispatch = useDispatch();
+
+  const {
+    code, onCodeChange, onCodeSelected,
+    name, onNameChange,
+    desc, onDescChange,
+    category, setCategory,
+    status, setStatus,
+    PM, setPM,
+    BP, setBP,
+    unit, setUnit,
+    owner, onOwnerChange,
+    projectDate, onProjectDateChange,
+    targetDate, onTargetDateChange
+  } = projectInfo;
 
   useEffect(() => {
     dispatch(asyncPopulateInputs());
@@ -60,7 +45,7 @@ function ProjectInfoComponent({
 
   const isNextDisabled = pageIndex === 2
     ? ([code, name, desc, category, status].some((value) => !String(value ?? '').trim())) || isCodeDuplicate || isNameDuplicate
-    : ([pm, bp, unit, owner, projectDate, targetDate].some((value) => !String(value ?? '').trim()));
+    : ([PM, BP, unit, owner, projectDate, targetDate].some((value) => !String(value ?? '').trim()));
 
   return (
     <div className="project-input-layout__first">
@@ -125,14 +110,14 @@ function ProjectInfoComponent({
                   label="Kategori Project"
                   placeholder="Kategori Project"
                   value={category}
-                  onValueChange={onCategoryChange}
+                  onValueChange={setCategory}
                   options={dummyProjectCategories}/>
                 <DropdownInputComponent
                   id="status"
                   label="Status Project"
                   placeholder="Status Project"
                   value={status}
-                  onValueChange={onStatusChange}
+                  onValueChange={setStatus}
                   options={dummyProjectStatus}/>
               </div>
             ) : (
@@ -144,8 +129,8 @@ function ProjectInfoComponent({
                   options={pms}
                   optionsId="id"
                   optionsValue="name"
-                  value={pm}
-                  onValueChange={onPMChange}/>
+                  value={PM}
+                  onValueChange={setPM}/>
                 <SearchableSelectComponent
                   id="bp"
                   label="Nama BP"
@@ -153,8 +138,8 @@ function ProjectInfoComponent({
                   options={bps}
                   optionsId="id"
                   optionsValue="name"
-                  value={bp}
-                  onValueChange={onBPChange}/>
+                  value={BP}
+                  onValueChange={setBP}/>
                 <SearchableSelectComponent
                   id="unit"
                   label="Unit Pengusul"
@@ -163,7 +148,7 @@ function ProjectInfoComponent({
                   optionsId="id"
                   optionsValue="name"
                   value={unit}
-                  onValueChange={onUnitChange}
+                  onValueChange={setUnit}
                   minInput={1}/>
                 <GeneralInputComponent
                   id="owner"
@@ -205,5 +190,39 @@ function ProjectInfoComponent({
     </div>
   );
 }
+
+ProjectInfoComponent.propTypes = {
+  pageIndex: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  projects: PropTypes.array.isRequired,
+  onBackPressed: PropTypes.func.isRequired,
+  projectInfo: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    onCodeChange: PropTypes.func.isRequired,
+    onCodeSelected: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    onNameChange: PropTypes.func.isRequired,
+    desc: PropTypes.string.isRequired,
+    onDescChange: PropTypes.func.isRequired,
+    category: PropTypes.string.isRequired,
+    setCategory: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
+    setStatus: PropTypes.func.isRequired,
+    PM: PropTypes.string.isRequired,
+    setPM: PropTypes.func.isRequired,
+    BP: PropTypes.string.isRequired,
+    setBP: PropTypes.func.isRequired,
+    unit: PropTypes.string.isRequired,
+    setUnit: PropTypes.func.isRequired,
+    owner: PropTypes.string.isRequired,
+    onOwnerChange: PropTypes.func.isRequired,
+    projectDate: PropTypes.string.isRequired,
+    onProjectDateChange: PropTypes.func.isRequired,
+    targetDate: PropTypes.string.isRequired,
+    onTargetDateChange: PropTypes.func.isRequired
+  }),
+  onPreviousPage: PropTypes.func.isRequired,
+  onNextPage: PropTypes.func.isRequired
+};
 
 export default ProjectInfoComponent;

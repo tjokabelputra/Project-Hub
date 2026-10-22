@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaXmark } from 'react-icons/fa6';
 import ProjectInformationComponent from './ProjectInformationComponent.jsx';
 import ProjectStagesTable from './ProjectStagesTable.jsx';
@@ -40,5 +41,10 @@ function ProjectDetailModal({ project, onClose }) {
     </div>
   );
 }
+
+ProjectDetailModal.propTypes = {
+  project: PropTypes.array.isRequired,
+  onClose: PropTypes.func.isRequired
+};
 
 export default ProjectDetailModal;

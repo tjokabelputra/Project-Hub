@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaArrowLeft } from 'react-icons/fa';
 
 function ProjectInputHeaderComponent({ onBackPressed }) {
@@ -13,5 +14,9 @@ function ProjectInputHeaderComponent({ onBackPressed }) {
     </div>
   );
 }
+
+ProjectInputHeaderComponent.propTypes = {
+  onBackPressed: PropTypes.func.isRequired
+};
 
 export default ProjectInputHeaderComponent;

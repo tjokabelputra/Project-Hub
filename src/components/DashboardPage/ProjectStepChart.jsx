@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const stages = [
@@ -90,5 +91,9 @@ function ProjectStepChart({ projects }) {
     </div>
   );
 }
+
+ProjectStepChart.propTypes = {
+  projects: PropTypes.array.isRequired,
+};
 
 export default ProjectStepChart;

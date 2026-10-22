@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDate, formatStatus } from '../../util/util.js';
 
 function ProjectInformationComponent({ project }) {
@@ -55,5 +56,9 @@ function ProjectInformationComponent({ project }) {
     </div>
   );
 }
+
+ProjectInformationComponent.propTypes = {
+  project: PropTypes.array.isRequired
+};
 
 export default ProjectInformationComponent;

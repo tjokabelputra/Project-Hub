@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import useInput from '../../../hooks/useInput.js';
 import { FaPlus } from 'react-icons/fa';
 import ProjectListTable from '../ProjectListTable.jsx';
@@ -48,5 +49,11 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject }) {
     </section>
   );
 }
+
+ProjectListComponent.propTypes = {
+  projects: PropTypes.array.isRequired,
+  nextPage: PropTypes.func.isRequired,
+  onDeleteProject: PropTypes.func.isRequired
+};
 
 export default ProjectListComponent;

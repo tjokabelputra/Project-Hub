@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDate } from '../../util/util.js';
 
 function PriorityProjectCard({ projects }) {
@@ -21,5 +22,9 @@ function PriorityProjectCard({ projects }) {
     </div>
   );
 }
+
+PriorityProjectCard.propTypes = {
+  projects: PropTypes.array.isRequired
+};
 
 export default PriorityProjectCard;

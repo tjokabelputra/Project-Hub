@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { FaPencil } from 'react-icons/fa6';
 import ProjectDetailModal from './ProjectDetailModal.jsx';
@@ -169,5 +170,11 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
     </div>
   );
 }
+
+ProjectListTable.propTypes = {
+  projects: PropTypes.array.isRequired,
+  filterIndex: PropTypes.number.isRequired,
+  onDeleteProject: PropTypes.func.isRequired
+};
 
 export default ProjectListTable;

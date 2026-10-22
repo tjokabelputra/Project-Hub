@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaFile } from 'react-icons/fa';
 import { MdDownload } from 'react-icons/md';
 import { formatFileSize } from '../../util/util.js';
@@ -23,5 +24,9 @@ function DocumentListComponent({ supportingDocuments }) {
     </div>
   );
 }
+
+DocumentListComponent.propTypes = {
+  supportingDocuments: PropTypes.array
+};
 
 export default DocumentListComponent;

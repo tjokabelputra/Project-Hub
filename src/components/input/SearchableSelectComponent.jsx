@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FaChevronDown } from 'react-icons/fa';
 
 function SearchableSelectComponent({
@@ -89,5 +90,17 @@ function SearchableSelectComponent({
     </div>
   );
 }
+
+SearchableSelectComponent.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+  optionId: PropTypes.string,
+  optionsValue: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  minInput: PropTypes.number,
+};
 
 export default SearchableSelectComponent;

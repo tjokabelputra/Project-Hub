@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ProjectCard({ status, icon: Icon, title, content }) {
   return (
@@ -17,5 +18,12 @@ function ProjectCard({ status, icon: Icon, title, content }) {
     </div>
   );
 }
+
+ProjectCard.propTypes = {
+  status: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
 
 export default ProjectCard;
