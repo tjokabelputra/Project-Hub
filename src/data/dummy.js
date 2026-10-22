@@ -294,3 +294,9 @@ export const dummyRequestingUnits = [
   { id: 'UNIT-004', name: 'BNU' },
   { id: 'UNIT-005', name: 'IAM' },
 ];
+
+export const dummyProjectStatus = [
+  { id: 'ON_PROGRESS', name: 'On Progress' },
+  { id: 'COMPLETED', name: 'Completed' },
+  { id: 'ON_HOLD', name: 'On Hold' },
+];

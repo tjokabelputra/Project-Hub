@@ -1,0 +1,70 @@
+.dropdown-input {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.dropdown-input label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.dropdown-input > button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 16px;
+    height: 42px;
+    align-items: center;
+    background: var(--surface-secondary);
+    padding-inline: 16px;
+    padding-block: 8px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+}
+
+.dropdown-input__placeholder {
+    color: var(--text-tertiary);
+}
+
+.dropdown-input__icon-open {
+    rotate: 180deg;
+}
+
+.dropdown-input__list {
+    list-style-type: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    margin-top: 8px;
+    border: 2px solid var(--border);
+    background: var(--surface-secondary);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.dropdown-input__option {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    background: var(--surface-secondary);
+    border: none;
+    padding-inline: 16px;
+    padding-block: 8px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.dropdown-input__option:hover {
+    background: var(--background);
+}
+
+.dropdown-input__option-selected {
+    color: var(--primary);
+    font-weight: bold;
+}

@@ -6,6 +6,7 @@
 @import '../project/projectDocumentList.css';
 @import '../project/projectTypeInput.css';
 @import '../project/pageIndicator.css';
+@import '../project/pageInfo.css';
 
 .project-page {
     display: flex;

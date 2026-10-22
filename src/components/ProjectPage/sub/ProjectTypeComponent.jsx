@@ -1,19 +1,13 @@
 import React from 'react';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import { LuFilePen, LuFilePlus } from 'react-icons/lu';
+import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 
 function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, nextPage }) {
   return (
     <div className="project-input-layout__first">
-      <div className="project-input__header">
-        <div
-          className="project-input__back"
-          onClick={onBackPressed}>
-          <FaArrowLeft />
-        </div>
-        <h1>Upload Project</h1>
-      </div>
+      <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
       <div className="project-type__main">
         <PageIndicatorComponent currentPage={pageIndex}/>
         <div className="project-type__options-layout">
@@ -53,7 +47,8 @@ function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, ne
           <button
             type="button"
             className={ `project-type__button-next ${ type !== '' ? 'project-type__button-enabled' : ''}`}
-            onClick={nextPage}>Selanjutnya <FaArrowRight/></button>
+            onClick={nextPage}
+            disabled={type === ''}>Selanjutnya <FaArrowRight/></button>
         </div>
       </div>
     </div>

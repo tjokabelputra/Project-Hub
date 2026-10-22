@@ -40,9 +40,30 @@ const mockAPI = (() => {
     });
   }
 
+  function getPMs() {
+    return mockRequest(() => {
+      return JSON.parse(JSON.stringify(dummyPMs));
+    });
+  }
+
+  function getBPs() {
+    return mockRequest(() => {
+      return JSON.parse(JSON.stringify(dummyBPs));
+    });
+  }
+
+  function getUnits() {
+    return mockRequest(() => {
+      return JSON.parse(JSON.stringify(dummyRequestingUnits));
+    });
+  }
+
   return {
     getProjects,
-    deleteProject
+    deleteProject,
+    getPMs,
+    getBPs,
+    getUnits
   };
 })();
 

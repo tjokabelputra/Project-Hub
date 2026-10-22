@@ -1,6 +1,9 @@
 @import 'sidebar.css';
 @import './page/dashboardPage.css';
 @import './page/projectPage.css';
+@import './generalInput.css';
+@import './dropdownInput.css';
+@import './searchableSelect.css';
 
 :root {
     --surface: #0D1627;
