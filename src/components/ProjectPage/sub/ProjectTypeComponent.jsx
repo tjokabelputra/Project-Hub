@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaArrowRight } from 'react-icons/fa';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import { LuFilePen, LuFilePlus } from 'react-icons/lu';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
+import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, nextPage }) {
+  const listInputs = [type];
   return (
     <div className="project-input-layout__first">
       <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
@@ -44,13 +45,11 @@ function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, ne
             </div>
           </div>
         </div>
-        <div className="project-type__actions">
-          <button
-            type="button"
-            className={ `project-type__button-next ${ type !== '' ? 'project-type__button-enabled' : ''}`}
-            onClick={nextPage}
-            disabled={type === ''}>Selanjutnya <FaArrowRight/></button>
-        </div>
+        <PageFooterComponent
+          isFirstPage={true}
+          listInputs={listInputs}
+          onPreviousPage={onBackPressed}
+          onNextPage={nextPage}/>
       </div>
     </div>
   );

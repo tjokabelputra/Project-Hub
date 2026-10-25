@@ -5,10 +5,10 @@ function ProjectCard({ status, icon: Icon, title, content }) {
   return (
     <div className="project-card">
       <div className="project-card__header">
-        <div className={`project-card__icon project-card__icon-${status.toLowerCase()}`}>
+        <div className={`project-card__icon project-card__icon-${status.toLowerCase().replace(/\s+/g, '_')}`}>
           {Icon && (
             <Icon
-              className={`project-card__icon-image project-card__icon-image-${status.toLowerCase()}`}
+              className={`project-card__icon-image project-card__icon-image-${status.toLowerCase().replace(/\s+/g, '_')}`}
             />
           )}
         </div>

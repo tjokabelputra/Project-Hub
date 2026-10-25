@@ -35,13 +35,13 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
         setFilteredProjects(projects);
         break;
       case 1:
-        setFilteredProjects(projects.filter((project) => project.status === 'ON_PROGRESS'));
+        setFilteredProjects(projects.filter((project) => project.status === 'On Progress'));
         break;
       case 2:
-        setFilteredProjects(projects.filter((project) => project.status === 'COMPLETED'));
+        setFilteredProjects(projects.filter((project) => project.status === 'Completed'));
         break;
       case 3:
-        setFilteredProjects(projects.filter((project) => project.status === 'ON_HOLD'));
+        setFilteredProjects(projects.filter((project) => project.status === 'On Hold'));
         break;
       default:
         setFilteredProjects(projects);
@@ -57,13 +57,13 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
   };
 
   const projectStep = (project) => {
-    if (project.committeeTIA.status === 'ON_PROGRESS') {
+    if (project.committeeTIA.status === 'On Progress') {
       return 'Komite TI A';
     }
-    else if (project.committeeTIB.status === 'ON_PROGRESS') {
+    else if (project.committeeTIB.status === 'On Progress') {
       return 'Komite TI B';
     }
-    else if (project.preCommittee.status === 'ON_PROGRESS') {
+    else if (project.preCommittee.status === 'On Progress') {
       return 'Pra Komite';
     }
     else {
@@ -90,7 +90,7 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
               <td>{startIndex + index + 1}</td>
               <td className="project-list-table__name">{project.name}</td>
               <td>{project.code}</td>
-              <td className={`project-list-table__status project-list-table__status-${project.status.toLowerCase()}`}><p>{formatStatus(project.status)}</p></td>
+              <td className={`project-list-table__status project-list-table__status-${project.status.toLowerCase().replace(/\s+/g, '_')}`}><p>{formatStatus(project.status)}</p></td>
               <td>{projectStep(project)}</td>
               <td className="project-list-table__action">
                 <div className="project-list-table__action-buttons">

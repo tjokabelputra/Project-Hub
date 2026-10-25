@@ -9,9 +9,9 @@ import PriorityProjectCard from '../components/DashboardPage/PriorityProjectCard
 function DashboardPage({ projects }) {
   const projectStats = {
     all: projects.length,
-    onProgress: projects.filter((project) => project.status === 'ON_PROGRESS').length,
-    completed: projects.filter((project) => project.status === 'COMPLETED').length,
-    onHoldProjects: projects.filter((project) => project.status === 'ON_HOLD').length,
+    onProgress: projects.filter((project) => project.status === 'On Progress').length,
+    completed: projects.filter((project) => project.status === 'Completed').length,
+    onHoldProjects: projects.filter((project) => project.status === 'On Hold').length,
   };
 
   const projectCards = [
@@ -22,19 +22,19 @@ function DashboardPage({ projects }) {
       content: projectStats.all,
     },
     {
-      status: 'ON_PROGRESS',
+      status: 'On Progress',
       icon: FaRegClock,
       title: 'On Progress Projects',
       content: projectStats.onProgress,
     },
     {
-      status: 'COMPLETED',
+      status: 'Completed',
       icon: FaCheck,
       title: 'Completed Projects',
       content: projectStats.completed,
     },
     {
-      status: 'ON_HOLD',
+      status: 'On Hold',
       icon: FaRegPauseCircle,
       title: 'On Hold Projects',
       content: projectStats.onHoldProjects,

@@ -99,30 +99,3 @@
     color: var(--primary);
     background: var(--primary-surface);
 }
-
-.project-type__actions {
-    display: flex;
-    justify-content: end;
-    padding-inline: 40px;
-    padding-block: 24px;
-}
-
-.project-type__button-next {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-tertiary);
-    font-weight: bold;
-    padding-inline: 16px;
-    padding-block: 8px;
-    background: var(--surface-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-}
-
-.project-type__button-enabled {
-    background: var(--primary);
-    border: 1px solid var(--primary);
-    color: var(--text-secondary);
-}

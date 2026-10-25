@@ -1,10 +1,20 @@
 import mockAPI from '../../data/mockAPI.js';
 
 const ActionType = {
+  ADD_PROJECT: 'ADD_PROJECT',
   RECEIVE_PROJECTS: 'RECEIVE_PROJECTS',
   DELETE_PROJECT: 'DELETE_PROJECT',
   RESTORE_PROJECT: 'RESTORE_PROJECT'
 };
+
+function addProjectActionCreator(project) {
+  return {
+    type: ActionType.ADD_PROJECT,
+    payload: {
+      project
+    }
+  };
+}
 
 function receiveProjectActionCreator(projects) {
   return {
@@ -30,6 +40,20 @@ function restoreProjectActionCreator({ index, project }) {
     payload: {
       index,
       project
+    }
+  };
+}
+
+function asyncAddProject(project) {
+  return async (dispatch) => {
+    dispatch(addProjectActionCreator(project));
+
+    try {
+      await mockAPI.addProject(project);
+    }
+    catch (error) {
+      alert(error.messsage);
+      dispatch(deleteProjectActionCreator(project.id));
     }
   };
 }
@@ -67,6 +91,7 @@ export {
   receiveProjectActionCreator,
   deleteProjectActionCreator,
   restoreProjectActionCreator,
+  asyncAddProject,
   asyncGetProjects,
   asyncDeleteProject,
 };

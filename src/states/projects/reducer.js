@@ -2,6 +2,8 @@ import { ActionType } from './action.js';
 
 function projectsReducer(projects = [], action = {}) {
   switch (action.type) {
+  case ActionType.ADD_PROJECT:
+    return [...projects, action.payload.project];
   case ActionType.RECEIVE_PROJECTS:
     return action.payload.projects;
   case ActionType.DELETE_PROJECT:

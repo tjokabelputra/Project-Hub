@@ -7,6 +7,10 @@
 @import '../project/projectTypeInput.css';
 @import '../project/pageIndicator.css';
 @import '../project/pageInfo.css';
+@import '../project/projectStages.css';
+@import '../project/projectStepsInput.css';
+@import '../project/pageFooter.css';
+@import '../project/projectReview.css';
 
 .project-page {
     display: flex;

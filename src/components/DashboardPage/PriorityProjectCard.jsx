@@ -4,7 +4,7 @@ import { formatDate } from '../../util/util.js';
 
 function PriorityProjectCard({ projects }) {
   const upcomingProjects = projects
-    .filter((project) => project.status !== 'COMPLETED' && project.targetGoLive)
+    .filter((project) => project.status !== 'Completed' && project.targetGoLive)
     .sort((a, b) => new Date(a.targetGoLive) - new Date(b.targetGoLive))
     .slice(0, 5);
 

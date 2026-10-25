@@ -1,0 +1,78 @@
+.stages-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+}
+
+.stages-input__header {
+    padding-block: 16px;
+    padding-inline: 24px;
+    font-size: 20px;
+    font-weight: bold;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.stages-input__header-pre-committee {
+    color: var(--danger);
+    background: var(--danger-surface);
+}
+
+.stages-input__header-committee-ti-b {
+    color: var(--success);
+    background: var(--success-surface);
+}
+
+.stages-input__header-committee-ti-a {
+    color: var(--primary);
+    background: var(--primary-surface);
+}
+
+.stages-input__input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.project-stages__upload-doc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-block: 36px;
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+}
+
+.project-stages__upload-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-surface);
+    border-radius: 99px;
+    color: var(--primary);
+    font-size: 24px;
+}
+
+.project-stages__upload-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-stages__upload-info p:first-child {
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.project-stages__upload-info p:last-child {
+    color: var(--text-tertiary);
+    font-size: 12px;
+}

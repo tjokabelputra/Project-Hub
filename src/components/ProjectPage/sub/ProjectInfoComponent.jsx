@@ -9,6 +9,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateInputs } from '../../../states/shared/action.js';
+import PageFooterComponent from "../PageFooterComponent.jsx";
 
 function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage })
 {
@@ -20,16 +21,19 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
   const {
     code, onCodeChange, onCodeSelected,
     name, onNameChange,
-    desc, onDescChange,
+    description, onDescChange,
     category, setCategory,
     status, setStatus,
-    PM, setPM,
-    BP, setBP,
-    unit, setUnit,
+    pm, setPM,
+    bp, setBP,
+    requestingUnit, setUnit,
     owner, onOwnerChange,
     projectDate, onProjectDateChange,
-    targetDate, onTargetDateChange
+    targetGoLive, onTargetDateChange
   } = projectInfo;
+
+  const inputListFirst = [code, name, description, category, status];
+  const inputListSecond = [pm, bp, requestingUnit, owner, projectInfo, targetGoLive];
 
   useEffect(() => {
     dispatch(asyncPopulateInputs());
@@ -42,10 +46,6 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
   const isNameDuplicate =
       type === 'New' && projects.some((project) =>
         String(project.name).trim().toLowerCase() === String(name ?? '').trim().toLowerCase());
-
-  const isNextDisabled = pageIndex === 2
-    ? ([code, name, desc, category, status].some((value) => !String(value ?? '').trim())) || isCodeDuplicate || isNameDuplicate
-    : ([PM, BP, unit, owner, projectDate, targetDate].some((value) => !String(value ?? '').trim()));
 
   return (
     <div className="project-input-layout__first">
@@ -101,7 +101,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     label="Deskripsi Project"
                     type="text"
                     placeholder="Deskripsi Singkat Project"
-                    value={desc}
+                    value={description}
                     onChange={onDescChange}
                     disabled={type === 'Existing'}/>
                 </div>
@@ -129,7 +129,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   options={pms}
                   optionsId="id"
                   optionsValue="name"
-                  value={PM}
+                  value={pm}
                   onValueChange={setPM}/>
                 <SearchableSelectComponent
                   id="bp"
@@ -138,7 +138,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   options={bps}
                   optionsId="id"
                   optionsValue="name"
-                  value={BP}
+                  value={bp}
                   onValueChange={setBP}/>
                 <SearchableSelectComponent
                   id="unit"
@@ -147,7 +147,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   options={units}
                   optionsId="id"
                   optionsValue="name"
-                  value={unit}
+                  value={requestingUnit}
                   onValueChange={setUnit}
                   minInput={1}/>
                 <GeneralInputComponent
@@ -169,23 +169,16 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Target Go Live"
                   type="date"
                   placeholder=""
-                  value={targetDate}
+                  value={targetGoLive}
                   onChange={onTargetDateChange}/>
               </div>
             )}
           </div>
         </div>
-        <div className="project-info__actions">
-          <button
-            type="button"
-            className="project-info__prev"
-            onClick={onPreviousPage}><FaArrowLeft /> Sebelumnya</button>
-          <button
-            type="button"
-            className={`project-info__next ${isNextDisabled ? 'project-info__next-disable' : ''}`}
-            onClick={onNextPage}
-            disabled={isNextDisabled}>Selanjutnya <FaArrowRight/></button>
-        </div>
+        <PageFooterComponent
+          listInputs={pageIndex === 2 ? inputListFirst : inputListSecond}
+          onPreviousPage={onPreviousPage}
+          onNextPage={onNextPage} />
       </div>
     </div>
   );

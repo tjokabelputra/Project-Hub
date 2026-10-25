@@ -10,14 +10,14 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject }) {
 
   const filterCounts  = {
     all: projects.length,
-    ongoing: projects.filter((project) => project.status === 'ON_PROGRESS').length,
-    completed: projects.filter((project) => project.status === 'COMPLETED').length,
-    onHold: projects.filter((project) => project.status === 'ON_HOLD').length,
+    onProgress: projects.filter((project) => project.status === 'On Progress').length,
+    completed: projects.filter((project) => project.status === 'Completed').length,
+    onHold: projects.filter((project) => project.status === 'On Hold').length,
   };
 
   const filters = [
     { label: 'Semua', count: filterCounts.all },
-    { label: 'On Going', count: filterCounts.ongoing },
+    { label: 'On Progress', count: filterCounts.onProgress },
     { label: 'Completed', count: filterCounts.completed },
     { label: 'On Hold', count: filterCounts.onHold },
   ];

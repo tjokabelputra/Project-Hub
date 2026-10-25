@@ -4,17 +4,17 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
 const STATUS_CONFIG = [
   {
-    status: 'ON_PROGRESS',
+    status: 'On Progress',
     name: 'On Progress',
     color: '#198754'
   },
   {
-    status: 'COMPLETED',
+    status: 'Completed',
     name: 'Completed',
     color: '#2563EB'
   },
   {
-    status: 'ON_HOLD',
+    status: 'On Hold',
     name: 'On Hold',
     color: '#DC3545'
   }

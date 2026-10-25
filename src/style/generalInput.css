@@ -11,13 +11,22 @@
     font-weight: bold;
 }
 
-.general-input input {
-    height: 42px;
-    align-items: center;
+.general-input input,
+.general-input textarea {
     padding-block: 8px;
     padding-inline: 16px;
     font-size: 16px;
     border: 2px solid var(--border);
     border-radius: 8px;
     font-family: inherit;
+}
+
+.general-input input {
+    height: 42px;
+    align-items: center;
+}
+
+.general-input textarea {
+    height: 80px;
+    resize: none;
 }

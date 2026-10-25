@@ -1,0 +1,31 @@
+.project-review__main {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-secondary);
+    border-radius: 24px;
+}
+
+.project-review__review-layout {
+    padding-inline: 40px;
+}
+
+.project-review__review-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-block: 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.project-review__project-data, .project-review__project-steps, .project-review__project-docs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-review__project-data > p, .project-review__project-steps > p, .project-review__project-docs > p {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+}

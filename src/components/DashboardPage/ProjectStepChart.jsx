@@ -22,12 +22,12 @@ function ProjectStepChart({ projects }) {
 
   projects.forEach((project) => {
     const allStagesCompleted = stages.every(
-      ({ key }) => project[key]?.status === 'COMPLETED',
+      ({ key }) => project[key]?.status === 'Completed',
     );
 
     const activeStage = [...stages]
       .reverse()
-      .find(({ key }) => project[key]?.status === 'ON_PROGRESS');
+      .find(({ key }) => project[key]?.status === 'On Progress');
 
     const stageName = allStagesCompleted
       ? 'Completed'
@@ -37,11 +37,11 @@ function ProjectStepChart({ projects }) {
       (item) => item.stage === stageName,
     );
 
-    if (project.status === 'ON_PROGRESS') {
+    if (project.status === 'On Progress') {
       stageData.progress += 1;
-    } else if (project.status === 'COMPLETED') {
+    } else if (project.status === 'Completed') {
       stageData.completed += 1;
-    } else if (project.status === 'ON_HOLD') {
+    } else if (project.status === 'On Hold') {
       stageData.onHold += 1;
     }
   });

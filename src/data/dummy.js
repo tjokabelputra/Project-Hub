@@ -12,7 +12,6 @@ export const dummyProjects = [
     description: 'Pengembangan platform pembelajaran dan pengembangan kompetensi karyawan untuk tahun 2027.',
     category: 'CAT-001',
     projectType: 'TYPE-001',
-    priority: 'HIGH',
     status: 'ON_PROGRESS',
     pm: 'PM-001',
     bp: 'BP-001',
@@ -39,9 +38,7 @@ export const dummyProjects = [
       {
         id: 'DOC-001',
         name: 'Project Proposal AKSARA.pdf',
-        type: 'application/pdf',
         size: 2457600,
-        url: '/mock-files/project-proposal-aksara.pdf',
       },
     ],
   },
@@ -52,7 +49,6 @@ export const dummyProjects = [
     description: 'Peningkatan sistem inti Human Capital Management System.',
     category: 'CAT-002',
     projectType: 'TYPE-002',
-    priority: 'HIGH',
     status: 'ON_PROGRESS',
     pm: 'PM-002',
     bp: 'BP-002',
@@ -79,16 +75,12 @@ export const dummyProjects = [
       {
         id: 'DOC-002',
         name: 'HCMS Upgrade Plan.pdf',
-        type: 'application/pdf',
         size: 1843200,
-        url: '/mock-files/hcms-upgrade-plan.pdf',
       },
       {
         id: 'DOC-003',
         name: 'HCMS Upgrade Plan.pdf',
-        type: 'application/pdf',
         size: 1843200,
-        url: '/mock-files/hcms-upgrade-plan.pdf',
       },
     ],
   },
@@ -99,7 +91,6 @@ export const dummyProjects = [
     description: 'Pengembangan dashboard untuk memantau aktivitas dan hasil screening AML.',
     category: 'CAT-001',
     projectType: 'TYPE-001',
-    priority: 'HIGH',
     status: 'ON_PROGRESS',
     pm: 'PM-003',
     bp: 'BP-003',
@@ -131,7 +122,6 @@ export const dummyProjects = [
     description: 'Peningkatan kapasitas dan performa infrastruktur data warehouse.',
     category: 'CAT-002',
     projectType: 'TYPE-002',
-    priority: 'MEDIUM',
     status: 'ON_PROGRESS',
     pm: 'PM-004',
     bp: 'BP-004',
@@ -163,7 +153,6 @@ export const dummyProjects = [
     description: 'Integrasi layanan API baru untuk mendukung fitur mobile banking.',
     category: 'CAT-003',
     projectType: 'TYPE-001',
-    priority: 'HIGH',
     status: 'COMPLETED',
     pm: 'PM-005',
     bp: 'BP-005',
@@ -195,7 +184,6 @@ export const dummyProjects = [
     description: 'Otomatisasi proses penyusunan laporan transaksi berkala.',
     category: 'CAT-004',
     projectType: 'TYPE-001',
-    priority: 'LOW',
     status: 'ON_HOLD',
     pm: 'PM-006',
     bp: 'BP-006',
@@ -227,7 +215,6 @@ export const dummyProjects = [
     description: 'Pembaruan sistem pengelolaan akses dan hak pengguna internal.',
     category: 'CAT-005',
     projectType: 'TYPE-002',
-    priority: 'MEDIUM',
     status: 'ON_PROGRESS',
     pm: 'PM-007',
     bp: 'BP-007',
@@ -299,4 +286,10 @@ export const dummyProjectStatus = [
   { id: 'ON_PROGRESS', name: 'On Progress' },
   { id: 'COMPLETED', name: 'Completed' },
   { id: 'ON_HOLD', name: 'On Hold' },
+];
+
+export const dummyStagesStatus = [
+  { id: 'PLANNED', name: 'Planned' },
+  { id: 'ON_PROGRESS', name: 'On Progress' },
+  { id: 'COMPLETED', name: 'Completed' }
 ];

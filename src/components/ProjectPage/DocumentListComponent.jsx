@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaFile } from 'react-icons/fa';
+import { FaFile, FaTrash } from 'react-icons/fa';
 import { MdDownload } from 'react-icons/md';
 import { formatFileSize } from '../../util/util.js';
 
-function DocumentListComponent({ supportingDocuments }) {
+function DocumentListComponent({ supportingDocuments, actionable = true, isDelete = false, onDeleteDocuments = () => {} }) {
   return (
     <div className="document-list">
       { supportingDocuments.map((document) => (
-        <div className="document-list__item">
+        <div
+          key={document.id}
+          className="document-list__item">
           <div className="document-list__item-main">
             <div className="document-list__item-icon">
               <FaFile />
@@ -18,7 +20,16 @@ function DocumentListComponent({ supportingDocuments }) {
               <p>{formatFileSize(document.size)}</p>
             </div>
           </div>
-          <MdDownload className="document-list__download"/>
+          {actionable && (
+            isDelete ? (
+              <FaTrash
+                className="document-list__delete"
+                onClick={() => onDeleteDocuments(document.id)}
+              />
+            ) : (
+              <MdDownload className="document-list__download" />
+            )
+          )}
         </div>
       ))}
     </div>
