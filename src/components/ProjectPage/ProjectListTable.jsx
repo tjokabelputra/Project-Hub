@@ -5,7 +5,7 @@ import { FaPencil } from 'react-icons/fa6';
 import ProjectDetailModal from './ProjectDetailModal.jsx';
 import { formatStatus } from '../../util/util.js';
 
-function ProjectListTable({ projects, filterIndex, onDeleteProject, onEditProject }) {
+function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayDetail, setDisplayDetail] = useState(false);
@@ -30,26 +30,31 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject, onEditProjec
 
   useEffect(() => {
     const setFilter = () => {
+      let searchedProjects = projects;
+      if (keyword.length >= 3) {
+        searchedProjects = projects.filter((project) => project.name.toLowerCase().includes(keyword.toLowerCase()));
+      }
+
       switch (filterIndex) {
       case 0:
-        setFilteredProjects(projects);
+        setFilteredProjects(searchedProjects);
         break;
       case 1:
-        setFilteredProjects(projects.filter((project) => project.status === 'On Progress'));
+        setFilteredProjects(searchedProjects.filter((project) => project.status === 'On Progress'));
         break;
       case 2:
-        setFilteredProjects(projects.filter((project) => project.status === 'Completed'));
+        setFilteredProjects(searchedProjects.filter((project) => project.status === 'Completed'));
         break;
       case 3:
-        setFilteredProjects(projects.filter((project) => project.status === 'On Hold'));
+        setFilteredProjects(searchedProjects.filter((project) => project.status === 'On Hold'));
         break;
       default:
-        setFilteredProjects(projects);
+        setFilteredProjects(searchedProjects);
       }
     };
 
     setFilter();
-  }, [projects, filterIndex]);
+  }, [projects, filterIndex, keyword]);
 
   const displayProjectDetail = (project) => {
     setDisplayDetail(true);
@@ -176,7 +181,9 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject, onEditProjec
 ProjectListTable.propTypes = {
   projects: PropTypes.array.isRequired,
   filterIndex: PropTypes.number.isRequired,
-  onDeleteProject: PropTypes.func.isRequired
+  keyword: PropTypes.string.isRequired,
+  onDeleteProject: PropTypes.func.isRequired,
+  onEditProject: PropTypes.func.isRequired
 };
 
 export default ProjectListTable;

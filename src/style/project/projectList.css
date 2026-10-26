@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 
-.project-list__filter-selected {
+.project-list__filter li.project-list__filter-selected {
     color: var(--primary);
     font-weight: bold;
     border-bottom: 2px solid var(--primary);

@@ -8,11 +8,15 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProje
   const [filterIndex, setFilterIndex] = useState(0);
   const [keyword, onKeywordChange] = useInput('');
 
+  const searchKeyword = keyword.trim().toLowerCase();
+  const filteredProjects = searchKeyword.length >= 3
+    ? projects.filter((project) => project.name.toLowerCase().includes(searchKeyword)) : projects;
+
   const filterCounts  = {
-    all: projects.length,
-    onProgress: projects.filter((project) => project.status === 'On Progress').length,
-    completed: projects.filter((project) => project.status === 'Completed').length,
-    onHold: projects.filter((project) => project.status === 'On Hold').length,
+    all: filteredProjects.length,
+    onProgress: filteredProjects.filter((project) => project.status === 'On Progress').length,
+    completed: filteredProjects.filter((project) => project.status === 'Completed').length,
+    onHold: filteredProjects.filter((project) => project.status === 'On Hold').length,
   };
 
   const filters = [
@@ -45,6 +49,7 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProje
       <ProjectListTable
         projects={projects}
         filterIndex={filterIndex}
+        keyword={keyword}
         onDeleteProject={onDeleteProject}
         onEditProject={onEditProject}/>
     </section>
@@ -54,7 +59,8 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProje
 ProjectListComponent.propTypes = {
   projects: PropTypes.array.isRequired,
   nextPage: PropTypes.func.isRequired,
-  onDeleteProject: PropTypes.func.isRequired
+  onDeleteProject: PropTypes.func.isRequired,
+  onEditProject: PropTypes.func.isRequired
 };
 
 export default ProjectListComponent;

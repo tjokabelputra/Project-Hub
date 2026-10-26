@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import StagesInputComponent from '../StagesInputComponent.jsx';
 import DocumentListComponent from '../DocumentListComponent.jsx';
 import { LuCloudUpload } from 'react-icons/lu';
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
-import PageFooterComponent from "../PageFooterComponent.jsx";
+import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, onPreviousPage, onNextPage }) {
   const {
@@ -129,5 +129,13 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, o
     </div>
   );
 }
+
+ProjectStagesComponent.propTypes = {
+  onBackPressed: PropTypes.func.isRequired,
+  pageIndex: PropTypes.number.isRequired,
+  projectStatusDocs: PropTypes.object.isRequired,
+  onPreviousPage: PropTypes.func.isRequired,
+  onNextPage: PropTypes.func.isRequired,
+};
 
 export default ProjectStagesComponent;

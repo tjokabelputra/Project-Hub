@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 function PageFooterComponent({ isFirstPage = false, isLastPage = false, listInputs = [], onPreviousPage, onNextPage }) {
@@ -34,5 +35,13 @@ function PageFooterComponent({ isFirstPage = false, isLastPage = false, listInpu
     </div>
   );
 }
+
+PageFooterComponent.propTypes = {
+  isFirstPage: PropTypes.bool,
+  isLastPage: PropTypes.bool,
+  listInputs: PropTypes.array,
+  onPreviousPage: PropTypes.func.isRequired,
+  onNextPage: PropTypes.func.isRequired
+};
 
 export default PageFooterComponent;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GeneralInputComponent from '../input/GeneralInputComponent.jsx';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
 import { dummyStagesStatus } from '../../data/dummy.js';
@@ -35,5 +36,16 @@ function StagesInputComponent({ id, stage, date, onDateChange, status, onStatusC
     </div>
   );
 }
+
+StagesInputComponent.propTypes = {
+  id: PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
+  note: PropTypes.string.isRequired,
+  onNoteChange: PropTypes.func.isRequired
+};
 
 export default StagesInputComponent;

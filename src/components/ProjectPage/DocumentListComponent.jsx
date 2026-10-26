@@ -37,7 +37,10 @@ function DocumentListComponent({ supportingDocuments, actionable = true, isDelet
 }
 
 DocumentListComponent.propTypes = {
-  supportingDocuments: PropTypes.array
+  supportingDocuments: PropTypes.array,
+  actionable: PropTypes.bool,
+  isDelete: PropTypes.bool,
+  onDeleteDocument: PropTypes.func,
 };
 
 export default DocumentListComponent;

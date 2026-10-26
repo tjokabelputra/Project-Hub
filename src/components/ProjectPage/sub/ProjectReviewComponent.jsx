@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import ProjectInformationComponent from '../ProjectInformationComponent.jsx';
@@ -8,7 +9,6 @@ import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit }) {
   const {
-    type, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
     preCommitteeDate, preCommitteeStatus, preCommitteeNote, committeeBDate, committeeBStatus, committeeBNote,
     committeeADate, committeeAStatus, committeeANote, supportingDocuments
   } = newProject;
@@ -53,5 +53,15 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
     </div>
   );
 }
+
+ProjectReviewComponent.propTypes = {
+  onBackPressed: PropTypes.func.isRequired,
+  onPreviousPage: PropTypes.func.isRequired,
+  pageIndex: PropTypes.number.isRequired,
+  newProject: PropTypes.object.isRequired,
+  isEdit: PropTypes.bool.isRequired,
+  onAddProject: PropTypes.func.isRequired,
+  onSubmitProject: PropTypes.func.isRequired,
+};
 
 export default ProjectReviewComponent;

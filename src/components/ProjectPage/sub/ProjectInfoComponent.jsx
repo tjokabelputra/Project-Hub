@@ -5,11 +5,10 @@ import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import { dummyProjectCategories, dummyProjectStatus } from '../../../data/dummy.js';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateInputs } from '../../../states/shared/action.js';
-import PageFooterComponent from "../PageFooterComponent.jsx";
+import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
 {
@@ -219,7 +218,8 @@ ProjectInfoComponent.propTypes = {
     onTargetDateChange: PropTypes.func.isRequired
   }),
   onPreviousPage: PropTypes.func.isRequired,
-  onNextPage: PropTypes.func.isRequired
+  onNextPage: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool.isRequired,
 };
 
 export default ProjectInfoComponent;
