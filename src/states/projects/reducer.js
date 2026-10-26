@@ -6,6 +6,16 @@ function projectsReducer(projects = [], action = {}) {
     return [...projects, action.payload.project];
   case ActionType.RECEIVE_PROJECTS:
     return action.payload.projects;
+  case ActionType.EDIT_PROJECT: {
+    const editedProject = action.payload.project;
+    return projects.map((project) => {
+      if (project.id !== editedProject.id) {
+        return project;
+      }
+
+      return editedProject;
+    });
+  }
   case ActionType.DELETE_PROJECT:
     return projects.filter((project) => project.id !== action.payload.projectId);
   case ActionType.RESTORE_PROJECT: {

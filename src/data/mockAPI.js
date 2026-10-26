@@ -1,23 +1,6 @@
-import {
-  dummyBPs,
-  dummyPMs,
-  dummyProjectCategories,
-  dummyProjects, dummyProjectStatus, dummyStagesStatus,
-  dummyProjectTypes,
-  dummyRequestingUnits,
-} from './dummy.js';
+import { dummyBPs, dummyPMs, dummyProjects, dummyRequestingUnits } from './dummy.js';
 
 const mockAPI = (() => {
-  const getName = (items, value) => {
-    const id = typeof value === 'object' && value !== null ? value.id : value;
-    return items.find((item) => item.id === id)?.name ?? value?.name ?? value;
-  };
-
-  const getId = (items, value) => {
-    const name = typeof value === 'object' && value !== null ? value.name : value;
-    return items.find((item) => item.name === name || item.id === value)?.id ?? value?.id ?? value;
-  };
-
   function mockRequest(action){
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -28,55 +11,21 @@ const mockAPI = (() => {
 
   function addProject(project) {
     return mockRequest(() => {
-      const projectWithIds = {
-        ...project,
-        status: getId(dummyProjectStatus, project.status),
-        preCommittee: {
-          ...project.preCommittee,
-          status: getId(dummyStagesStatus, project.preCommittee?.status),
-        },
-        committeeTIB: {
-          ...project.committeeTIB,
-          status: getId(dummyStagesStatus, project.committeeTIB?.status),
-        },
-        committeeTIA: {
-          ...project.committeeTIA,
-          status: getId(dummyStagesStatus, project.committeeTIA?.status),
-        },
-        pm: getId(dummyPMs, project.pm),
-        bp: getId(dummyBPs, project.bp),
-        category: getId(dummyProjectCategories, project.category),
-        projectType: getId(dummyProjectTypes, project.projectType),
-        requestingUnit: getId(dummyRequestingUnits, project.requestingUnit),
-      };
-
-      return [...dummyProjects, projectWithIds];
+      return [...dummyProjects, project];
     });
   }
 
   function getProjects() {
     return mockRequest(() => {
-      return dummyProjects.map((project) => ({
-        ...project,
-        status: getName(dummyProjectStatus, project.status),
-        preCommittee: {
-          ...project.preCommittee,
-          status: getName(dummyStagesStatus, project.preCommittee?.status),
-        },
-        committeeTIB: {
-          ...project.committeeTIB,
-          status: getName(dummyStagesStatus, project.committeeTIB?.status),
-        },
-        committeeTIA: {
-          ...project.committeeTIA,
-          status: getName(dummyStagesStatus, project.committeeTIA?.status),
-        },
-        pm: getName(dummyPMs, project.pm),
-        bp: getName(dummyBPs, project.bp),
-        category: getName(dummyProjectCategories, project.category),
-        projectType: getName(dummyProjectTypes, project.projectType),
-        requestingUnit: getName(dummyRequestingUnits, project.requestingUnit),
-      }));
+      return JSON.parse(JSON.stringify(dummyProjects));
+    });
+  }
+
+  function editProject(project) {
+    return mockRequest(() => {
+      return dummyProjects.map((existingProject) => (
+        existingProject.id === project.id ? project : existingProject
+      ));
     });
   }
 
@@ -107,6 +56,7 @@ const mockAPI = (() => {
   return {
     addProject,
     getProjects,
+    editProject,
     deleteProject,
     getPMs,
     getBPs,

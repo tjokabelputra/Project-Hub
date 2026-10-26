@@ -5,7 +5,7 @@ import { FaPencil } from 'react-icons/fa6';
 import ProjectDetailModal from './ProjectDetailModal.jsx';
 import { formatStatus } from '../../util/util.js';
 
-function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
+function ProjectListTable({ projects, filterIndex, onDeleteProject, onEditProject }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayDetail, setDisplayDetail] = useState(false);
@@ -99,7 +99,9 @@ function ProjectListTable({ projects, filterIndex, onDeleteProject }) {
                     onClick={() => displayProjectDetail(project)}>
                     <FaEye />
                   </button>
-                  <button className="project-list-table__action-edit">
+                  <button
+                    className="project-list-table__action-edit"
+                    onClick={() => onEditProject(project.id)}>
                     <FaPencil />
                   </button>
                   <button

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaArrowLeft } from 'react-icons/fa';
 
-function ProjectInputHeaderComponent({ onBackPressed }) {
+function ProjectInputHeaderComponent({ onBackPressed, isEdit }) {
   return (
     <div className="project-input__header">
       <div
@@ -10,7 +10,11 @@ function ProjectInputHeaderComponent({ onBackPressed }) {
         onClick={onBackPressed}>
         <FaArrowLeft />
       </div>
-      <h1>Upload Project</h1>
+      { isEdit ? (
+        <h1>Edit Project</h1>
+      ) : (
+        <h1>Upload Project</h1>
+      )}
     </div>
   );
 }

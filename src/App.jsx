@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router';
 import { dummyUser } from './data/dummy.js';
 import { useDispatch, useSelector } from 'react-redux';
-import {asyncAddProject, asyncDeleteProject, asyncGetProjects} from './states/projects/action.js';
+import { asyncAddProject, asyncDeleteProject, asyncEditProject, asyncGetProjects } from './states/projects/action.js';
 import DashboardPage from './page/DashboardPage.jsx';
 import ProjectPage from './page/ProjectPage.jsx';
 import InputUpdatePage from './page/InputUpdatePage.jsx';
@@ -24,6 +24,10 @@ function App() {
     dispatch(asyncAddProject(project));
   };
 
+  const onSubmitEdit = (project) => {
+    dispatch(asyncEditProject(project));
+  };
+
   return (
     <>
       <div className="app-container">
@@ -32,7 +36,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<DashboardPage projects={projects}/>} />
-            <Route path="/projects" element={<ProjectPage projects={projects} onDeleteProject={onDeleteProject} onAddProject={onAddProject}/>} />
+            <Route path="/projects"
+              element={
+                <ProjectPage
+                  projects={projects}
+                  onDeleteProject={onDeleteProject}
+                  onAddProject={onAddProject}
+                  onSubmitEdit={onSubmitEdit}/>
+              }/>
             <Route path="/updates" element={<InputUpdatePage />} />
           </Routes>
         </main>

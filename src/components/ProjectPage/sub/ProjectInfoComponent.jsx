@@ -11,12 +11,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateInputs } from '../../../states/shared/action.js';
 import PageFooterComponent from "../PageFooterComponent.jsx";
 
-function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage })
+function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
 {
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
   const units = useSelector((states) => states.units);
   const dispatch = useDispatch();
+
+  console.log(isEdit);
 
   const {
     code, onCodeChange, onCodeSelected,
@@ -49,7 +51,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
 
   return (
     <div className="project-input-layout__first">
-      <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
+      <ProjectInputHeaderComponent onBackPressed={onBackPressed} isEdit={isEdit} />
       <div className="project-info__main">
         <PageIndicatorComponent currentPage={pageIndex} />
         <div className="project-info__input-layout">
@@ -65,9 +67,10 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                       type="text"
                       placeholder="PRJ-XXX"
                       value={code}
-                      onChange={onCodeChange} />
+                      onChange={onCodeChange}
+                      disabled={isEdit}/>
 
-                    {isCodeDuplicate && (
+                    { (isCodeDuplicate && !isEdit) && (
                       <p className="input-error">Kode project sudah digunakan.</p>
                     )}
                   </div>
@@ -80,7 +83,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     optionsId="id"
                     optionsValue="id"
                     value={code}
-                    onValueChange={onCodeSelected}/>
+                    onValueChange={onCodeSelected}
+                    disabled={isEdit}/>
                 )}
                 <div>
                   <GeneralInputComponent
@@ -90,8 +94,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     placeholder="Nama Project"
                     value={name}
                     onChange={onNameChange}
-                    disabled={type === 'Existing'}/>
-                  {isNameDuplicate && (
+                    disabled={(type === 'Existing' || isEdit)}/>
+                  {(isNameDuplicate && !isEdit) && (
                     <p className="input-error">Nama project sudah digunakan.</p>
                   )}
                 </div>
@@ -103,7 +107,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     placeholder="Deskripsi Singkat Project"
                     value={description}
                     onChange={onDescChange}
-                    disabled={type === 'Existing'}/>
+                    disabled={(type === 'Existing' || isEdit)}/>
                 </div>
                 <DropdownInputComponent
                   id="category"
@@ -128,7 +132,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   placeholder="Masukan Nama PM"
                   options={pms}
                   optionsId="id"
-                  optionsValue="name"
+                  optionsValue="value"
                   value={pm}
                   onValueChange={setPM}/>
                 <SearchableSelectComponent
@@ -137,7 +141,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   placeholder="Masukan Nama BP"
                   options={bps}
                   optionsId="id"
-                  optionsValue="name"
+                  optionsValue="value"
                   value={bp}
                   onValueChange={setBP}/>
                 <SearchableSelectComponent
@@ -146,7 +150,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   placeholder="Masukan Nama Unit"
                   options={units}
                   optionsId="id"
-                  optionsValue="name"
+                  optionsValue="value"
                   value={requestingUnit}
                   onValueChange={setUnit}
                   minInput={1}/>
@@ -177,7 +181,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
         </div>
         <PageFooterComponent
           listInputs={pageIndex === 2 ? inputListFirst : inputListSecond}
-          onPreviousPage={onPreviousPage}
+          onPreviousPage={(isEdit && pageIndex === 2) ? onBackPressed :onPreviousPage}
           onNextPage={onNextPage} />
       </div>
     </div>

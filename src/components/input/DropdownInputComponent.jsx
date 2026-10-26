@@ -6,7 +6,7 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
-  const selectedOptions = options.find((option) => String(option.name) === String(value));
+  const selectedOptions = options.find((option) => String(option.value) === String(value));
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -23,7 +23,7 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
   }, []);
 
   const handleSelect = (option) => {
-    onValueChange(option.name);
+    onValueChange(option.value);
     setIsOpen(false);
   };
 
@@ -36,7 +36,7 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
         className={ `dropdown-input__control ${ isOpen ? 'dropdown-input__control--open' : '' }`}
         onClick={() => setIsOpen((previous) => !previous)}>
         <p className={selectedOptions ? 'dropdown-input__value' : 'dropdown-input__placeholder'}>
-          {selectedOptions?.name ?? placeholder}
+          {selectedOptions?.value ?? placeholder}
         </p>
         <FaChevronDown className={`dropdown-input__icon ${isOpen ? 'dropdown-input__icon-open' : ''}`} />
       </button>
@@ -44,7 +44,7 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
       {isOpen && (
         <ul className="dropdown-input__list">
           {options.map((option) => {
-            const isSelected = String(option.name) === String(value);
+            const isSelected = String(option.value) === String(value);
             return (
               <li key={option.id}>
                 <button
@@ -55,7 +55,7 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
                       : ''
                   }`}
                   onClick={() => handleSelect(option)}>
-                  {option.name}
+                  {option.value}
                 </button>
               </li>
             );

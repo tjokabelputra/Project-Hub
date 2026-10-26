@@ -6,7 +6,7 @@ import ProjectStagesTable from '../ProjectStagesTable.jsx';
 import DocumentListComponent from '../DocumentListComponent.jsx';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 
-function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, onNextPage }) {
+function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit }) {
   const {
     type, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
     preCommitteeDate, preCommitteeStatus, preCommitteeNote, committeeBDate, committeeBStatus, committeeBNote,
@@ -47,7 +47,7 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
         </div>
         <PageFooterComponent
           onPreviousPage={onPreviousPage}
-          onNextPage={onNextPage}
+          onNextPage={isEdit ? onSubmitEdit : onAddProject}
           isLastPage={true}/>
       </div>
     </div>

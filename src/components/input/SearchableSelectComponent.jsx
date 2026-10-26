@@ -8,17 +8,18 @@ function SearchableSelectComponent({
   placeholder,
   options,
   optionsId = 'id',
-  optionsValue = 'name',
+  optionsValue = 'value',
   value,
   onValueChange,
-  minInput = 3
+  minInput = 3,
+  disabled = false
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const containerRef = useRef(null);
 
   const selectedOption = options.find(
-    (option) => String(option[optionsId]) === String(value)
+    (option) => String(option[optionsValue]) === String(value)
   );
 
   const filteredOptions  = search.trim().length >= minInput
@@ -42,7 +43,7 @@ function SearchableSelectComponent({
   }, []);
 
   function handleSelect(option) {
-    onValueChange(option[optionsId]);
+    onValueChange(option[optionsValue]);
     setSearch('');
     setIsOpen(false);
   }
@@ -56,6 +57,7 @@ function SearchableSelectComponent({
           type="text"
           placeholder={placeholder}
           value={isOpen ? search : selectedOption?.[optionsValue] ?? ''}
+          disabled={disabled}
           onChange={(event) => {
             setSearch(event.target.value);
             setIsOpen(true);
@@ -63,7 +65,7 @@ function SearchableSelectComponent({
         <FaChevronDown />
       </div>
 
-      { isOpen && (
+      { isOpen && !disabled && (
         <ul className="searchable-select__list">
           {search.trim().length < minInput ? (
             <li className="searchable-select__empty">Ketik minimal {minInput} karakter untuk mencari</li>
@@ -101,6 +103,7 @@ SearchableSelectComponent.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   minInput: PropTypes.number,
+  disabled: PropTypes.bool,
 };
 
 export default SearchableSelectComponent;

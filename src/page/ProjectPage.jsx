@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProjectListComponent from '../components/ProjectPage/sub/ProjectListComponent.jsx';
 import ProjectTypeComponent from '../components/ProjectPage/sub/ProjectTypeComponent.jsx';
@@ -7,7 +7,9 @@ import useInput from '../hooks/useInput.js';
 import ProjectStagesComponent from '../components/ProjectPage/sub/ProjectStagesComponent.jsx';
 import ProjectReviewComponent from '../components/ProjectPage/sub/ProjectReviewComponent.jsx';
 
-function ProjectPage({ projects, onDeleteProject, onAddProject }) {
+function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) {
+  const [isEdit, setIsEdit] = useState(false);
+  const [id, setId] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
   const [projectType, setType] = useState('');
   const [code, onCodeChange, setCode] = useInput('');
@@ -33,7 +35,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
   const [supportingDocuments, setSupportingDocuments] = useState([]);
 
   const projectFormat = {
-    id: `ID-${+new Date()}`,
+    id: id,
     code: code,
     name: name,
     description: description,
@@ -65,6 +67,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
   };
 
   const resetInput = () => {
+    setId('');
     setType('');
     setCode('');
     setName('');
@@ -89,8 +92,35 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
     setSupportingDocuments([]);
   };
 
+  const setProject = (project) => {
+    setId(project.id);
+    setType(project.projectType);
+    setCode(project.code);
+    setName(project.name);
+    setDesc(project.description);
+    setCategory(project.category);
+    setStatus(project.status);
+    setPM(project.pm);
+    setBP(project.bp);
+    setUnit(project.requestingUnit);
+    setOwner(project.owner);
+    setProjectDate(project.projectDate);
+    setTargetDate(project.targetGoLive);
+    setPreCommitteeDate(project.preCommittee.date);
+    setPreCommitteeStatus(project.preCommittee.status);
+    setPreCommitteeNote(project.preCommittee.notes);
+    setCommitteeBDate(project.committeeTIB.date);
+    setCommitteeBStatus(project.committeeTIB.status);
+    setCommitteeBNote(project.committeeTIB.notes);
+    setCommitteeADate(project.committeeTIA.date);
+    setCommitteeAStatus(project.committeeTIA.status);
+    setCommitteeANote(project.committeeTIA.notes);
+    setSupportingDocuments(project.supportingDocuments);
+  };
+
   const onBackPressed = () => {
     setPageIndex(0);
+    setIsEdit(false);
     resetInput();
   };
 
@@ -105,6 +135,16 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
     if (currPage === 2) {
       resetInput();
     }
+  };
+
+  const onEditProject = (projectId) => {
+    const editedProject = projects.find((project) => project.id === projectId);
+
+    if (!editedProject) return;
+
+    setProject(editedProject);
+    setIsEdit(true);
+    setPageIndex(2);
   };
 
   const onCodeSelected = (code) => {
@@ -147,8 +187,15 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
   };
 
   const addNewProject = () => {
+    setId(`ID-${+new Date()}`);
     onAddProject(projectFormat);
     setPageIndex(0);
+  };
+
+  const editProject = () => {
+    onSubmitEdit(projectFormat);
+    setPageIndex(0);
+    setIsEdit(false);
   };
 
   return (
@@ -158,7 +205,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
             <ProjectListComponent
               projects={projects}
               nextPage={nextPage}
-              onDeleteProject={onDeleteProject}/>
+              onDeleteProject={onDeleteProject}
+              onEditProject={onEditProject}/>
           )
       }
       { pageIndex === 1 &&
@@ -179,7 +227,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
           onBackPressed={onBackPressed}
           projectInfo={projectInfo}
           onPreviousPage={prevPage}
-          onNextPage={nextPage}/>
+          onNextPage={nextPage}
+          isEdit={isEdit}/>
       )}
       { pageIndex === 4 && (
         <ProjectStagesComponent
@@ -195,7 +244,9 @@ function ProjectPage({ projects, onDeleteProject, onAddProject }) {
           onPreviousPage={prevPage}
           pageIndex={pageIndex}
           newProject={newProject}
-          onNextPage={addNewProject}/>
+          isEdit={isEdit}
+          onAddProject={addNewProject}
+          onSubmitEdit={editProject}/>
       )}
     </section>
   );
