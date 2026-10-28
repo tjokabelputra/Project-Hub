@@ -27,3 +27,13 @@ export const formatFileSize = (size) => {
 
   return `${Number(size.toFixed(2))} ${units[count]}`;
 };
+
+export const areInputsValid = (inputs = []) => {
+  return inputs.every((input) => {
+    if (typeof input === 'string') {
+      return input.trim() !== '';
+    }
+
+    return input !== null && input !== undefined && input !== '';
+  });
+};

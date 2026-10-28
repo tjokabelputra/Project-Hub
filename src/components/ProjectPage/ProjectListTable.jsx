@@ -9,7 +9,7 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayDetail, setDisplayDetail] = useState(false);
-  const [selectedProject, setSelectedProject] = useState('');
+  const [selectedProject, setSelectedProject] = useState({});
 
   const tableSize = 10;
   const pageCount = Math.ceil(filteredProjects.length / tableSize);

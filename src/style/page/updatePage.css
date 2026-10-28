@@ -1,0 +1,36 @@
+@import '../update/updateInput.css';
+
+.input-update__header {
+    display: flex;
+    flex-direction: column;
+    padding-block: 16px;
+    padding-inline: 32px;
+    background: var(--surface-secondary);
+}
+
+.input-update__header h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.input-update__header p {
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+.input-update__main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input-update__wide {
+    grid-column: span 2;
+}
+
+.input-update__wide {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

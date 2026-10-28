@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { areInputsValid } from '../../util/util.js';
 
 function PageFooterComponent({ isFirstPage = false, isLastPage = false, listInputs = [], onPreviousPage, onNextPage }) {
-  const isInputsValid = listInputs.every((input) => {
-    if (typeof input === 'string') {
-      return input.trim() !== '';
-    }
-
-    return input !== null && input !== undefined && input !== '';
-  });
+  const isInputsValid = areInputsValid(listInputs);
 
   return (
     <div className="page-footer">

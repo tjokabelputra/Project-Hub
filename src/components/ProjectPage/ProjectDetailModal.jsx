@@ -46,7 +46,7 @@ function ProjectDetailModal({ project, onClose }) {
 }
 
 ProjectDetailModal.propTypes = {
-  project: PropTypes.array.isRequired,
+  project: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

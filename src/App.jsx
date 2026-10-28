@@ -44,7 +44,7 @@ function App() {
                   onAddProject={onAddProject}
                   onSubmitEdit={onSubmitEdit}/>
               }/>
-            <Route path="/updates" element={<InputUpdatePage />} />
+            <Route path="/updates" element={<InputUpdatePage projects={projects}/>} />
           </Routes>
         </main>
       </div>
