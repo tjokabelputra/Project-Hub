@@ -4,10 +4,10 @@ import SearchableSelectComponent from '../input/SearchableSelectComponent.jsx';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
 import { dummyProjectStatus } from '../../data/dummy.js';
 import { BiRecycle } from 'react-icons/bi';
-import { FaPlus } from 'react-icons/fa';
+import {FaEdit, FaPlus} from 'react-icons/fa';
 import { areInputsValid } from '../../util/util.js';
 
-function InputUpdateComponent({ updateInfo, projects, onResetInput, onCreateUpdate }) {
+function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCreateUpdate, onEditUpdate }) {
   const {
     date, onDateChange, project, setProject, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
     progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
@@ -95,8 +95,12 @@ function InputUpdateComponent({ updateInfo, projects, onResetInput, onCreateUpda
           <button
             type="button"
             className={`input-update__create ${!isInputValid ? 'input-update__create-disable' : ''}`}
-            onClick={onCreateUpdate}
-            disabled={!isInputValid}><FaPlus/> Generate</button>
+            onClick={isEdit ? onEditUpdate : onCreateUpdate}
+            disabled={!isInputValid}
+          >
+            {isEdit ? <FaEdit /> : <FaPlus />}
+            {isEdit ? ' Edit Update' : ' Generate Update'}
+          </button>
         </div>
       </div>
     </div>

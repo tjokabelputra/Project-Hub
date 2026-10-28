@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useInput from '../hooks/useInput.js';
 import InputUpdateComponent from '../components/UpdatePage/InputUpdateComponent.jsx';
+import { FaClock } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import {asyncAddUpdate, asyncDeleteUpdate, asyncEditUpdate, asyncGetUpdates} from '../states/updates/action.js';
+import UpdateListTable from '../components/UpdatePage/UpdateListTable.jsx';
 
 function InputUpdatePage({ projects }) {
+  const updates = useSelector((states) => states.updates);
+  const dispatch = useDispatch();
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [id, setId] = useState('');
   const [date, onDateChange, setDate] = useInput('');
   const [project, setProject] = useState('');
   const [status, setStatus] = useState('');
@@ -13,12 +23,30 @@ function InputUpdatePage({ projects }) {
   const [action, onActionChange, setAction] = useInput('');
   const [finishDate, onFinishDateChange, setFinishDate] = useInput('');
 
+  useEffect(() => {
+    dispatch(asyncGetUpdates());
+  }, [dispatch]);
+
   const updateInfo = {
     date, onDateChange, project, setProject, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
     progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
   };
 
+  const formatInput = {
+    id: (id === '' ? `update-${+new Date()}` : id),
+    date: date,
+    project: project,
+    status: status,
+    pic: (owner !== '' ? owner : null),
+    activity: activity,
+    progress: progress,
+    issue: issue,
+    nextStep: action,
+    deadline: (finishDate !== '' ? finishDate : null),
+  };
+
   const onResetInput = () => {
+    setIsEdit(false);
     setDate('');
     setProject('');
     setStatus('');
@@ -28,6 +56,34 @@ function InputUpdatePage({ projects }) {
     setIssue('');
     setAction('');
     setFinishDate('');
+  };
+
+  const onCreateUpdate = () => {
+    dispatch(asyncAddUpdate(formatInput));
+    onResetInput();
+  };
+
+  const onPreviewUpdate = (update) => {
+    setIsEdit(true);
+    setId(update.id);
+    setDate(update.date);
+    setProject(update.project);
+    setStatus(update.status);
+    setOwner(update.pic ?? '');
+    setActivity(update.activity);
+    setProgress(update.progress);
+    setIssue(update.issue);
+    setAction(update.nextStep);
+    setFinishDate(update.deadline ?? '');
+  };
+
+  const onDeleteUpdate = (updateId) => {
+    dispatch(asyncDeleteUpdate(updateId));
+  };
+
+  const onEditUpdate = () => {
+    dispatch(asyncEditUpdate(formatInput));
+    onResetInput();
   };
 
   return (
@@ -41,11 +97,23 @@ function InputUpdatePage({ projects }) {
           <InputUpdateComponent
             updateInfo={updateInfo}
             projects={projects}
+            isEdit={isEdit}
             onResetInput={onResetInput}
-            onCreateUpdate={() => {}} />
+            onCreateUpdate={onCreateUpdate}
+            onEditUpdate={onEditUpdate}/>
         </div>
         <div className="input-update__history">
-
+          <div className="input-update__history-header">
+            <div className="input-update__history-title">
+              <FaClock />
+              <p>Update History</p>
+            </div>
+            <p className="input-update__view-history">Lihat Semua History</p>
+          </div>
+          <UpdateListTable
+            updates={updates.slice(0, 5)}
+            onPreviewUpdate={onPreviewUpdate}
+            onDeleteUpdate={onDeleteUpdate}/>
         </div>
       </div>
     </section>

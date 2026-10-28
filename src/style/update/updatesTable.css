@@ -1,0 +1,75 @@
+.history-list-layout {
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+.history-list-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.history-list-table__header {
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--background);
+}
+
+.history-list-table__header td, .history-list-table__body td {
+    padding-block: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-list-table__header td:nth-child(1),
+.history-list-table__body td:nth-child(1) {
+    width: 11%;
+    text-align: center;
+}
+
+.history-list-table__header td:nth-child(2),
+.history-list-table__body td:nth-child(2) {
+    width: 21%;
+}
+
+.history-list-table__header td:nth-child(3),
+.history-list-table__body td:nth-child(3) {
+    width: 21%;
+}
+
+.history-list-table__header td:nth-child(4),
+.history-list-table__body td:nth-child(4) {
+    width: 21%;
+}
+
+.history-list-table__header td:nth-child(5),
+.history-list-table__body td:nth-child(5) {
+    width: 21%;
+}
+
+.history-list-table__header td:nth-child(6),
+.history-list-table__body td:nth-child(6) {
+    width: 5%;
+    text-align: center;
+}
+
+.history-list-table__action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+}
+
+.history-list-table__action-buttons button {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.history-list-table__action-buttons button:first-child {
+    color: var(--primary);
+}
+
+.history-list-table__action-buttons button:last-child {
+    color: var(--danger);
+}

@@ -1,4 +1,4 @@
-import { dummyBPs, dummyPMs, dummyProjects, dummyRequestingUnits } from './dummy.js';
+import { dummyBPs, dummyPMs, dummyProjects, dummyRequestingUnits, dummyUpdates } from './dummy.js';
 
 const mockAPI = (() => {
   function mockRequest(action){
@@ -35,6 +35,32 @@ const mockAPI = (() => {
     });
   }
 
+  function addUpdate(update) {
+    return mockRequest(() => {
+      return [update, ...dummyUpdates];
+    });
+  }
+
+  function getUpdates() {
+    return mockRequest(() => {
+      return JSON.parse(JSON.stringify(dummyUpdates));
+    });
+  }
+
+  function editUpdate(editedUpdate) {
+    return mockRequest(() => {
+      return dummyUpdates.map((update) => (
+        update.id === editedUpdate.id ? editedUpdate : update
+      ));
+    });
+  }
+
+  function deleteUpdate(updateId) {
+    return mockRequest(() => {
+      return dummyUpdates.filter((update) => update.id !== updateId);
+    });
+  }
+
   function getPMs() {
     return mockRequest(() => {
       return JSON.parse(JSON.stringify(dummyPMs));
@@ -58,6 +84,10 @@ const mockAPI = (() => {
     getProjects,
     editProject,
     deleteProject,
+    addUpdate,
+    getUpdates,
+    editUpdate,
+    deleteUpdate,
     getPMs,
     getBPs,
     getUnits

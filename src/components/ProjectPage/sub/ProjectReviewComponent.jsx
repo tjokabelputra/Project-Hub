@@ -61,7 +61,7 @@ ProjectReviewComponent.propTypes = {
   newProject: PropTypes.object.isRequired,
   isEdit: PropTypes.bool.isRequired,
   onAddProject: PropTypes.func.isRequired,
-  onSubmitProject: PropTypes.func.isRequired,
+  onSubmitEdit: PropTypes.func.isRequired,
 };
 
 export default ProjectReviewComponent;
