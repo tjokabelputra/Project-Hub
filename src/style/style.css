@@ -5,6 +5,7 @@
 @import './dropdownInput.css';
 @import './searchableSelect.css';
 @import './page/updatePage.css';
+@import './pagination.css';
 
 :root {
     --surface: #0D1627;

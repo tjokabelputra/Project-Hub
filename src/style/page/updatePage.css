@@ -1,6 +1,7 @@
 @import '../update/updateInput.css';
 @import '../update/updatesTable.css';
 @import '../update/updateModal.css';
+@import '../update/messagePreview.css';
 
 .input-update__header {
     display: flex;

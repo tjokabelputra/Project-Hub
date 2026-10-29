@@ -1,0 +1,26 @@
+.pagination-component{
+    display: flex;
+    padding: 16px;
+    justify-content: space-between;
+}
+
+.pagination-component__actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px
+}
+
+.pagination-component__page {
+    padding-inline: 16px;
+    padding-block: 4px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--background);
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.pagination-component__page--active {
+    background: var(--primary);
+    color: var(--text-secondary);
+    border: 2px solid var(--primary);
+}

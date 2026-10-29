@@ -15,7 +15,7 @@ function PaginationComponent({ filteredDataLength, tableSize, startIndex, endInd
   );
 
   return (
-    <div className="project-list-layout__footer">
+    <div className="pagination-component">
       <p>
                 Menampilkan{' '}
         {filteredDataLength === 0 ? 0 : startIndex + 1}
@@ -24,13 +24,13 @@ function PaginationComponent({ filteredDataLength, tableSize, startIndex, endInd
         {' dari '}
         {filteredDataLength} project
       </p>
-      <div className="project-list-layout__pagination">
+      <div className="pagination-component__actions">
         <button
           type="button"
           className={
             currentPage !== 1
-              ? 'project-list-layout__page project-list-layout__page--active'
-              : 'project-list-layout__page'
+              ? 'pagination-component__page pagination-component__page--active'
+              : 'pagination-component__page'
           }
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((page) => page - 1)}>
@@ -43,8 +43,8 @@ function PaginationComponent({ filteredDataLength, tableSize, startIndex, endInd
             type="button"
             className={
               currentPage === page
-                ? 'project-list-layout__page project-list-layout__page--active'
-                : 'project-list-layout__page'
+                ? 'pagination-component__page pagination-component__page--active'
+                : 'pagination-component__page'
             }
             onClick={() => setCurrentPage(page)}>
             {page}
@@ -54,8 +54,8 @@ function PaginationComponent({ filteredDataLength, tableSize, startIndex, endInd
           type="button"
           className={
             currentPage === pageCount || pageCount === 0
-              ? 'project-list-layout__page'
-              : 'project-list-layout__page project-list-layout__page--active'
+              ? 'pagination-component__page'
+              : 'pagination-component__page pagination-component__page--active'
           }
           disabled={currentPage === pageCount || pageCount === 0}
           onClick={() => setCurrentPage((page) => page + 1)}

@@ -117,30 +117,3 @@
 .project-list-table tbody tr:hover {
     background: var(--background);
 }
-
-.project-list-layout__footer{
-    display: flex;
-    padding: 16px;
-    justify-content: space-between;
-}
-
-.project-list-layout__pagination {
-    display: flex;
-    flex-direction: row;
-    gap: 8px
-}
-
-.project-list-layout__page {
-    padding-inline: 16px;
-    padding-block: 4px;
-    background: var(--surface-secondary);
-    border: 1px solid var(--background);
-    border-radius: 8px;
-    font-size: 12px;
-}
-
-.project-list-layout__page--active {
-    background: var(--primary);
-    color: var(--text-secondary);
-    border: 2px solid var(--primary);
-}

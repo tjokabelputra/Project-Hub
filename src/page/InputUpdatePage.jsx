@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddUpdate, asyncDeleteUpdate, asyncEditUpdate, asyncGetUpdates } from '../states/updates/action.js';
 import UpdateListTable from '../components/UpdatePage/UpdateListTable.jsx';
 import UpdatesListModal from '../components/UpdatePage/UpdatesListModal.jsx';
+import MessagePreviewComponent from "../components/UpdatePage/MessagePreviewComponent.jsx";
+import {formatUpdatedMessage} from "../util/util.js";
 
 function InputUpdatePage({ projects }) {
   const updates = useSelector((states) => states.updates);
@@ -24,6 +26,8 @@ function InputUpdatePage({ projects }) {
   const [issue, onIssueChange, setIssue] = useInput('');
   const [action, onActionChange, setAction] = useInput('');
   const [finishDate, onFinishDateChange, setFinishDate] = useInput('');
+
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     dispatch(asyncGetUpdates());
@@ -100,6 +104,14 @@ function InputUpdatePage({ projects }) {
     setIsViewAll(false);
   };
 
+  const generateUpdateObject = () => {
+    return { date, project, status, owner, activity, progress, issue, action, finishDate };
+  };
+
+  const onGetMessage = () => {
+    setMessage(formatUpdatedMessage(generateUpdateObject()));
+  };
+
   return (
     <section className="input-update">
       <div className="input-update__header">
@@ -115,6 +127,7 @@ function InputUpdatePage({ projects }) {
             onResetInput={onResetInput}
             onCreateUpdate={onCreateUpdate}
             onEditUpdate={onEditUpdate}/>
+          <MessagePreviewComponent message={message} onGetMessage={onGetMessage} />
         </div>
         <div className="input-update__history">
           <div className="input-update__history-header">
