@@ -3,14 +3,16 @@ import useInput from '../hooks/useInput.js';
 import InputUpdateComponent from '../components/UpdatePage/InputUpdateComponent.jsx';
 import { FaClock } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import {asyncAddUpdate, asyncDeleteUpdate, asyncEditUpdate, asyncGetUpdates} from '../states/updates/action.js';
+import { asyncAddUpdate, asyncDeleteUpdate, asyncEditUpdate, asyncGetUpdates } from '../states/updates/action.js';
 import UpdateListTable from '../components/UpdatePage/UpdateListTable.jsx';
+import UpdatesListModal from '../components/UpdatePage/UpdatesListModal.jsx';
 
 function InputUpdatePage({ projects }) {
   const updates = useSelector((states) => states.updates);
   const dispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
+  const [isViewAll, setIsViewAll] = useState(false);
 
   const [id, setId] = useState('');
   const [date, onDateChange, setDate] = useInput('');
@@ -75,6 +77,10 @@ function InputUpdatePage({ projects }) {
     setIssue(update.issue);
     setAction(update.nextStep);
     setFinishDate(update.deadline ?? '');
+
+    if (isViewAll) {
+      setIsViewAll(false);
+    }
   };
 
   const onDeleteUpdate = (updateId) => {
@@ -84,6 +90,14 @@ function InputUpdatePage({ projects }) {
   const onEditUpdate = () => {
     dispatch(asyncEditUpdate(formatInput));
     onResetInput();
+  };
+
+  const onViewAllHistory = () => {
+    setIsViewAll(true);
+  };
+
+  const onCloseModal = () => {
+    setIsViewAll(false);
   };
 
   return (
@@ -108,13 +122,20 @@ function InputUpdatePage({ projects }) {
               <FaClock />
               <p>Update History</p>
             </div>
-            <p className="input-update__view-history">Lihat Semua History</p>
+            <p className="input-update__view-history" onClick={onViewAllHistory}>Lihat Semua History</p>
           </div>
           <UpdateListTable
             updates={updates.slice(0, 5)}
             onPreviewUpdate={onPreviewUpdate}
             onDeleteUpdate={onDeleteUpdate}/>
         </div>
+        { isViewAll && (
+          <UpdatesListModal
+            onCloseModal={onCloseModal}
+            updates={updates}
+            onDeleteUpdate={onDeleteUpdate}
+            onPreviewUpdate={onPreviewUpdate}/>
+        )}
       </div>
     </section>
   );

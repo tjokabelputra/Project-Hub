@@ -1,5 +1,6 @@
 @import '../update/updateInput.css';
 @import '../update/updatesTable.css';
+@import '../update/updateModal.css';
 
 .input-update__header {
     display: flex;
@@ -62,4 +63,5 @@
 .input-update__view-history {
     color: var(--primary);
     font-weight: bold;
+    cursor: pointer;
 }

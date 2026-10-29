@@ -4,6 +4,7 @@ import { FaEye, FaTrash } from 'react-icons/fa';
 import { FaPencil } from 'react-icons/fa6';
 import ProjectDetailModal from './ProjectDetailModal.jsx';
 import { formatStatus } from '../../util/util.js';
+import PaginationComponent from '../PaginationComponent.jsx';
 
 function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
@@ -12,21 +13,8 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
   const [selectedProject, setSelectedProject] = useState({});
 
   const tableSize = 10;
-  const pageCount = Math.ceil(filteredProjects.length / tableSize);
   const startIndex = (currentPage - 1) * tableSize;
   const endIndex = startIndex + tableSize;
-
-  const visiblePageCount = 3;
-  const startPage = Math.min(
-    currentPage,
-    Math.max(1, pageCount - visiblePageCount + 1),
-  );
-  const visiblePages = Array.from(
-    {
-      length: Math.min(visiblePageCount, pageCount),
-    },
-    (_, index) => startPage + index
-  );
 
   useEffect(() => {
     const setFilter = () => {
@@ -120,55 +108,13 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
           ))}
         </tbody>
       </table>
-      <div className="project-list-layout__footer">
-        <p>
-          Menampilkan{' '}
-          {filteredProjects.length === 0 ? 0 : startIndex + 1}
-          {' - '}
-          {Math.min(endIndex, filteredProjects.length)}
-          {' dari '}
-          {filteredProjects.length} project
-        </p>
-        <div className="project-list-layout__pagination">
-          <button
-            type="button"
-            className={
-              currentPage !== 1
-                ? 'project-list-layout__page project-list-layout__page--active'
-                : 'project-list-layout__page'
-            }
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((page) => page - 1)}>
-            Sebelumnya
-          </button>
-
-          {visiblePages.map((page) => (
-            <button
-              key={page}
-              type="button"
-              className={
-                currentPage === page
-                  ? 'project-list-layout__page project-list-layout__page--active'
-                  : 'project-list-layout__page'
-              }
-              onClick={() => setCurrentPage(page)}>
-              {page}
-            </button>
-          ))}
-          <button
-            type="button"
-            className={
-              currentPage === pageCount || pageCount === 0
-                ? 'project-list-layout__page'
-                : 'project-list-layout__page project-list-layout__page--active'
-            }
-            disabled={currentPage === pageCount || pageCount === 0}
-            onClick={() => setCurrentPage((page) => page + 1)}
-          >
-            Selanjutnya
-          </button>
-        </div>
-      </div>
+      <PaginationComponent
+        filteredDataLength={filteredProjects.length}
+        tableSize={tableSize}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage} />
       { displayDetail && (
         <ProjectDetailModal
           project={selectedProject}
