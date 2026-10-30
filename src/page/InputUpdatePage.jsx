@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { asyncAddUpdate, asyncDeleteUpdate, asyncEditUpdate, asyncGetUpdates } from '../states/updates/action.js';
 import UpdateListTable from '../components/UpdatePage/UpdateListTable.jsx';
 import UpdatesListModal from '../components/UpdatePage/UpdatesListModal.jsx';
-import MessagePreviewComponent from "../components/UpdatePage/MessagePreviewComponent.jsx";
-import {formatUpdatedMessage} from "../util/util.js";
+import MessagePreviewComponent from '../components/UpdatePage/MessagePreviewComponent.jsx';
+import { formatUpdatedMessage } from '../util/util.js';
 
 function InputUpdatePage({ projects }) {
   const updates = useSelector((states) => states.updates);
@@ -33,8 +33,20 @@ function InputUpdatePage({ projects }) {
     dispatch(asyncGetUpdates());
   }, [dispatch]);
 
+  const onProjectChange = (projectName) => {
+    setProject(projectName);
+
+    const selectedProject = projects.find((item) => item.name === projectName);
+
+    if (!selectedProject) return;
+
+    setStatus(selectedProject.status ?? '');
+    setOwner(selectedProject.owner ?? '');
+    setFinishDate(selectedProject.targetGoLive ?? '');
+  };
+
   const updateInfo = {
-    date, onDateChange, project, setProject, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
+    date, onDateChange, project, onProjectChange, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
     progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
   };
 

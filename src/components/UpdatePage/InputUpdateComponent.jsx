@@ -4,16 +4,16 @@ import SearchableSelectComponent from '../input/SearchableSelectComponent.jsx';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
 import { dummyProjectStatus } from '../../data/dummy.js';
 import { BiRecycle } from 'react-icons/bi';
-import {FaEdit, FaPlus} from 'react-icons/fa';
+import { FaEdit, FaPlus } from 'react-icons/fa';
 import { areInputsValid } from '../../util/util.js';
 
 function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCreateUpdate, onEditUpdate }) {
   const {
-    date, onDateChange, project, setProject, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
+    date, onDateChange, project, onProjectChange, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
     progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
   } = updateInfo;
 
-  const listInputs = [date, project, status, activity, progress, issue, action];
+  const listInputs = [date, project, activity, progress, issue, action];
   const isInputValid = areInputsValid(listInputs);
 
   return (
@@ -35,20 +35,31 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
             optionsId = 'id'
             optionsValue = 'name'
             value={project}
-            onValueChange={setProject} />
+            onValueChange={onProjectChange} />
           <DropdownInputComponent
             options={dummyProjectStatus}
             value={status}
             onValueChange={setStatus}
             id="status"
             label="Status"
-            placeholder="Status" />
+            placeholder="Status"
+            disabled={true}
+            accentValue={true} />
           <GeneralInputComponent
             id="owner"
-            label="PIC/Owner (Opsional)"
+            label="PIC/Owner"
             placeholder="Masukan nama Owner/PIC"
             value={owner}
-            onChange={onOwnerChange} />
+            onChange={onOwnerChange}
+            disabled={true} />
+          <GeneralInputComponent
+            id="finish"
+            type="date"
+            label="Tanggal Penyelesaian"
+            placeholder=""
+            value={finishDate}
+            onChange={onFinishDateChange}
+            disabled={true} />
           <div className="input-update__wide">
             <GeneralInputComponent
               id="activity"
@@ -79,13 +90,6 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
               onChange={onActionChange}
               isHigh={true} />
           </div>
-          <GeneralInputComponent
-            id="finish"
-            type="date"
-            label="Tanggal Penyelesaian (Opsional)"
-            placeholder=""
-            value={finishDate}
-            onChange={onFinishDateChange} />
         </div>
         <div className="input-update__action">
           <button

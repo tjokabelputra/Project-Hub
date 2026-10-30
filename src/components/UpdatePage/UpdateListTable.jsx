@@ -9,6 +9,7 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
         <thead className="history-list-table__header">
           <tr>
             <td>Tanggal</td>
+            <td>Nama Project</td>
             <td>Aktivitas Utama</td>
             <td>Progress/Output</td>
             <td>Kendala/Isu</td>
@@ -20,6 +21,7 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
           {updates.map((update) => (
             <tr key={update.id}>
               <td>{formatDate(update.date)}</td>
+              <td>{update.project}</td>
               <td>{update.activity}</td>
               <td>{update.progress}</td>
               <td>{update.issue}</td>

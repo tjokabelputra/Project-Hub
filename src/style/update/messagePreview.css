@@ -90,7 +90,11 @@
     font-size: 14px;
 }
 
-.message-preview__copy-button {
+.message-preview__send-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     background: var(--success);
     height: 40px;
     border: 1px solid var(--success);
@@ -98,4 +102,11 @@
     color: var(--text-secondary);
     font-size: 16px;
     font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.message-preview__send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
 }

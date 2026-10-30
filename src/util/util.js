@@ -41,17 +41,11 @@ export const areInputsValid = (inputs = []) => {
 export function formatUpdatedMessage(update) {
   return [
     `${update.project} – ${formatDate(update.date)}`,
-    '',
     `• Progress: ${update.progress || '-'}`,
-    '',
     `• Update: ${update.activity || '-'}`,
-    '',
     `• Issue: ${update.issue || 'Tidak ada kendala'}`,
-    '',
     `• Next Action: ${update.action || '-'}`,
-    '',
     `• PIC: ${update.owner}`,
-    '',
     `• Target: ${update.finishDate ? formatDate(update.finishDate) : '-'}`,
   ].join('\n');
 }

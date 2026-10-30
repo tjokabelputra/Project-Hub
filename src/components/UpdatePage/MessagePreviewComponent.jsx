@@ -3,6 +3,10 @@ import { FaWhatsapp } from 'react-icons/fa';
 import { MdInfo, MdRefresh } from 'react-icons/md';
 
 function MessagePreviewComponent({ message, onGetMessage }) {
+  const whatsappUrl = message.trim()
+    ? `https://wa.me/?text=${encodeURIComponent(message)}`
+    : '';
+
   return (
     <div className="message-preview">
       <div className="message-preview__header">
@@ -25,9 +29,19 @@ function MessagePreviewComponent({ message, onGetMessage }) {
           <p className="message-preview__info-desc">Data historis tetap tersimpan dan dapat dilihat di menu update history.</p>
         </div>
       </div>
-      <button className="message-preview__copy-button">
-                Salin ke WhatsApp
-      </button>
+      {whatsappUrl ? (
+        <a
+          className="message-preview__send-button"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer">
+          <FaWhatsapp /> Kirim ke WhatsApp
+        </a>
+      ) : (
+        <button type="button" className="message-preview__send-button" disabled>
+          <FaWhatsapp /> Kirim ke WhatsApp
+        </button>
+      )}
     </div>
   );
 }

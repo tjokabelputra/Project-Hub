@@ -7,10 +7,10 @@
     table-layout: fixed;
     border-collapse: collapse;
     color: var(--text-primary);
+    font-size: 14px;
 }
 
 .history-list-table__header {
-    font-size: 16px;
     font-weight: bold;
     background: var(--background);
 }
@@ -22,32 +22,37 @@
 
 .history-list-table__header td:nth-child(1),
 .history-list-table__body td:nth-child(1) {
-    width: 11%;
+    width: 10%;
     text-align: center;
 }
 
 .history-list-table__header td:nth-child(2),
 .history-list-table__body td:nth-child(2) {
-    width: 21%;
+    width: 17%;
 }
 
 .history-list-table__header td:nth-child(3),
 .history-list-table__body td:nth-child(3) {
-    width: 21%;
+    width: 17%;
 }
 
 .history-list-table__header td:nth-child(4),
 .history-list-table__body td:nth-child(4) {
-    width: 21%;
+    width: 17%;
 }
 
 .history-list-table__header td:nth-child(5),
 .history-list-table__body td:nth-child(5) {
-    width: 21%;
+    width: 17%;
 }
 
 .history-list-table__header td:nth-child(6),
 .history-list-table__body td:nth-child(6) {
+    width: 17%;
+}
+
+.history-list-table__header td:nth-child(7),
+.history-list-table__body td:nth-child(7) {
     width: 5%;
     text-align: center;
 }

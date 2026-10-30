@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaChevronDown } from 'react-icons/fa';
 
-function DropdownInputComponent({ options, value, onValueChange, id, label, placeholder }) {
+function DropdownInputComponent({ options, value, onValueChange, id, label, placeholder, disabled = false, accentValue = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
@@ -34,14 +34,17 @@ function DropdownInputComponent({ options, value, onValueChange, id, label, plac
         id={id}
         type="button"
         className={ `dropdown-input__control ${ isOpen ? 'dropdown-input__control--open' : '' }`}
+        disabled={disabled}
         onClick={() => setIsOpen((previous) => !previous)}>
-        <p className={selectedOptions ? 'dropdown-input__value' : 'dropdown-input__placeholder'}>
+        <p className={selectedOptions
+          ? `dropdown-input__value ${accentValue ? 'dropdown-input__value--accent' : ''}`
+          : 'dropdown-input__placeholder'}>
           {selectedOptions?.value ?? placeholder}
         </p>
         <FaChevronDown className={`dropdown-input__icon ${isOpen ? 'dropdown-input__icon-open' : ''}`} />
       </button>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <ul className="dropdown-input__list">
           {options.map((option) => {
             const isSelected = String(option.value) === String(value);
@@ -77,6 +80,8 @@ DropdownInputComponent.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  accentValue: PropTypes.bool,
 };
 
 export default DropdownInputComponent;

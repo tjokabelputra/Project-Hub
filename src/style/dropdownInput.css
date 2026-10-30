@@ -30,6 +30,15 @@
     color: var(--text-tertiary);
 }
 
+.dropdown-input__value--accent {
+    color: var(--text-primary);
+}
+
+.dropdown-input > button:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
 .dropdown-input__icon-open {
     rotate: 180deg;
 }
