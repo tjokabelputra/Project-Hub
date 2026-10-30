@@ -17,8 +17,6 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
   const units = useSelector((states) => states.units);
   const dispatch = useDispatch();
 
-  console.log(isEdit);
-
   const {
     code, onCodeChange, onCodeSelected,
     name, onNameChange,

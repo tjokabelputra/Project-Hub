@@ -32,9 +32,7 @@ function ProjectDetailModal({ project, onClose }) {
         <div className="project-detail-modal__stages">
           <p className="project-detail-modal__label">Tahapan Project</p>
           <ProjectStagesTable
-            preCommittee={project.preCommittee}
-            committeeTIB={project.committeeTIB}
-            committeeTIA={project.committeeTIA}/>
+            stageHistory={project.stageHistory}/>
         </div>
         <div className="project-detail-modal__documents">
           <p className="project-detail-modal__label">Dokumen Project</p>

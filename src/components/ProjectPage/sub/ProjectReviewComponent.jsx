@@ -9,15 +9,9 @@ import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit }) {
   const {
-    preCommitteeDate, preCommitteeStatus, preCommitteeNote, committeeBDate, committeeBStatus, committeeBNote,
-    committeeADate, committeeAStatus, committeeANote, supportingDocuments
+    projectType, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
+    currentStage, stagesHistory, supportingDocuments
   } = newProject;
-
-  console.log(newProject);
-
-  const preCommittee = { date: preCommitteeDate, status: preCommitteeStatus, notes: preCommitteeNote };
-  const committeeTIB = { date: committeeBDate, status: committeeBStatus, notes: committeeBNote };
-  const committeeTIA = { date: committeeADate, status: committeeAStatus, notes: committeeANote };
 
   return (
     <div className="project-input-layout__second">
@@ -33,9 +27,7 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
             <div className="project-review__project-steps">
               <p>Tahapan Project</p>
               <ProjectStagesTable
-                preCommittee={preCommittee}
-                committeeTIB={committeeTIB}
-                committeeTIA={committeeTIA}/>
+                stageHistory={stagesHistory}/>
             </div>
             <div className="project-review__project-docs">
               <p>Dokumen Pendukung</p>

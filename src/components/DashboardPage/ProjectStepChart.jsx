@@ -2,17 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const stages = [
-  { key: 'preCommittee', name: 'Pra Komite' },
-  { key: 'committeeTIB', name: 'Komite TI B' },
-  { key: 'committeeTIA', name: 'Komite TI A' },
-];
+const stages = ['Inisiasi', 'Pra Komite', 'Komite TI B', 'Komite TI A', 'Completed'];
 
 function ProjectStepChart({ projects }) {
   const chartData = [
     { stage: 'Inisiasi', progress: 0, completed: 0, onHold: 0 },
-    ...stages.map(({ name }) => ({
-      stage: name,
+    ...stages.slice(1, -1).map((stage) => ({
+      stage,
       progress: 0,
       completed: 0,
       onHold: 0,
@@ -21,17 +17,7 @@ function ProjectStepChart({ projects }) {
   ];
 
   projects.forEach((project) => {
-    const allStagesCompleted = stages.every(
-      ({ key }) => project[key]?.status === 'Completed',
-    );
-
-    const activeStage = [...stages]
-      .reverse()
-      .find(({ key }) => project[key]?.status === 'On Progress');
-
-    const stageName = allStagesCompleted
-      ? 'Completed'
-      : activeStage?.name ?? 'Inisiasi';
+    const stageName = project.currentStage || 'Inisiasi';
 
     const stageData = chartData.find(
       (item) => item.stage === stageName,

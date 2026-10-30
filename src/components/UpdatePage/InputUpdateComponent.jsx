@@ -5,7 +5,7 @@ import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
 import { dummyProjectStatus } from '../../data/dummy.js';
 import { BiRecycle } from 'react-icons/bi';
 import { FaEdit, FaPlus } from 'react-icons/fa';
-import { areInputsValid } from '../../util/util.js';
+import { areInputsValid, formatDate } from '../../util/util.js';
 
 function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCreateUpdate, onEditUpdate }) {
   const {
@@ -54,10 +54,10 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
             disabled={true} />
           <GeneralInputComponent
             id="finish"
-            type="date"
+            type="text"
             label="Tanggal Penyelesaian"
             placeholder=""
-            value={finishDate}
+            value={finishDate ? formatDate(finishDate) : ''}
             onChange={onFinishDateChange}
             disabled={true} />
           <div className="input-update__wide">

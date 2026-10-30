@@ -19,7 +19,7 @@
 }
 
 .priority-project-card__info{
-    padding-block: 12px;
+    padding-block: 8px;
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -30,7 +30,7 @@
 
 .priority-project-card__name {
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -41,5 +41,6 @@
     border-radius: 8px;
     color: var(--danger);
     white-space: nowrap;
+    font-size: 14px;
     font-weight: bold;
 }

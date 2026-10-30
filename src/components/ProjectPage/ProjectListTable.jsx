@@ -49,21 +49,6 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
     setSelectedProject(project);
   };
 
-  const projectStep = (project) => {
-    if (project.committeeTIA.status === 'On Progress') {
-      return 'Komite TI A';
-    }
-    else if (project.committeeTIB.status === 'On Progress') {
-      return 'Komite TI B';
-    }
-    else if (project.preCommittee.status === 'On Progress') {
-      return 'Pra Komite';
-    }
-    else {
-      return 'Inisiasi';
-    }
-  };
-
   return (
     <div className="project-list-layout">
       <table className="project-list-table">
@@ -84,7 +69,7 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
               <td className="project-list-table__name">{project.name}</td>
               <td>{project.code}</td>
               <td className={`project-list-table__status project-list-table__status-${project.status.toLowerCase().replace(/\s+/g, '_')}`}><p>{formatStatus(project.status)}</p></td>
-              <td>{projectStep(project)}</td>
+              <td>{project.currentStage}</td>
               <td className="project-list-table__action">
                 <div className="project-list-table__action-buttons">
                   <button

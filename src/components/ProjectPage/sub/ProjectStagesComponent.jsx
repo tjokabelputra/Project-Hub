@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
@@ -6,23 +6,38 @@ import StagesInputComponent from '../StagesInputComponent.jsx';
 import DocumentListComponent from '../DocumentListComponent.jsx';
 import { LuCloudUpload } from 'react-icons/lu';
 import PageFooterComponent from '../PageFooterComponent.jsx';
+import ProjectStagesTable from '../ProjectStagesTable.jsx';
+import useInput from '../../../hooks/useInput.js';
 
-function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, onPreviousPage, onNextPage }) {
-  const {
-    preCommitteeDate, onPreCommitteeDateChange, preCommitteeStatus, setPreCommitteeStatus, preCommitteeNote, onPreCommitteeNoteChange,
-    committeeBDate, onCommitteeBDateChange, committeeBStatus, setCommitteeBStatus, committeeBNote, onCommitteeBNoteChange,
-    committeeADate, onCommitteeADateChange, committeeAStatus, setCommitteeAStatus, committeeANote, onCommitteeANoteChange,
-    supportingDocuments, setSupportingDocuments
-  } = projectStatusDocs;
-
-  const listInputs = [preCommitteeDate, preCommitteeStatus, preCommitteeNote,
-    committeeBDate, committeeBStatus, committeeBNote,
-    committeeADate, committeeAStatus, committeeANote];
-
+function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setStagesHistory, supportingDocuments, setSupportingDocuments, onPreviousPage, onNextPage }) {
   const fileInputRef = useRef(null);
+  const [stage, setStage] = useState('');
+  const [date, onDateChange, setDate] = useInput('');
+  const [status, setStatus] = useState('');
+  const [notes, onNoteChange, setNotes] = useInput('');
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
+  };
+
+  const handleAddStages = () => {
+    const newStages = {
+      id: `STG-${+new Date()}`,
+      stage: stage,
+      date: date,
+      status: status,
+      notes: notes
+    };
+
+    setStagesHistory((prev) => [
+      ...prev,
+      newStages
+    ]);
+
+    setStage('');
+    setDate('');
+    setStatus('');
+    setNotes('');
   };
 
   const handleFileChange = (event) => {
@@ -50,8 +65,12 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, o
     );
   };
 
+  const handleDeleteStage = (id) => {
+    setStagesHistory((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
-    <div className="project-input-layout__second">
+    <div className="project-input-layout__first">
       <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
       <div className="project-stages__main">
         <PageIndicatorComponent currentPage={pageIndex} />
@@ -59,35 +78,20 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, o
           <div className="project-stages__input-section">
             <div className="project-stages__input-stages">
               <p>Informasi Tahapan</p>
-              <div className="project-stages__stages">
-                <StagesInputComponent
-                  id="pre-committee"
-                  stage="Pra Komite"
-                  date={preCommitteeDate}
-                  onDateChange={onPreCommitteeDateChange}
-                  status={preCommitteeStatus}
-                  onStatusChange={setPreCommitteeStatus}
-                  note={preCommitteeNote}
-                  onNoteChange={onPreCommitteeNoteChange} />
-                <StagesInputComponent
-                  id="committee-ti-b"
-                  stage="Komite TI B"
-                  date={committeeBDate}
-                  onDateChange={onCommitteeBDateChange}
-                  status={committeeBStatus}
-                  onStatusChange={setCommitteeBStatus}
-                  note={committeeBNote}
-                  onNoteChange={onCommitteeBNoteChange}/>
-                <StagesInputComponent
-                  id="committee-ti-a"
-                  stage="Komite TI A"
-                  date={committeeADate}
-                  onDateChange={onCommitteeADateChange}
-                  status={committeeAStatus}
-                  onStatusChange={setCommitteeAStatus}
-                  note={committeeANote}
-                  onNoteChange={onCommitteeANoteChange}/>
-              </div>
+              <StagesInputComponent
+                stage={stage}
+                onStageChange={setStage}
+                date={date}
+                onDateChange={onDateChange}
+                status={status}
+                onStatusChange={setStatus}
+                notes={notes}
+                onNoteChange={onNoteChange}
+                onAddStage={handleAddStages}/>
+              <ProjectStagesTable
+                stageHistory={stagesHistory}
+                isDeletable={true}
+                onDeleteStage={handleDeleteStage} />
             </div>
             <div className="project-stages__input-documents">
               <p>Upload Dokumen Pendukung (Opsional)</p>
@@ -122,7 +126,7 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, o
           </div>
         </div>
         <PageFooterComponent
-          listInputs={listInputs}
+          listInputs={stagesHistory}
           onPreviousPage={onPreviousPage}
           onNextPage={onNextPage} />
       </div>
@@ -133,7 +137,6 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, projectStatusDocs, o
 ProjectStagesComponent.propTypes = {
   onBackPressed: PropTypes.func.isRequired,
   pageIndex: PropTypes.number.isRequired,
-  projectStatusDocs: PropTypes.object.isRequired,
   onPreviousPage: PropTypes.func.isRequired,
   onNextPage: PropTypes.func.isRequired,
 };

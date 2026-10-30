@@ -38,6 +38,10 @@
     height: 100%;
 }
 
+.dashboard-page__chart-item > * {
+    height: 100%;
+}
+
 .dashboard-page__chart-item--wide {
     grid-column: span 2;
 }

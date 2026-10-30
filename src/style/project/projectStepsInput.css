@@ -5,36 +5,25 @@
     border: 2px solid var(--border);
     border-radius: 8px;
 }
-
-.stages-input__header {
-    padding-block: 16px;
-    padding-inline: 24px;
-    font-size: 20px;
-    font-weight: bold;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-}
-
-.stages-input__header-pre-committee {
-    color: var(--danger);
-    background: var(--danger-surface);
-}
-
-.stages-input__header-committee-ti-b {
-    color: var(--success);
-    background: var(--success-surface);
-}
-
-.stages-input__header-committee-ti-a {
-    color: var(--primary);
-    background: var(--primary-surface);
-}
-
 .stages-input__input-section {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     padding: 16px;
+}
+
+.stages-input__input-section > .general-input:last-child {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .stages-input__input-section {
+        grid-template-columns: 1fr;
+    }
+
+    .stages-input__input-section > .general-input:last-child {
+        grid-column: auto;
+    }
 }
 
 .project-stages__upload-doc {
@@ -75,4 +64,31 @@
 .project-stages__upload-info p:last-child {
     color: var(--text-tertiary);
     font-size: 12px;
+}
+
+.stages-input__action {
+    display: flex;
+    justify-content: end;
+    padding-block: 8px;
+    padding-inline: 16px;
+}
+
+.stages-input__action button {
+    padding-block: 8px;
+    padding-inline: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.stages-input__add-disabled {
+    background: var(--surface-secondary);
+    border: 2px solid var(--border);
+    color: var(--text-tertiary);
+}
+
+.stages-input__add {
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    color: var(--text-secondary);
 }

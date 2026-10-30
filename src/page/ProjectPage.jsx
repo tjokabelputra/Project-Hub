@@ -23,15 +23,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   const [owner, onOwnerChange, setOwner] = useInput('');
   const [projectDate, onProjectDateChange, setProjectDate] = useInput('');
   const [targetGoLive, onTargetDateChange, setTargetDate] = useInput('');
-  const [preCommitteeDate, onPreCommitteeDateChange, setPreCommitteeDate] = useInput('');
-  const [preCommitteeStatus, setPreCommitteeStatus] = useState('');
-  const [preCommitteeNote, onPreCommitteeNoteChange, setPreCommitteeNote] = useInput('');
-  const [committeeBDate, onCommitteeBDateChange, setCommitteeBDate] = useInput('');
-  const [committeeBStatus, setCommitteeBStatus] = useState('');
-  const [committeeBNote, onCommitteeBNoteChange, setCommitteeBNote] = useInput('');
-  const [committeeADate, onCommitteeADateChange, setCommitteeADate] = useInput('');
-  const [committeeAStatus, setCommitteeAStatus] = useState('');
-  const [committeeANote, onCommitteeANoteChange, setCommitteeANote] = useInput('');
+  const [currentStage, setCurrentStage] = useState('');
+  const [stagesHistory, setStagesHistory] = useState([]);
   const [supportingDocuments, setSupportingDocuments] = useState([]);
 
   const projectFormat = {
@@ -48,21 +41,11 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     owner: owner,
     projectDate: projectDate,
     targetGoLive: targetGoLive,
-    preCommittee: {
-      date: preCommitteeDate,
-      status: preCommitteeStatus,
-      notes: preCommitteeNote
-    },
-    committeeTIB: {
-      date: committeeBDate,
-      status: committeeBStatus,
-      notes: committeeBNote
-    },
-    committeeTIA: {
-      date: committeeADate,
-      status: committeeAStatus,
-      notes: committeeANote
-    },
+    currentStage: stagesHistory.at(-1)?.stage === 'Komite TI A'
+      && stagesHistory.at(-1)?.status === 'Accepted'
+      ? 'Completed'
+      : stagesHistory.at(-1)?.stage ?? currentStage,
+    stageHistory: stagesHistory,
     supportingDocuments: supportingDocuments
   };
 
@@ -80,15 +63,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     setOwner('');
     setProjectDate('');
     setTargetDate('');
-    setPreCommitteeDate('');
-    setPreCommitteeStatus('');
-    setPreCommitteeNote('');
-    setCommitteeBDate('');
-    setCommitteeBStatus('');
-    setCommitteeBNote('');
-    setCommitteeADate('');
-    setCommitteeAStatus('');
-    setCommitteeANote('');
+    setCurrentStage('');
+    setStagesHistory([]);
     setSupportingDocuments([]);
   };
 
@@ -106,15 +82,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     setOwner(project.owner);
     setProjectDate(project.projectDate);
     setTargetDate(project.targetGoLive);
-    setPreCommitteeDate(project.preCommittee.date);
-    setPreCommitteeStatus(project.preCommittee.status);
-    setPreCommitteeNote(project.preCommittee.notes);
-    setCommitteeBDate(project.committeeTIB.date);
-    setCommitteeBStatus(project.committeeTIB.status);
-    setCommitteeBNote(project.committeeTIB.notes);
-    setCommitteeADate(project.committeeTIA.date);
-    setCommitteeAStatus(project.committeeTIA.status);
-    setCommitteeANote(project.committeeTIA.notes);
+    setCurrentStage(project.currentStage);
+    setStagesHistory(project.stageHistory);
     setSupportingDocuments(project.supportingDocuments);
   };
 
@@ -173,17 +142,9 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     targetGoLive, onTargetDateChange
   };
 
-  const projectStatusDocsInfo = {
-    preCommitteeDate, onPreCommitteeDateChange, preCommitteeStatus, setPreCommitteeStatus, preCommitteeNote, onPreCommitteeNoteChange,
-    committeeBDate, onCommitteeBDateChange, committeeBStatus, setCommitteeBStatus, committeeBNote, onCommitteeBNoteChange,
-    committeeADate, onCommitteeADateChange, committeeAStatus, setCommitteeAStatus, committeeANote, onCommitteeANoteChange,
-    supportingDocuments, setSupportingDocuments
-  };
-
   const newProject = {
     projectType, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
-    preCommitteeDate, preCommitteeStatus, preCommitteeNote, committeeBDate, committeeBStatus, committeeBNote,
-    committeeADate, committeeAStatus, committeeANote, supportingDocuments
+    currentStage, stagesHistory, supportingDocuments
   };
 
   const addNewProject = () => {
@@ -234,7 +195,10 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
         <ProjectStagesComponent
           onBackPressed={onBackPressed}
           pageIndex={pageIndex}
-          projectStatusDocs={projectStatusDocsInfo}
+          stagesHistory={stagesHistory}
+          setStagesHistory={setStagesHistory}
+          supportingDocuments={supportingDocuments}
+          setSupportingDocuments={setSupportingDocuments}
           onPreviousPage={prevPage}
           onNextPage={nextPage}/>
       )}
