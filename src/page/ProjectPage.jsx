@@ -27,8 +27,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   const [stagesHistory, setStagesHistory] = useState([]);
   const [supportingDocuments, setSupportingDocuments] = useState([]);
 
+  //Format object for api request body
   const projectFormat = {
-    id: id,
     code: code,
     name: name,
     description: description,
@@ -41,14 +41,11 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     owner: owner,
     projectDate: projectDate,
     targetGoLive: targetGoLive,
-    currentStage: stagesHistory.at(-1)?.stage === 'Komite TI A'
-      && stagesHistory.at(-1)?.status === 'Accepted'
-      ? 'Completed'
-      : stagesHistory.at(-1)?.stage ?? currentStage,
-    stageHistory: stagesHistory,
+    stagesHistory: stagesHistory,
     supportingDocuments: supportingDocuments
   };
 
+  //Reset input
   const resetInput = () => {
     setId('');
     setType('');
@@ -68,6 +65,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     setSupportingDocuments([]);
   };
 
+  //Selecting project for edit
   const setProject = (project) => {
     setId(project.id);
     setType(project.projectType);
@@ -83,7 +81,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     setProjectDate(project.projectDate);
     setTargetDate(project.targetGoLive);
     setCurrentStage(project.currentStage);
-    setStagesHistory(project.stageHistory);
+    setStagesHistory(project.stagesHistory);
     setSupportingDocuments(project.supportingDocuments);
   };
 
@@ -118,12 +116,12 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
 
   const onCodeSelected = (code) => {
     const project = projects.find(
-      (project) => String(project.id) === String(code)
+      (project) => String(project.code) === String(code)
     );
 
     if (!project) return;
 
-    setCode(project.id);
+    setCode(project.code);
     setName(project.name);
     setDesc(project.description);
   };
@@ -147,16 +145,32 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     currentStage, stagesHistory, supportingDocuments
   };
 
-  const addNewProject = () => {
-    setId(`ID-${+new Date()}`);
-    onAddProject(projectFormat);
-    setPageIndex(0);
+  const addNewProject = async () => {
+    try {
+      await onAddProject(projectFormat);
+      setPageIndex(0);
+      resetInput();
+    }
+    catch (error) {
+      alert(error.message || 'Failed to add project.');
+    }
   };
 
   const editProject = () => {
-    onSubmitEdit(projectFormat);
-    setPageIndex(0);
-    setIsEdit(false);
+    const updatedProject = {
+      id: id,
+      currentStage: currentStage,
+      ...projectFormat
+    };
+    try {
+      onSubmitEdit(updatedProject);
+      setPageIndex(0);
+      setIsEdit(false);
+      resetInput();
+    }
+    catch (error) {
+      alert(error.message || 'Failed to add project.');
+    }
   };
 
   return (

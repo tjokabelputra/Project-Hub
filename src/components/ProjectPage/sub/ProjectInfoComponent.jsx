@@ -77,8 +77,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     label="Kode Project"
                     placeholder="PRJ-XXX"
                     options={projects}
-                    optionsId="id"
-                    optionsValue="id"
+                    optionsId="code"
+                    optionsValue="code"
                     value={code}
                     onValueChange={onCodeSelected}
                     disabled={isEdit}/>
@@ -128,8 +128,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Nama PM"
                   placeholder="Masukan Nama PM"
                   options={pms}
-                  optionsId="id"
-                  optionsValue="value"
+                  optionsId="name"
+                  optionsValue="name"
                   value={pm}
                   onValueChange={setPM}/>
                 <SearchableSelectComponent
@@ -137,8 +137,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Nama BP"
                   placeholder="Masukan Nama BP"
                   options={bps}
-                  optionsId="id"
-                  optionsValue="value"
+                  optionsId="name"
+                  optionsValue="name"
                   value={bp}
                   onValueChange={setBP}/>
                 <SearchableSelectComponent

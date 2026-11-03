@@ -18,14 +18,14 @@ function InputUpdatePage({ projects }) {
 
   const [id, setId] = useState('');
   const [date, onDateChange, setDate] = useInput('');
-  const [project, setProject] = useState('');
+  const [name, setName] = useState('');
   const [status, setStatus] = useState('');
-  const [owner, onOwnerChange, setOwner] = useInput('');
+  const [pic, onPicChange, setPic] = useInput('');
   const [activity, onActivityChange, setActivity] = useInput('');
   const [progress, onProgressChange, setProgress] = useInput('');
   const [issue, onIssueChange, setIssue] = useInput('');
-  const [action, onActionChange, setAction] = useInput('');
-  const [finishDate, onFinishDateChange, setFinishDate] = useInput('');
+  const [nextStep, onNextStepChange, setNextStep] = useInput('');
+  const [deadline, onDeadlineChange, setDeadline] = useInput('');
 
   const [message, setMessage] = useState('');
 
@@ -34,65 +34,70 @@ function InputUpdatePage({ projects }) {
   }, [dispatch]);
 
   const onProjectChange = (projectName) => {
-    setProject(projectName);
+    setName(projectName);
 
     const selectedProject = projects.find((item) => item.name === projectName);
 
     if (!selectedProject) return;
 
     setStatus(selectedProject.status ?? '');
-    setOwner(selectedProject.owner ?? '');
-    setFinishDate(selectedProject.targetGoLive ?? '');
+    setPic(selectedProject.owner ?? '');
+    setDeadline(selectedProject.targetGoLive ?? '');
   };
 
   const updateInfo = {
-    date, onDateChange, project, onProjectChange, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
-    progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
+    date, onDateChange, project: name, onProjectChange, status, setStatus, owner: pic, onOwnerChange: onPicChange, activity, onActivityChange,
+    progress, onProgressChange, issue, onIssueChange, action: nextStep, onActionChange: onNextStepChange, finishDate: deadline, onFinishDateChange: onDeadlineChange
   };
 
   const formatInput = {
-    id: (id === '' ? `update-${+new Date()}` : id),
+    id: (id === '' ? null : id),
     date: date,
-    project: project,
+    name: name,
     status: status,
-    pic: (owner !== '' ? owner : null),
+    pic: pic,
     activity: activity,
     progress: progress,
     issue: issue,
-    nextStep: action,
-    deadline: (finishDate !== '' ? finishDate : null),
+    nextStep: nextStep,
+    deadline: deadline,
   };
 
   const onResetInput = () => {
     setIsEdit(false);
     setDate('');
-    setProject('');
+    setName('');
     setStatus('');
-    setOwner('');
+    setPic('');
     setActivity('');
     setProgress('');
     setIssue('');
-    setAction('');
-    setFinishDate('');
+    setNextStep('');
+    setDeadline('');
   };
 
-  const onCreateUpdate = () => {
-    dispatch(asyncAddUpdate(formatInput));
-    onResetInput();
+  const onCreateUpdate = async () => {
+    try {
+      await dispatch(asyncAddUpdate(formatInput));
+      onResetInput();
+    }
+    catch (error) {
+      console.error('Failed to create update:', error);
+    }
   };
 
   const onPreviewUpdate = (update) => {
     setIsEdit(true);
     setId(update.id);
     setDate(update.date);
-    setProject(update.project);
+    setName(update.name);
     setStatus(update.status);
-    setOwner(update.pic ?? '');
+    setPic(update.pic ?? '');
     setActivity(update.activity);
     setProgress(update.progress);
     setIssue(update.issue);
-    setAction(update.nextStep);
-    setFinishDate(update.deadline ?? '');
+    setNextStep(update.nextStep);
+    setDeadline(update.deadline ?? '');
 
     if (isViewAll) {
       setIsViewAll(false);
@@ -104,8 +109,13 @@ function InputUpdatePage({ projects }) {
   };
 
   const onEditUpdate = () => {
-    dispatch(asyncEditUpdate(formatInput));
-    onResetInput();
+    try {
+      dispatch(asyncEditUpdate(formatInput));
+      onResetInput();
+    }
+    catch (error) {
+      console.error('Failed to edit update:', error);
+    }
   };
 
   const onViewAllHistory = () => {
@@ -117,7 +127,7 @@ function InputUpdatePage({ projects }) {
   };
 
   const generateUpdateObject = () => {
-    return { date, project, status, owner, activity, progress, issue, action, finishDate };
+    return { date, project: name, status, owner: pic, activity, progress, issue, action: nextStep, finishDate: deadline };
   };
 
   const onGetMessage = () => {

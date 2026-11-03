@@ -1,4 +1,4 @@
-import mockAPI from '../../data/mockAPI.js';
+import api from '../../util/api.js';
 
 const ActionType = {
   ADD_PROJECT: 'ADD_PROJECT',
@@ -56,39 +56,39 @@ function restoreProjectActionCreator({ index, project }) {
 
 function asyncAddProject(project) {
   return async (dispatch) => {
-    dispatch(addProjectActionCreator(project));
-
     try {
-      await mockAPI.addProject(project);
+      const newProjects = await api.addProject(project);
+      dispatch(addProjectActionCreator(newProjects));
+
+      return newProjects;
     }
     catch (error) {
-      alert(error.messsage);
-      dispatch(deleteProjectActionCreator(project.id));
+      alert(error.message);
+      throw error;
     }
   };
 }
 
 function asyncGetProjects() {
   return async (dispatch) => {
-    const projects = await mockAPI.getProjects();
-    dispatch(receiveProjectActionCreator(projects));
+    try {
+      const projects = await api.getProjects();
+      dispatch(receiveProjectActionCreator(projects));
+    }
+    catch (error) {
+      alert(error);
+    }
   };
 }
 
 function asyncEditProject(editedProject) {
-  return async (dispatch, getState) => {
-    const { projects } = getState();
-
-    const oldProject = projects.find((project) => project.id === editedProject.id);
-
-    dispatch(editProjectActionCreator(editedProject));
-
+  return async (dispatch) => {
     try {
-      await mockAPI.editProject(editedProject);
+      const responseProject = await api.editProject(editedProject);
+      dispatch(editProjectActionCreator(responseProject));
     }
     catch (error) {
       alert(error.message);
-      dispatch(editProjectActionCreator(oldProject));
     }
   };
 }
@@ -105,7 +105,7 @@ function asyncDeleteProject(projectId) {
     dispatch(deleteProjectActionCreator(projectId));
 
     try {
-      await mockAPI.deleteProject(projectId);
+      await api.deleteProject(projectId);
     }
     catch (error) {
       alert(error.message);

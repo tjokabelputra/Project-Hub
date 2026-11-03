@@ -21,7 +21,7 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
           {updates.map((update) => (
             <tr key={update.id}>
               <td>{formatDate(update.date)}</td>
-              <td>{update.project}</td>
+              <td>{update.name}</td>
               <td>{update.activity}</td>
               <td>{update.progress}</td>
               <td>{update.issue}</td>
@@ -29,7 +29,6 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
               <td className="history-list-table__action">
                 <div className="history-list-table__action-buttons">
                   <button type="button" onClick={() => onPreviewUpdate(update)}><FaEye /></button>
-                  <button type="button" onClick={() => onDeleteUpdate(update.id)}><FaTrash /></button>
                 </div>
               </td>
             </tr>

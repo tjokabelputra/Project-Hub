@@ -1,5 +1,4 @@
-import '../../data/mockAPI.js';
-import mockAPI from '../../data/mockAPI.js';
+import api from '../../util/api.js';
 
 const ActionType = {
   ADD_UPDATE: 'ADD_UPDATE',
@@ -56,22 +55,28 @@ function restoreUpdateActionCreator(index, update) {
 
 function asyncAddUpdate(update) {
   return async (dispatch) => {
-    dispatch(addUpdateActionCreator(update));
-
     try {
-      await mockAPI.addUpdate(update);
+      const newUpdate = await api.addUpdate(update);
+      dispatch(addUpdateActionCreator(newUpdate));
+
+      return newUpdate;
     }
     catch (error) {
       alert(error.message);
-      dispatch(deleteUpdateActionCreator(update.id));
+      throw error;
     }
   };
 }
 
 function asyncGetUpdates() {
   return async (dispatch) => {
-    const updates = await mockAPI.getUpdates();
-    dispatch(receiveUpdatesActionCreator(updates));
+    try {
+      const updates = await api.getUpdates();
+      dispatch(receiveUpdatesActionCreator(updates));
+    }
+    catch (error) {
+      alert(error);
+    }
   };
 }
 
@@ -84,7 +89,7 @@ function asyncEditUpdate(editedUpdate) {
     dispatch(editUpdateActionCreator(editedUpdate));
 
     try {
-      await mockAPI.editUpdate(editedUpdate);
+      await api.editUpdate(editedUpdate);
     }
     catch (error) {
       alert(error.message);
@@ -104,7 +109,7 @@ function asyncDeleteUpdate(updateId) {
 
     dispatch(deleteUpdateActionCreator(updateId));
     try {
-      await mockAPI.deleteUpdate(updateId);
+      await api.deleteUpdate(updateId);
     }
     catch (error) {
       alert(error.message);

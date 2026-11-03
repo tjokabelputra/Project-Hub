@@ -8,11 +8,6 @@ import DocumentListComponent from '../DocumentListComponent.jsx';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit }) {
-  const {
-    projectType, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
-    currentStage, stagesHistory, supportingDocuments
-  } = newProject;
-
   return (
     <div className="project-input-layout__second">
       <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
@@ -27,13 +22,13 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
             <div className="project-review__project-steps">
               <p>Tahapan Project</p>
               <ProjectStagesTable
-                stageHistory={stagesHistory}/>
+                stageHistory={newProject.stagesHistory}/>
             </div>
             <div className="project-review__project-docs">
               <p>Dokumen Pendukung</p>
               <DocumentListComponent
                 actionable={false}
-                supportingDocuments={supportingDocuments} />
+                supportingDocuments={newProject.supportingDocuments} />
             </div>
           </div>
         </div>

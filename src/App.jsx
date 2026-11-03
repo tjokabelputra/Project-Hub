@@ -20,8 +20,13 @@ function App() {
     dispatch(asyncDeleteProject(projectId));
   };
 
-  const onAddProject = (project) => {
-    dispatch(asyncAddProject(project));
+  const onAddProject = async (project) => {
+    try {
+      await dispatch(asyncAddProject(project));
+    }
+    catch (error) {
+      throw error;
+    }
   };
 
   const onSubmitEdit = (project) => {

@@ -56,3 +56,17 @@ body {
     overflow-y: auto;
     background: var(--background);
 }
+
+.loading-spinner {
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spinner-rotate 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}

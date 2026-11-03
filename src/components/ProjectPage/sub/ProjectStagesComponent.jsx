@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import api from '../../../util/api.js';
 import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import StagesInputComponent from '../StagesInputComponent.jsx';
@@ -8,9 +9,12 @@ import { LuCloudUpload } from 'react-icons/lu';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 import ProjectStagesTable from '../ProjectStagesTable.jsx';
 import useInput from '../../../hooks/useInput.js';
+import LoadingSpinner from '../../LoadingSpinner.jsx';
 
 function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setStagesHistory, supportingDocuments, setSupportingDocuments, onPreviousPage, onNextPage }) {
   const fileInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [deletingObjectKeys, setDeletingObjectKeys] = useState([]);
   const [stage, setStage] = useState('');
   const [date, onDateChange, setDate] = useInput('');
   const [status, setStatus] = useState('');
@@ -22,7 +26,6 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
 
   const handleAddStages = () => {
     const newStages = {
-      id: `STG-${+new Date()}`,
       stage: stage,
       date: date,
       status: status,
@@ -40,29 +43,53 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
     setNotes('');
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
 
     if (!selectedFile) return;
 
-    const newDocument = {
-      id: `COD-${+new Date()}`,
-      name: selectedFile.name,
-      size: selectedFile.size
-    };
-
-    setSupportingDocuments((prev) => [
-      ...prev,
-      newDocument
-    ]);
-
     event.target.value = '';
+    setIsUploading(true);
+
+    try {
+      const uploadedDocument = await api.uploadDocuments(selectedFile);
+
+      setSupportingDocuments((prev) => [
+        ...prev,
+        {
+          name: uploadedDocument.name,
+          size: uploadedDocument.size,
+          objectKey: uploadedDocument.objectKey,
+          contentType: uploadedDocument.contentType
+        }
+      ]);
+    }
+    catch (error) {
+      console.error(error);
+      alert(`Gagal mengupload ${selectedFile.name}: ${error.message}`);
+    }
+    finally {
+      setIsUploading(false);
+    }
   };
 
-  const handleDeleteDocument = (id) => {
-    setSupportingDocuments((prev) =>
-      prev.filter((document) => document.id !== id)
-    );
+  const handleDeleteDocument = async (objectKey) => {
+    console.log(objectKey)
+    try {
+      await api.deleteDocument(objectKey);
+      setSupportingDocuments((prev) =>
+        prev.filter((document) => document.objectKey !== objectKey)
+      );
+    }
+    catch (error) {
+      console.error(error);
+      alert(`Gagal menghapus: ${error.message}`);
+    }
+    finally {
+      setDeletingObjectKeys((prev) =>
+        prev.filter((key) => key !== objectKey)
+      );
+    }
   };
 
   const handleDeleteStage = (id) => {
@@ -99,27 +126,41 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
                 <DocumentListComponent
                   supportingDocuments={supportingDocuments}
                   isDelete={true}
-                  onDeleteDocuments={handleDeleteDocument}/>
+                  onDeleteDocuments={handleDeleteDocument}
+                  deletingObjectKeys={deletingObjectKeys}/>
               </div>
               <div>
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept=".pdf,.doc,.xlsx,.jpg,.jpeg,.png"
+                  accept=".pdf,.doc,.xlsx"
                   hidden
-                  onChange={handleFileChange}/>
+                  disabled={isUploading}
+                  onChange={handleFileChange}
+                />
+
                 <div
                   className="project-stages__upload-doc"
-                  onClick={handleUploadClick}
+                  onClick={!isUploading ? handleUploadClick : undefined}
                   role="button"
-                  tabIndex={0}>
-                  <div className="project-stages__upload-icon">
-                    <LuCloudUpload />
-                  </div>
-                  <div className="project-stages__upload-info">
-                    <p>Klik untuk upload</p>
-                    <p>Format: PDF, DOC, XLSX, JPG, PNG</p>
-                  </div>
+                  tabIndex={0}
+                >
+                  {isUploading ? (
+                    <>
+                      <LoadingSpinner size={28} />
+                      <p>Mengupload dokumen...</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="project-stages__upload-icon">
+                        <LuCloudUpload />
+                      </div>
+                      <div className="project-stages__upload-info">
+                        <p>Klik untuk upload</p>
+                        <p>Format: PDF, DOC, XLSX</p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

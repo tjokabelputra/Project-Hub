@@ -46,6 +46,6 @@
 }
 
 .document-list__download, .document-list__delete {
-    font-size: 24px;
+    font-size: 18px;
     color: var(--primary);
 }

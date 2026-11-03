@@ -82,11 +82,6 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
                     onClick={() => onEditProject(project.id)}>
                     <FaPencil />
                   </button>
-                  <button
-                    className="project-list-table__action-delete"
-                    onClick={() => onDeleteProject(project.id)}>
-                    <FaTrash />
-                  </button>
                 </div>
               </td>
             </tr>

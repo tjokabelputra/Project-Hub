@@ -74,7 +74,3 @@
 .history-list-table__action-buttons button:first-child {
     color: var(--primary);
 }
-
-.history-list-table__action-buttons button:last-child {
-    color: var(--danger);
-}
