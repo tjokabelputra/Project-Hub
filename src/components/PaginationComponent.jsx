@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PaginationComponent({ filteredDataLength, tableSize, startIndex, endIndex, currentPage, setCurrentPage }) {
+function PaginationComponent({ type, filteredDataLength, tableSize, startIndex, endIndex, currentPage, setCurrentPage }) {
   const pageCount = Math.ceil(filteredDataLength / tableSize);
   const visiblePageCount = 3;
   const startPage = Math.min(
@@ -22,7 +22,7 @@ function PaginationComponent({ filteredDataLength, tableSize, startIndex, endInd
         {' - '}
         {Math.min(endIndex, filteredDataLength)}
         {' dari '}
-        {filteredDataLength} project
+        {filteredDataLength} {type}
       </p>
       <div className="pagination-component__actions">
         <button

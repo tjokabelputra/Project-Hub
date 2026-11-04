@@ -102,6 +102,7 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
         </tbody>
       </table>
       <PaginationComponent
+        type="Project"
         filteredDataLength={filteredProjects.length}
         tableSize={tableSize}
         startIndex={startIndex}

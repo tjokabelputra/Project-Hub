@@ -1,0 +1,39 @@
+.data-list {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding: 24px;
+    gap: 24px;
+}
+
+.data-list__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.data-list__header h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.data-list__header p {
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+.data-list__header button {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    padding-inline: 16px;
+    padding-block: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+}

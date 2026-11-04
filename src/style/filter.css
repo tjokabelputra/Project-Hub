@@ -1,0 +1,25 @@
+.filter-component {
+    display: flex;
+    gap: 24px;
+    list-style-type: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    margin: 0;
+}
+
+.filter-component li {
+    color: var(--text-primary);
+    padding-bottom: 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-component li:hover {
+    color: var(--primary);
+}
+
+.filter-component li.filter-component__filter-selected {
+    color: var(--primary);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary);
+}

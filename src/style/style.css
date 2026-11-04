@@ -6,6 +6,8 @@
 @import './searchableSelect.css';
 @import './page/updatePage.css';
 @import './pagination.css';
+@import './page/managePage.css';
+@import './filter.css';
 
 :root {
     --surface: #0D1627;

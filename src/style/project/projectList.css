@@ -52,26 +52,3 @@
     font-size: 14px;
     font-weight: bold;
 }
-
-.project-list__filter {
-    display: flex;
-    gap: 24px;
-    list-style-type: none;
-    border-bottom: 1px solid var(--border)
-}
-
-.project-list__filter li {
-    color: var(--text-primary);
-    padding-bottom: 16px;
-    font-size: 14px;
-}
-
-.project-list__filter li:hover {
-    cursor: pointer;
-}
-
-.project-list__filter li.project-list__filter-selected {
-    color: var(--primary);
-    font-weight: bold;
-    border-bottom: 2px solid var(--primary);
-}

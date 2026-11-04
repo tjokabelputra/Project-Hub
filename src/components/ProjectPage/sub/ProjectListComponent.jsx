@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import useInput from '../../../hooks/useInput.js';
 import { FaPlus } from 'react-icons/fa';
 import ProjectListTable from '../ProjectListTable.jsx';
+import FilterComponent from '../../FilterComponent.jsx';
 
 function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProject, onDownloadDocument }) {
   const [filterIndex, setFilterIndex] = useState(0);
@@ -38,14 +39,11 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProje
           <button onClick={nextPage}><FaPlus/> Upload Project</button>
         </div>
       </div>
-      <ul className="project-list__filter">
-        {filters.map((filter, index) => (
-          <li key={filter.label}
-            className={filterIndex === index ? 'project-list__filter-selected' : ''}
-            onClick={() => setFilterIndex(index)}
-          >{filter.label} ({filter.count})</li>
-        ))}
-      </ul>
+      <FilterComponent
+        filters={filters}
+        filterIndex={filterIndex}
+        setFilterIndex={setFilterIndex}
+      />
       <ProjectListTable
         projects={projects}
         filterIndex={filterIndex}
