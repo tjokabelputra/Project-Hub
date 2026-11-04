@@ -259,8 +259,78 @@ const api = (() => {
     return true;
   }
 
+  async function addPm(pm) {
+    const response = await fetch(`${BASE_URL}/pms/add`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        code: pm.code,
+        name: pm.name,
+        email: pm.email
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   async function getPms() {
     const response = await fetch(`${BASE_URL}/pms/all`);
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function editPm(editedPm) {
+    const response = await fetch(`${BASE_URL}/pms/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: editedPm.id,
+        code: editedPm.code,
+        name: editedPm.name,
+        email: editedPm.email
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function addBp(bp) {
+    const response = await fetch(`${BASE_URL}/bps/add`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        code: bp.code,
+        name: bp.name,
+        email: bp.email
+      })
+    });
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -285,6 +355,88 @@ const api = (() => {
     return data;
   }
 
+  async function editBp(editedBp) {
+    const response = await fetch(`${BASE_URL}/bps/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: editedBp.id,
+        code: editedBp.code,
+        name: editedBp.name,
+        email: editedBp.email
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function addUnit(unit) {
+    const response = await fetch(`${BASE_URL}/units/add`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: unit.name,
+        code: unit.code
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function getUnits(){
+    const response = await fetch(`${BASE_URL}/units/all`);
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function editUnit(editedUnit) {
+    const response = await fetch(`${BASE_URL}/units/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: editedUnit.id,
+        name: editedUnit.name,
+        code: editedUnit.code
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   return {
     uploadDocuments,
     getDocument,
@@ -297,8 +449,15 @@ const api = (() => {
     getUpdates,
     editUpdate,
     deleteUpdate,
+    addPm,
     getPms,
-    getBps
+    editPm,
+    addBp,
+    getBps,
+    editBp,
+    addUnit,
+    getUnits,
+    editUnit
   };
 })();
 

@@ -51,6 +51,28 @@
     text-align: center;
 }
 
+.data-list-table--unit thead td:nth-child(1),
+.data-list-table--unit tbody td:nth-child(1) {
+    width: 10%;
+    text-align: center;
+}
+
+.data-list-table--unit thead td:nth-child(2),
+.data-list-table--unit tbody td:nth-child(2) {
+    width: 40%;
+}
+
+.data-list-table--unit thead td:nth-child(3),
+.data-list-table--unit tbody td:nth-child(3) {
+    width: 40%;
+}
+
+.data-list-table--unit thead td:nth-child(4),
+.data-list-table--unit tbody td:nth-child(4) {
+    width: 10%;
+    text-align: center;
+}
+
 .data-list-table__name {
     font-weight: bold;
 }

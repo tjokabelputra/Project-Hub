@@ -7,7 +7,7 @@ import DashboardPage from './page/DashboardPage.jsx';
 import ProjectPage from './page/ProjectPage.jsx';
 import InputUpdatePage from './page/InputUpdatePage.jsx';
 import SidebarComponent from './components/SidebarComponent.jsx';
-import DataManagementPage from "./page/DataManagementPage.jsx";
+import DataManagementPage from './page/DataManagementPage.jsx';
 
 function App() {
   const projects = useSelector((states) => states.projects);
