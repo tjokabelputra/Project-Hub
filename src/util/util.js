@@ -40,12 +40,25 @@ export const areInputsValid = (inputs = []) => {
 
 export function formatUpdatedMessage(update) {
   return [
-    `${update.project} – ${formatDate(update.date)}`,
+    `${update.name} – ${formatDate(update.date)}`,
     `• Progress: ${update.progress || '-'}`,
-    `• Update: ${update.activity || '-'}`,
     `• Issue: ${update.issue || 'Tidak ada kendala'}`,
-    `• Next Action: ${update.action || '-'}`,
-    `• PIC: ${update.owner}`,
-    `• Target: ${update.finishDate ? formatDate(update.finishDate) : '-'}`,
+    `• Next Action: ${update.nextStep || '-'}`,
+    `• PIC: ${update.pic}`,
+    `• Target: ${update.deadline ? formatDate(update.deadline) : '-'}`,
   ].join('\n');
+}
+
+export function formatDateTime(dateTime) {
+  if (!dateTime) return '-';
+
+  return new Date(dateTime).toLocaleString('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).replace(/\./g, ':').replace(',', ',');
 }

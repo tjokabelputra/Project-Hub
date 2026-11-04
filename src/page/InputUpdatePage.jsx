@@ -21,11 +21,11 @@ function InputUpdatePage({ projects }) {
   const [name, setName] = useState('');
   const [status, setStatus] = useState('');
   const [pic, onPicChange, setPic] = useInput('');
-  const [activity, onActivityChange, setActivity] = useInput('');
   const [progress, onProgressChange, setProgress] = useInput('');
   const [issue, onIssueChange, setIssue] = useInput('');
   const [nextStep, onNextStepChange, setNextStep] = useInput('');
   const [deadline, onDeadlineChange, setDeadline] = useInput('');
+  const [documents, setDocuments] = useState([]);
 
   const [message, setMessage] = useState('');
 
@@ -46,8 +46,8 @@ function InputUpdatePage({ projects }) {
   };
 
   const updateInfo = {
-    date, onDateChange, project: name, onProjectChange, status, setStatus, owner: pic, onOwnerChange: onPicChange, activity, onActivityChange,
-    progress, onProgressChange, issue, onIssueChange, action: nextStep, onActionChange: onNextStepChange, finishDate: deadline, onFinishDateChange: onDeadlineChange
+    date, onDateChange, name, onProjectChange, status, setStatus, pic, onPicChange, progress, onProgressChange,
+    issue, onIssueChange, nextStep, onNextStepChange, deadline, onDeadlineChange, documents, setDocuments
   };
 
   const formatInput = {
@@ -56,11 +56,11 @@ function InputUpdatePage({ projects }) {
     name: name,
     status: status,
     pic: pic,
-    activity: activity,
     progress: progress,
     issue: issue,
     nextStep: nextStep,
     deadline: deadline,
+    documents: documents
   };
 
   const onResetInput = () => {
@@ -69,11 +69,11 @@ function InputUpdatePage({ projects }) {
     setName('');
     setStatus('');
     setPic('');
-    setActivity('');
     setProgress('');
     setIssue('');
     setNextStep('');
     setDeadline('');
+    setDocuments([]);
   };
 
   const onCreateUpdate = async () => {
@@ -92,12 +92,12 @@ function InputUpdatePage({ projects }) {
     setDate(update.date);
     setName(update.name);
     setStatus(update.status);
-    setPic(update.pic ?? '');
-    setActivity(update.activity);
+    setPic(update.pic);
     setProgress(update.progress);
     setIssue(update.issue);
     setNextStep(update.nextStep);
-    setDeadline(update.deadline ?? '');
+    setDeadline(update.deadline);
+    setDocuments(update.documents);
 
     if (isViewAll) {
       setIsViewAll(false);
@@ -127,7 +127,7 @@ function InputUpdatePage({ projects }) {
   };
 
   const generateUpdateObject = () => {
-    return { date, project: name, status, owner: pic, activity, progress, issue, action: nextStep, finishDate: deadline };
+    return { date, name, status, pic, progress, issue, nextStep, deadline };
   };
 
   const onGetMessage = () => {

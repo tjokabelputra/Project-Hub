@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FaFile, FaTrash } from 'react-icons/fa';
-import { MdDownload } from 'react-icons/md';
 import { formatFileSize } from '../../util/util.js';
 import LoadingSpinner from '../LoadingSpinner.jsx';
 
@@ -21,25 +20,24 @@ function DocumentListComponent({ supportingDocuments, actionable = true, isDelet
                 <FaFile />
               </div>
               <div className="document-list__item-info">
-                <p>{document.name}</p>
+                <p
+                  className="document-list__file-name"
+                  onClick={() => onDownload(document.id)}
+                  title="Klik untuk download"
+                >
+                  {document.name}
+                </p>
                 <p>{formatFileSize(document.size)}</p>
               </div>
             </div>
 
-            {actionable && (
-              isDelete ? (
-                isDeleting ? (
-                  <LoadingSpinner size={16} />
-                ) : (
-                  <FaTrash
-                    className="document-list__delete"
-                    onClick={() => onDeleteDocuments(document.objectKey)}
-                  />
-                )
+            {actionable && isDelete && (
+              isDeleting ? (
+                <LoadingSpinner size={16} />
               ) : (
-                <MdDownload
-                  className="document-list__download"
-                  onClick={() => onDownload(document.id)}
+                <FaTrash
+                  className="document-list__delete"
+                  onClick={() => onDeleteDocuments(document.objectKey)}
                 />
               )
             )}
@@ -54,7 +52,7 @@ DocumentListComponent.propTypes = {
   supportingDocuments: PropTypes.array,
   actionable: PropTypes.bool,
   isDelete: PropTypes.bool,
-  onDeleteDocument: PropTypes.func,
+  onDeleteDocuments: PropTypes.func,
 };
 
 export default DocumentListComponent;

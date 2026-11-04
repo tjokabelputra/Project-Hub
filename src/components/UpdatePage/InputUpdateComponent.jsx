@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import GeneralInputComponent from '../input/GeneralInputComponent.jsx';
 import SearchableSelectComponent from '../input/SearchableSelectComponent.jsx';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
@@ -6,15 +6,78 @@ import { dummyProjectStatus } from '../../data/dummy.js';
 import { BiRecycle } from 'react-icons/bi';
 import { FaEdit, FaPlus } from 'react-icons/fa';
 import { areInputsValid, formatDate } from '../../util/util.js';
+import LoadingSpinner from '../LoadingSpinner.jsx';
+import { LuCloudUpload } from 'react-icons/lu';
+import api from '../../util/api.js';
+import DocumentListComponent from '../ProjectPage/DocumentListComponent.jsx';
 
 function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCreateUpdate, onEditUpdate }) {
   const {
-    date, onDateChange, project, onProjectChange, status, setStatus, owner, onOwnerChange, activity, onActivityChange,
-    progress, onProgressChange, issue, onIssueChange, action, onActionChange, finishDate, onFinishDateChange
+    date, onDateChange, name, onProjectChange, status, setStatus, pic, onPicChange, progress, onProgressChange,
+    issue, onIssueChange, nextStep, onNextStepChange, deadline, onDeadlineChange, documents, setDocuments
   } = updateInfo;
 
-  const listInputs = [date, project, activity, progress, issue, action];
+  const fileInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [deletingObjectKeys, setDeletingObjectKeys] = useState([]);
+
+  const listInputs = [date, name, progress, nextStep];
   const isInputValid = areInputsValid(listInputs);
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+
+    if (!selectedFile) return;
+
+    event.target.value = '';
+    setIsUploading(true);
+
+    try {
+      const uploadedDocument = await api.uploadDocuments(selectedFile);
+
+      setDocuments((prev) => [
+        ...prev,
+        {
+          name: uploadedDocument.name,
+          size: uploadedDocument.size,
+          objectKey: uploadedDocument.objectKey,
+          contentType: uploadedDocument.contentType
+        }
+      ]);
+    }
+    catch (error) {
+      console.error(error);
+      alert(`Gagal mengupload ${selectedFile.name}: ${error.message}`);
+    }
+    finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleDeleteDocument = async (objectKey) => {
+    setDeletingObjectKeys((prev) => [...prev, objectKey]);
+
+    try {
+      await api.deleteDocument(objectKey);
+
+      setDocuments((prev) =>
+        prev.filter((document) => document.objectKey !== objectKey)
+      );
+    }
+    catch (error) {
+      console.error(error);
+      alert(`Gagal menghapus: ${error.message}`);
+    }
+    finally {
+      setDeletingObjectKeys((prev) =>
+        prev.filter((key) => key !== objectKey)
+      );
+    }
+  };
 
   return (
     <div className="input-update">
@@ -34,7 +97,7 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
             options={projects}
             optionsId = 'id'
             optionsValue = 'name'
-            value={project}
+            value={name}
             onValueChange={onProjectChange} />
           <DropdownInputComponent
             options={dummyProjectStatus}
@@ -49,25 +112,18 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
             id="owner"
             label="PIC/Owner"
             placeholder="Masukan nama Owner/PIC"
-            value={owner}
-            onChange={onOwnerChange}
+            value={pic}
+            onChange={onPicChange}
             disabled={true} />
           <GeneralInputComponent
             id="finish"
             type="text"
             label="Tanggal Penyelesaian"
             placeholder=""
-            value={finishDate ? formatDate(finishDate) : ''}
-            onChange={onFinishDateChange}
+            value={deadline ? formatDate(deadline) : ''}
+            onChange={onDeadlineChange}
             disabled={true} />
           <div className="input-update__wide">
-            <GeneralInputComponent
-              id="activity"
-              label="Aktivitas/Pekerjaan Hari Ini"
-              placeholder="Tuliskan aktivitas atau pekerjaan yang dilakukan hari ini..."
-              value={activity}
-              onChange={onActivityChange}
-              isHigh={true}/>
             <GeneralInputComponent
               id="progress"
               label="Progress/Output"
@@ -86,9 +142,48 @@ function InputUpdateComponent({ updateInfo, projects, isEdit, onResetInput, onCr
               id="action"
               label="Next Action"
               placeholder="Tuliskan langkah anda selanjutnya..."
-              value={action}
-              onChange={onActionChange}
+              value={nextStep}
+              onChange={onNextStepChange}
               isHigh={true} />
+            <div className="input-update__docs">
+              <p>Documents</p>
+              <DocumentListComponent
+                supportingDocuments={documents}
+                isDelete={true}
+                onDeleteDocuments={handleDeleteDocument}
+                deletingObjectKeys={deletingObjectKeys}/>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.doc,.xlsx"
+                hidden
+                disabled={isUploading}
+                onChange={handleFileChange}
+              />
+
+              <div
+                className="input-update__upload-doc"
+                onClick={!isUploading ? handleUploadClick : undefined}
+                role="button"
+                tabIndex={0}>
+                {isUploading ? (
+                  <>
+                    <LoadingSpinner size={28} />
+                    <p>Mengupload dokumen...</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="input-update__upload-icon">
+                      <LuCloudUpload />
+                    </div>
+                    <div className="input-update__upload-info">
+                      <p>Klik untuk upload</p>
+                      <p>Format: PDF, DOC, XLSX</p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <div className="input-update__action">

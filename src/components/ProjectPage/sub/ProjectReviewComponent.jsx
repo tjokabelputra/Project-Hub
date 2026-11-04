@@ -7,7 +7,7 @@ import ProjectStagesTable from '../ProjectStagesTable.jsx';
 import DocumentListComponent from '../DocumentListComponent.jsx';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 
-function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit }) {
+function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newProject, isEdit, onAddProject, onSubmitEdit, onDownloadDocument }) {
   return (
     <div className="project-input-layout__second">
       <ProjectInputHeaderComponent onBackPressed={onBackPressed} />
@@ -28,7 +28,8 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
               <p>Dokumen Pendukung</p>
               <DocumentListComponent
                 actionable={false}
-                supportingDocuments={newProject.supportingDocuments} />
+                supportingDocuments={newProject.supportingDocuments}
+                onDownload={onDownloadDocument}/>
             </div>
           </div>
         </div>

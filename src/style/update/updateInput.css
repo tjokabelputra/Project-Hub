@@ -53,3 +53,54 @@
     background: var(--surface-secondary);
     border: 2px solid var(--border);
 }
+
+.input-update__docs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-update__docs > p {
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.input-update__upload-doc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 16px;
+    gap: 8px;
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+}
+
+.input-update__upload-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-surface);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 32px;
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.input-update__upload-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-update__upload-info p:first-child {
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.input-update__upload-info p:last-child {
+    color: var(--text-tertiary);
+    font-size: 12px;
+}

@@ -39,6 +39,13 @@
 .document-list__item-info p:first-child {
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.document-list__item-info p:first-child:hover {
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 .document-list__item-info p:last-child {

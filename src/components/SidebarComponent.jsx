@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FaFolder, FaHome, FaClipboard, FaPen } from 'react-icons/fa';
 import { NavLink } from 'react-router';
+import {FaGear} from "react-icons/fa6";
 
 function SidebarComponent({ profilePicture, name, role }) {
   return (
@@ -28,6 +29,11 @@ function SidebarComponent({ profilePicture, name, role }) {
           <NavLink to="/updates" className="sidebar-general-navigation__link">
             <FaPen className="sidebar-navigation__icon" />
             <span>Input Update</span>
+          </NavLink>
+
+          <NavLink to="/management" className="sidebar-general-navigation__link">
+            <FaGear className="sidebar-navigation__icon" />
+            <span>Manage Data</span>
           </NavLink>
         </nav>
 

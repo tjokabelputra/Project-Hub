@@ -11,7 +11,7 @@ import ProjectStagesTable from '../ProjectStagesTable.jsx';
 import useInput from '../../../hooks/useInput.js';
 import LoadingSpinner from '../../LoadingSpinner.jsx';
 
-function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setStagesHistory, supportingDocuments, setSupportingDocuments, onPreviousPage, onNextPage }) {
+function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setStagesHistory, supportingDocuments, setSupportingDocuments, onDownloadDocument, onPreviousPage, onNextPage }) {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
   const [deletingObjectKeys, setDeletingObjectKeys] = useState([]);
@@ -74,7 +74,6 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
   };
 
   const handleDeleteDocument = async (objectKey) => {
-    console.log(objectKey)
     try {
       await api.deleteDocument(objectKey);
       setSupportingDocuments((prev) =>
@@ -126,6 +125,7 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
                 <DocumentListComponent
                   supportingDocuments={supportingDocuments}
                   isDelete={true}
+                  onDownload={onDownloadDocument}
                   onDeleteDocuments={handleDeleteDocument}
                   deletingObjectKeys={deletingObjectKeys}/>
               </div>

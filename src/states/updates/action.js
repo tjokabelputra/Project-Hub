@@ -81,19 +81,13 @@ function asyncGetUpdates() {
 }
 
 function asyncEditUpdate(editedUpdate) {
-  return async (dispatch, getState) => {
-    const { updates } = getState();
-
-    const oldUpdate = updates.filter((update) => update.id === editedUpdate.id);
-
-    dispatch(editUpdateActionCreator(editedUpdate));
-
+  return async (dispatch) => {
     try {
-      await api.editUpdate(editedUpdate);
+      const newUpdate = await api.editUpdate(editedUpdate);
+      dispatch(editUpdateActionCreator(newUpdate));
     }
     catch (error) {
       alert(error.message);
-      dispatch(editUpdateActionCreator(oldUpdate));
     }
   };
 }

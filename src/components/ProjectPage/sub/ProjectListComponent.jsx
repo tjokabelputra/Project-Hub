@@ -4,7 +4,7 @@ import useInput from '../../../hooks/useInput.js';
 import { FaPlus } from 'react-icons/fa';
 import ProjectListTable from '../ProjectListTable.jsx';
 
-function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProject }) {
+function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProject, onDownloadDocument }) {
   const [filterIndex, setFilterIndex] = useState(0);
   const [keyword, onKeywordChange] = useInput('');
 
@@ -51,7 +51,8 @@ function ProjectListComponent({ projects, nextPage, onDeleteProject, onEditProje
         filterIndex={filterIndex}
         keyword={keyword}
         onDeleteProject={onDeleteProject}
-        onEditProject={onEditProject}/>
+        onEditProject={onEditProject}
+        onDownloadDocument={onDownloadDocument}/>
     </section>
   );
 }

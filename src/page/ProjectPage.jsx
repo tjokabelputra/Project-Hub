@@ -6,6 +6,7 @@ import ProjectInfoComponent from '../components/ProjectPage/sub/ProjectInfoCompo
 import useInput from '../hooks/useInput.js';
 import ProjectStagesComponent from '../components/ProjectPage/sub/ProjectStagesComponent.jsx';
 import ProjectReviewComponent from '../components/ProjectPage/sub/ProjectReviewComponent.jsx';
+import api from "../util/api.js";
 
 function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -173,6 +174,25 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     }
   };
 
+  const onDownloadDocument = async (documentId) => {
+    try {
+      const downloadUrl = await api.getDocument(documentId);
+
+      const link = window.document.createElement('a');
+      link.href = downloadUrl;
+
+      link.setAttribute('download', '');
+
+      window.document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+    catch (error) {
+      console.error('Failed to download document:', error);
+      alert(error.message);
+    }
+  };
+
   return (
     <section className="project-page">
       { pageIndex === 0 &&
@@ -181,7 +201,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
               projects={projects}
               nextPage={nextPage}
               onDeleteProject={onDeleteProject}
-              onEditProject={onEditProject}/>
+              onEditProject={onEditProject}
+              onDownloadDocument={onDownloadDocument}/>
           )
       }
       { pageIndex === 1 &&
@@ -213,6 +234,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
           setStagesHistory={setStagesHistory}
           supportingDocuments={supportingDocuments}
           setSupportingDocuments={setSupportingDocuments}
+          onDownloadDocument={onDownloadDocument}
           onPreviousPage={prevPage}
           onNextPage={nextPage}/>
       )}
@@ -222,6 +244,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
           onPreviousPage={prevPage}
           pageIndex={pageIndex}
           newProject={newProject}
+          onDownloadDocument={onDownloadDocument}
           isEdit={isEdit}
           onAddProject={addNewProject}
           onSubmitEdit={editProject}/>

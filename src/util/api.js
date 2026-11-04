@@ -184,11 +184,11 @@ const api = (() => {
         date: update.date,
         status: update.status,
         pic: update.pic,
-        activity: update.activity,
         progress: update.progress,
         issue: update.issue,
         nextStep: update.nextStep,
-        deadline: update.deadline
+        deadline: update.deadline,
+        documents: update.documents
       })
     });
 
@@ -228,11 +228,11 @@ const api = (() => {
         date: editedUpdate.date,
         status: editedUpdate.status,
         pic: editedUpdate.pic,
-        activity: editedUpdate.activity,
         progress: editedUpdate.progress,
         issue: editedUpdate.issue,
         nextStep: editedUpdate.nextStep,
-        deadline: editedUpdate.deadline
+        deadline: editedUpdate.deadline,
+        documents: editedUpdate.documents
       })
     });
     const responseJson = await response.json();

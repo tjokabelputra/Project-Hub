@@ -6,29 +6,10 @@ import ProjectStagesTable from './ProjectStagesTable.jsx';
 import DocumentListComponent from './DocumentListComponent.jsx';
 import api from '../../util/api.js';
 
-function ProjectDetailModal({ project, onClose }) {
+function ProjectDetailModal({ project, onClose, onDownloadDocument}) {
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
       onClose();
-    }
-  };
-
-  const downloadDocument = async (documentId) => {
-    try {
-      const downloadUrl = await api.getDocument(documentId);
-
-      const link = window.document.createElement('a');
-      link.href = downloadUrl;
-
-      link.setAttribute('download', '');
-
-      window.document.body.appendChild(link);
-      link.click();
-      link.remove();
-    }
-    catch (error) {
-      console.error('Failed to download document:', error);
-      alert(error.message);
     }
   };
 
@@ -58,7 +39,7 @@ function ProjectDetailModal({ project, onClose }) {
           <p className="project-detail-modal__label">Dokumen Project</p>
           <DocumentListComponent
             supportingDocuments={project.supportingDocuments}
-            onDownload={downloadDocument} />
+            onDownload={onDownloadDocument} />
         </div>
       </div>
     </div>

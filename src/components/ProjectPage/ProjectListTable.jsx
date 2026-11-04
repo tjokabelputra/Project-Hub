@@ -6,7 +6,7 @@ import ProjectDetailModal from './ProjectDetailModal.jsx';
 import { formatStatus } from '../../util/util.js';
 import PaginationComponent from '../PaginationComponent.jsx';
 
-function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject }) {
+function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject, onDownloadDocument }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayDetail, setDisplayDetail] = useState(false);
@@ -98,6 +98,7 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
       { displayDetail && (
         <ProjectDetailModal
           project={selectedProject}
+          onDownloadDocument={onDownloadDocument}
           onClose={() => setDisplayDetail(false)}/>
       )}
     </div>
