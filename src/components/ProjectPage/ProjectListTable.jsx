@@ -5,12 +5,15 @@ import { FaPencil } from 'react-icons/fa6';
 import ProjectDetailModal from './ProjectDetailModal.jsx';
 import { formatStatus } from '../../util/util.js';
 import PaginationComponent from '../PaginationComponent.jsx';
+import DeleteProjectModal from './DeleteProjectModal.jsx';
 
 function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject, onDownloadDocument }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
   const [displayDetail, setDisplayDetail] = useState(false);
   const [selectedProject, setSelectedProject] = useState({});
+  const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
+  const [selectedDeleteProject, setSelectedDeleteProject] = useState(null);
 
   const tableSize = 10;
   const startIndex = (currentPage - 1) * tableSize;
@@ -49,6 +52,11 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
     setSelectedProject(project);
   };
 
+  const displayDeleteConfirmation = (project) => {
+    setSelectedDeleteProject(project);
+    setDisplayDeleteModal(true);
+  };
+
   return (
     <div className="project-list-layout">
       <table className="project-list-table">
@@ -82,6 +90,11 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
                     onClick={() => onEditProject(project.id)}>
                     <FaPencil />
                   </button>
+                  <button
+                    className="project-list-table__action-delete"
+                    onClick={() => displayDeleteConfirmation(project)}>
+                    <FaTrash />
+                  </button>
                 </div>
               </td>
             </tr>
@@ -100,6 +113,15 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
           project={selectedProject}
           onDownloadDocument={onDownloadDocument}
           onClose={() => setDisplayDetail(false)}/>
+      )}
+      {displayDeleteModal && selectedDeleteProject && (
+        <DeleteProjectModal
+          project={selectedDeleteProject}
+          onClose={() => {
+            setDisplayDeleteModal(false);
+            setSelectedDeleteProject(null);
+          }}
+          onConfirm={onDeleteProject}/>
       )}
     </div>
   );

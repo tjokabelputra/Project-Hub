@@ -6,7 +6,7 @@ import ProjectInfoComponent from '../components/ProjectPage/sub/ProjectInfoCompo
 import useInput from '../hooks/useInput.js';
 import ProjectStagesComponent from '../components/ProjectPage/sub/ProjectStagesComponent.jsx';
 import ProjectReviewComponent from '../components/ProjectPage/sub/ProjectReviewComponent.jsx';
-import api from "../util/api.js";
+import api from '../util/api.js';
 
 function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) {
   const [isEdit, setIsEdit] = useState(false);

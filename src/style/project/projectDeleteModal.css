@@ -1,0 +1,87 @@
+.delete-project-modal-layout {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: color-mix(in srgb, var(--background) 50%, transparent);
+    z-index: 1000;
+}
+
+.delete-project-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    width: 30%;
+    background: var(--surface-secondary);
+    border-radius: 16px;
+}
+
+.delete-project__header {
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-project__title {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.delete-project-modal__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--background);
+    border-radius: 8px;
+}
+
+.delete-project-modal__info div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.delete-project-modal__info div span{
+    color: var(--text-tertiary);
+    font-size: 16px ;
+}
+
+.delete-project-modal__warning {
+    padding: 16px;
+    background: var(--warning-surface);
+    border-radius: 8px;
+}
+
+.delete-project-modal__warning {
+    color: var(--warning);
+    font-size: 14px;
+}
+
+.delete-project-modal__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 16px;
+}
+
+.delete-project-modal__actions button {
+    padding-inline: 16px;
+    padding-block: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.delete-project-modal__cancel {
+    background: var(--surface-secondary);
+    border: 2px solid var(--border);
+}
+
+.delete-project-modal__confirm {
+    background: var(--danger);
+    border: 2px solid var(--danger);
+    color: var(--text-secondary);
+}

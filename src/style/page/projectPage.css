@@ -11,6 +11,7 @@
 @import '../project/projectStepsInput.css';
 @import '../project/pageFooter.css';
 @import '../project/projectReview.css';
+@import '../project/projectDeleteModal.css';
 
 .project-page {
     display: flex;

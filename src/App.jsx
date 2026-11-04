@@ -16,11 +16,18 @@ function App() {
     dispatch(asyncGetProjects());
   }, [dispatch]);
 
-  const onDeleteProject = (projectId) => {
-    dispatch(asyncDeleteProject(projectId));
+  const onDeleteProject = async (projectId) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      await dispatch(asyncDeleteProject(projectId));
+    }
+    catch (error) {
+      throw error;
+    }
   };
 
   const onAddProject = async (project) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       await dispatch(asyncAddProject(project));
     }
