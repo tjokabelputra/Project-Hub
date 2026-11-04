@@ -34,6 +34,8 @@ function DataListTable({ pms, bps, units, filterIndex }) {
       default:
         setFilteredData(pms);
       }
+
+      setCurrentPage(1);
     };
 
     setFilter();

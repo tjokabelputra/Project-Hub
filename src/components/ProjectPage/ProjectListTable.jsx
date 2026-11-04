@@ -42,6 +42,8 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
       default:
         setFilteredProjects(searchedProjects);
       }
+
+      setCurrentPage(1);
     };
 
     setFilter();

@@ -261,7 +261,7 @@ const api = (() => {
 
   async function addPm(pm) {
     const response = await fetch(`${BASE_URL}/pms/add`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -321,7 +321,7 @@ const api = (() => {
 
   async function addBp(bp) {
     const response = await fetch(`${BASE_URL}/bps/add`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },

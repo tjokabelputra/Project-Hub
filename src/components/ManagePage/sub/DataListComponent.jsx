@@ -25,7 +25,7 @@ function DataListComponent({ pms, bps, units, onAddData }) {
           <h1>Data Management</h1>
           <p>Kelola dan Pantau seluruh data</p>
         </div>
-        <button onClick={onAddData}><FaPlus/> Upload Data</button>
+        <button onClick={onAddData}><FaPlus/> {filterIndex === 2 ? 'Tambah Unit' :  'Tambah Pengguna'}</button>
       </div>
       <FilterComponent
         filters={filters}

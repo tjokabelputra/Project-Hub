@@ -1,5 +1,6 @@
 @import '../management/dataList.css';
 @import '../management/dataTable.css';
+@import '../management/dataInput.css';
 
 .management-page {
     display: flex;
