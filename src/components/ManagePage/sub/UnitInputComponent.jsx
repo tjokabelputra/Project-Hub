@@ -2,13 +2,14 @@ import React, { useMemo } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 
-function UnitInputComponent({ onBackPressed, units, name, onNameChange, code, onCodeChange, onAddUnit }) {
+function UnitInputComponent({ isEdit, id, onBackPressed, units, name, onNameChange, code, onCodeChange, onAddUnit, onEditUnit }) {
   const isCodeExists = useMemo(() => {
     return units.some(
       (unit) =>
-        unit.code?.trim().toLowerCase() === code.trim().toLowerCase()
+        unit.id !== id &&
+                unit.code?.trim().toLowerCase() === code.trim().toLowerCase()
     );
-  }, [units, code]);
+  }, [units, code, id]);
 
   const isFormValid = name.trim() !== '' && code.trim() !== '' && !isCodeExists;
 
@@ -49,10 +50,14 @@ function UnitInputComponent({ onBackPressed, units, name, onNameChange, code, on
         </div>
         <div className="unit-input__actions">
           <button
-            className={`unit-input__action-add ${!isFormValid ? 'unit-input__action-add-disable' : 'unit-input__action-add-enabled'}`}
+            className={`unit-input__action-add ${
+              !isFormValid
+                ? 'unit-input__action-add-disable'
+                : 'unit-input__action-add-enabled'
+            }`}
             disabled={!isFormValid}
-            onClick={onAddUnit}>
-                      Tambah Unit <FaArrowRight />
+            onClick={isEdit ? onEditUnit : onAddUnit}>
+            {isEdit ? 'Edit Unit' : 'Tambah Unit'} <FaArrowRight />
           </button>
         </div>
       </div>

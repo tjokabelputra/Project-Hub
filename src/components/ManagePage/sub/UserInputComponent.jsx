@@ -3,15 +3,15 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 
-function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name, onNameChange, code, onCodeChange, email, onEmailChange, onAddUser }) {
+function UserInputComponent({ isEdit, id, onBackPressed, bps, pms, type, onTypeChange, name, onNameChange, code, onCodeChange, email, onEmailChange, onAddUser, onEditUser }) {
   const isCodeExists = useMemo(() => {
     const users = [...pms, ...bps];
 
-    return users.some(
-      (user) =>
+    return users.some((user) =>
+      user.id !== id &&
         user.code?.trim().toLowerCase() === code.trim().toLowerCase()
     );
-  }, [pms, bps, code]);
+  }, [pms, bps, code, id]);
 
   const isFormValid =
       type.trim() !== '' &&
@@ -45,13 +45,15 @@ function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name,
               onValueChange={onTypeChange}
               id="type"
               label="Tipe Pengguna"
-              placeholder="Project Manager / Business Partner"/>
+              placeholder="Project Manager / Business Partner"
+              disabled={isEdit}/>
             <GeneralInputComponent
               id="name"
               label="Nama Pengguna"
               placeholder="Nama"
               value={name}
-              onChange={onNameChange} />
+              onChange={onNameChange}
+              disabled={isEdit}/>
             <div className="user-input__code-input">
               <GeneralInputComponent
                 id="code"
@@ -76,10 +78,14 @@ function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name,
         </div>
         <div className="user-input__actions">
           <button
-            className={`user-input__action-add ${!isFormValid ? 'user-input__action-add-disable' : 'user-input__action-add-enabled'}`}
+            className={`user-input__action-add ${
+              !isFormValid
+                ? 'user-input__action-add-disable'
+                : 'user-input__action-add-enabled'
+            }`}
             disabled={!isFormValid}
-            onClick={onAddUser}>
-                Tambah Pengguna <FaArrowRight />
+            onClick={isEdit ? onEditUser : onAddUser}>
+            {isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'} <FaArrowRight />
           </button>
         </div>
       </div>

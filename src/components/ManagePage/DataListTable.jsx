@@ -3,7 +3,7 @@ import { FaPencil } from 'react-icons/fa6';
 import { FaTrash } from 'react-icons/fa';
 import PaginationComponent from '../PaginationComponent.jsx';
 
-function DataListTable({ pms, bps, units, filterIndex }) {
+function DataListTable({ pms, bps, units, filterIndex, onSelectData }) {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -80,7 +80,8 @@ function DataListTable({ pms, bps, units, filterIndex }) {
               <td className="data-list-table__action">
                 <div className="data-list-table__action-buttons">
                   <button className="data-list-table__action-edit">
-                    <FaPencil />
+                    <FaPencil
+                      onClick={() => onSelectData(filterIndex, data)}/>
                   </button>
                 </div>
               </td>

@@ -2,7 +2,8 @@ import api from '../../util/api.js';
 
 const ActionType = {
   ADD_UNIT: 'ADD_UNIT',
-  RECEIVE_UNITS: 'RECEIVE_UNITS'
+  RECEIVE_UNITS: 'RECEIVE_UNITS',
+  EDIT_UNIT: 'EDIT_UNIT'
 };
 
 function addUnitActionCreator(unit) {
@@ -23,6 +24,15 @@ function receiveUnitsActionCreator(units) {
   };
 }
 
+function editUnitActionCreator(unit) {
+  return {
+    type: ActionType.EDIT_UNIT,
+    payload: {
+      unit
+    }
+  };
+}
+
 function asyncAddUnit(unit) {
   return async (dispatch) => {
     try {
@@ -38,9 +48,26 @@ function asyncAddUnit(unit) {
   };
 }
 
+function asyncEditUnit(unit) {
+  return async (dispatch) => {
+    try {
+      const editedUnit = await api.editUnit(unit);
+      dispatch(editUnitActionCreator(editedUnit));
+
+      return editedUnit;
+    }
+    catch (error) {
+      alert(error.message);
+      throw error;
+    }
+  };
+}
+
 export {
   ActionType,
   addUnitActionCreator,
   receiveUnitsActionCreator,
-  asyncAddUnit
+  editUnitActionCreator,
+  asyncAddUnit,
+  asyncEditUnit
 };
