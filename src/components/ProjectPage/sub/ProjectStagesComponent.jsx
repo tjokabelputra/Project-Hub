@@ -74,6 +74,8 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
   };
 
   const handleDeleteDocument = async (objectKey) => {
+    setDeletingObjectKeys((prev) => [...prev, objectKey]);
+
     try {
       await api.deleteDocument(objectKey);
       setSupportingDocuments((prev) =>

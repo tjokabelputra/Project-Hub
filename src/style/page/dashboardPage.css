@@ -2,6 +2,8 @@
 @import '../dashboard/projectStatusChart.css';
 @import '../dashboard/projectStepChart.css';
 @import '../dashboard/priorityProjectCard.css';
+@import '../dashboard/missedDeadline.css';
+@import '../dashboard/insight.css';
 
 .dashboard-page {
     display: flex;

@@ -146,8 +146,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Unit Pengusul"
                   placeholder="Masukan Nama Unit"
                   options={units}
-                  optionsId="id"
-                  optionsValue="value"
+                  optionsId="code"
+                  optionsValue="code"
                   value={requestingUnit}
                   onValueChange={setUnit}
                   minInput={1}/>

@@ -1,4 +1,5 @@
 .project-detail-modal-layout {
+    overflow-y: auto;
     position: fixed;
     inset: 0;
     display: flex;

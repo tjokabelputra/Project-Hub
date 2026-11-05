@@ -1,0 +1,189 @@
+.insight {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background: var(--surface-secondary);
+    border-radius: 8px;
+}
+
+.insight__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.insight__header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px
+}
+
+.insight__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    color: var(--text-secondary);
+    font-size: 24px;
+    border-radius: 16px;
+}
+
+.insight__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.insight__title {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+}
+
+.insight__title h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+}
+
+.insight__title p {
+    padding-block: 4px;
+    padding-inline: 8px;
+    background: var(--background);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: bold;
+}
+
+.insight__text p {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.insight__generate {
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding-inline: 16px;
+    padding-block: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 8px
+}
+
+.insight__main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.insight__main > p {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.insight__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.insight__card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-block: 16px;
+    padding-inline: 24px;
+    border-radius: 8px;
+}
+
+.insight__card-critical {
+    background: var(--danger-surface);
+}
+
+.insight__card-high {
+    background: var(--warning-surface);
+}
+
+.insight__card-medium {
+    background: var(--primary-surface);
+}
+
+.insight__card-low {
+    background: var(--success-surface);
+}
+
+.insight__card-header {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.insight__severity {
+    height: max-content;
+    padding-block: 8px;
+    padding-inline: 16px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.insight__severity-critical {
+    background: var(--danger);
+}
+
+.insight__severity-high {
+    background: var(--warning);
+}
+
+.insight__severity-medium {
+    background: var(--primary);
+}
+
+.insight__severity-low {
+    background: var(--success);
+}
+
+.insight__list-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.insight__list-info p:first-child {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.insight__list-info p:last-child {
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.insight__recommendation {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    background: var(--surface-secondary);
+    padding-block: 8px;
+    padding-inline: 16px;
+    border-radius: 8px;
+}
+
+.insight__recommendation > strong {
+    text-wrap: nowrap;
+}

@@ -437,6 +437,34 @@ const api = (() => {
     return data;
   }
 
+  async function generateInsight() {
+    const response = await fetch(`${BASE_URL}/ai/generate`, {
+      method: 'POST'
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function getLatestInsight() {
+    const response = await fetch(`${BASE_URL}/ai/latest`);
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   return {
     uploadDocuments,
     getDocument,
@@ -457,7 +485,9 @@ const api = (() => {
     editBp,
     addUnit,
     getUnits,
-    editUnit
+    editUnit,
+    generateInsight,
+    getLatestInsight
   };
 })();
 

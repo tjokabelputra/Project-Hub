@@ -1,0 +1,93 @@
+.missed-deadline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 24px;
+    padding-block: 16px;
+    background: var(--success-surface);
+    border-radius: 8px;
+}
+
+.missed-deadline--missed {
+    background: var(--danger-surface);
+}
+
+.missed-deadline__main {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.missed-deadline__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--success);
+    font-size: 24px;
+}
+
+.missed-deadline__icon-missed {
+    color: var(--danger);
+}
+
+.missed-deadline__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.missed-deadline__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.missed-deadline__title {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.missed-deadline__desc {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.missed-deadline__project-info {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    gap: 8px;
+    width: 100%;
+}
+.missed-deadline__info-card {
+    width: max-content;
+    padding-block: 4px;
+    padding-inline: 8px;
+    border-radius: 8px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+}
+
+.missed-deadline__project-info p {
+    font-size: 14px;
+}
+
+.missed-deadline__date-past {
+    color: var(--danger);
+}
+
+.missed-deadline__navigate {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    height: max-content;
+    padding-inline: 16px;
+    padding-block: 8px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: bold;
+    background: var(--danger);
+    border: 2px solid var(--danger);
+    border-radius: 8px;
+}

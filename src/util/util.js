@@ -62,3 +62,20 @@ export function formatDateTime(dateTime) {
     hourCycle: 'h23'
   }).replace(/\./g, ':').replace(',', ',');
 }
+
+export function calculateDaysLate(targetGoLive) {
+  if (!targetGoLive) return 0;
+
+  const [year, month, day] = targetGoLive
+    .split('-')
+    .map(Number);
+
+  const deadline = new Date(year, month - 1, day);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const difference = today.getTime() - deadline.getTime();
+
+  return Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24)));
+}

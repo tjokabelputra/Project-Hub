@@ -4,6 +4,7 @@ import bpsReducer from './bps/reducer.js';
 import pmsReducer from './pms/reducer.js';
 import unitsReducer from './unit/reducer.js';
 import updatesReducer from './updates/reducer.js';
+import insightReducer from './insight/reducer.js';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     projects: projectsReducer,
     units: unitsReducer,
     updates: updatesReducer,
+    insight: insightReducer
   }
 });
 
