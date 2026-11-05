@@ -6,6 +6,8 @@ import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.
 import useInput from '../hooks/useInput.js';
 import { asyncAddPm } from '../states/pms/action.js';
 import { asyncAddBp } from '../states/bps/action.js';
+import UnitInputComponent from '../components/ManagePage/sub/UnitInputComponent.jsx';
+import { asyncAddUnit } from '../states/unit/action.js';
 
 function DataManagementPage() {
   const pms = useSelector((states) => states.pms);
@@ -19,10 +21,18 @@ function DataManagementPage() {
   const [code, onCodeChange, setCode] = useInput('');
   const [email, onEmailChange, setEmail] = useInput('');
 
+  const [unitName, onUnitNameChange, setUnitName] = useInput('');
+  const [unitCode, onUnitCodeChange, setUnitCode] = useInput('');
+
   const newUser = {
     name: name,
     code: code,
     email: email
+  };
+
+  const newUnit = {
+    name: unitName,
+    code: unitCode
   };
 
   const emptyInput = () => {
@@ -30,19 +40,21 @@ function DataManagementPage() {
     setName('');
     setCode('');
     setEmail('');
+    setUnitName('');
+    setUnitCode('');
   };
 
   useEffect(() => {
     dispatch(asyncPopulateInputs());
   }, [dispatch]);
 
-  const onAddData = () => {
-    setPageIndex(1);
-  };
-
   const onBackPressed = () => {
     setPageIndex(0);
     emptyInput();
+  };
+
+  const onAddData = (filterIndex) => {
+    setPageIndex(filterIndex === 2 ? 2 : 1);
   };
 
   const onAddUser = async () => {
@@ -63,6 +75,19 @@ function DataManagementPage() {
     catch (error) {
       console.error(error);
       alert(error.message || `Gagal menambahkan ${type}. Silakan coba lagi.`);
+    }
+  };
+
+  const onAddUnit = async () => {
+    try {
+      await dispatch(asyncAddUnit(newUnit));
+
+      emptyInput();
+      setPageIndex(0);
+    }
+    catch (error) {
+      console.error(error);
+      alert(error.message || 'Gagal menambahkan Unit. Silakan coba lagi.');
     }
   };
 
@@ -89,6 +114,17 @@ function DataManagementPage() {
           email={email}
           onEmailChange={onEmailChange}
           onAddUser={onAddUser}/>
+      )}
+      {pageIndex === 2 && (
+        <UnitInputComponent
+          onBackPressed={onBackPressed}
+          units={units}
+          name={unitName}
+          onNameChange={onUnitNameChange}
+          code={unitCode}
+          onCodeChange={onUnitCodeChange}
+          onAddUnit={onAddUnit}
+        />
       )}
     </section>
   );
