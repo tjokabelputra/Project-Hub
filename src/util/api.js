@@ -162,7 +162,7 @@ const api = (() => {
 
   async function deleteProject(projectId) {
     const response = await fetch(`${BASE_URL}/projects/delete/${projectId}`, {
-      method: 'DELETE',
+      method: 'PUT',
     });
 
     if (!response.ok) {
