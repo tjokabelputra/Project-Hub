@@ -259,6 +259,19 @@ const api = (() => {
     return true;
   }
 
+  async function getAllUsers() {
+    const response = await fetch(`${BASE_URL}/user/all`);
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   async function addPm(pm) {
     const response = await fetch(`${BASE_URL}/pms/add`, {
       method: 'POST',
@@ -266,9 +279,8 @@ const api = (() => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        code: pm.code,
         name: pm.name,
-        email: pm.email
+        code: pm.code
       })
     });
     const responseJson = await response.json();
@@ -295,29 +307,19 @@ const api = (() => {
     return data;
   }
 
-  async function editPm(editedPm) {
-    const response = await fetch(`${BASE_URL}/pms/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: editedPm.id,
-        code: editedPm.code,
-        name: editedPm.name,
-        email: editedPm.email
-      })
+  async function deletePm(pmId) {
+    const response = await fetch(`${BASE_URL}/pms/delete/${pmId}`, {
+      method: 'PUT'
     });
-    const responseJson = await response.json();
 
-    const { status, message, data } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete update.');
     }
 
-    return data;
+    return true;
   }
+
 
   async function addBp(bp) {
     const response = await fetch(`${BASE_URL}/bps/add`, {
@@ -326,9 +328,8 @@ const api = (() => {
         'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        code: bp.code,
         name: bp.name,
-        email: bp.email
+        code: bp.code
       })
     });
     const responseJson = await response.json();
@@ -355,28 +356,17 @@ const api = (() => {
     return data;
   }
 
-  async function editBp(editedBp) {
-    const response = await fetch(`${BASE_URL}/bps/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: editedBp.id,
-        code: editedBp.code,
-        name: editedBp.name,
-        email: editedBp.email
-      })
+  async function deleteBp(bpId) {
+    const response = await fetch(`${BASE_URL}/bps/delete/${bpId}`, {
+      method: 'PUT'
     });
-    const responseJson = await response.json();
 
-    const { status, message, data } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete update.');
     }
 
-    return data;
+    return true;
   }
 
   async function addUnit(unit) {
@@ -414,27 +404,17 @@ const api = (() => {
     return data;
   }
 
-  async function editUnit(editedUnit) {
-    const response = await fetch(`${BASE_URL}/units/edit`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: editedUnit.id,
-        name: editedUnit.name,
-        code: editedUnit.code
-      })
+  async function deleteUnit(unitId){
+    const response = await fetch(`${BASE_URL}/units/delete/${unitId}`, {
+      method: 'PUT'
     });
-    const responseJson = await response.json();
 
-    const { status, message, data } = responseJson;
-
-    if (status !== 'success') {
-      throw new Error(message);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete update.');
     }
 
-    return data;
+    return true;
   }
 
   async function generateInsight() {
@@ -477,15 +457,16 @@ const api = (() => {
     getUpdates,
     editUpdate,
     deleteUpdate,
+    getAllUsers,
     addPm,
     getPms,
-    editPm,
+    deletePm,
     addBp,
     getBps,
-    editBp,
+    deleteBp,
     addUnit,
     getUnits,
-    editUnit,
+    deleteUnit,
     generateInsight,
     getLatestInsight
   };

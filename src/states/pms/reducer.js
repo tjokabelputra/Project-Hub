@@ -6,15 +6,15 @@ function pmsReducer(pms = [], action = {}) {
     return [...pms, action.payload.pm];
   case ActionType.RECEIVE_PMS:
     return action.payload.pms;
-  case ActionType.EDIT_PM: {
-    const editedPm = action.payload.pm;
-    return pms.map((pm) => {
-      if (pm.id !== editedPm.id) {
-        return pm;
-      }
-
-      return editedPm;
-    });
+  case ActionType.DELETE_PM:
+    return pms.filter((pm) => pm.id !== action.payload.pmId);
+  case ActionType.RESTORE_PM: {
+    const { index, pm } = action.payload;
+    return [
+      ...pms.slice(0, index),
+      pm,
+      ...pms.slice(index)
+    ];
   }
   default:
     return pms;

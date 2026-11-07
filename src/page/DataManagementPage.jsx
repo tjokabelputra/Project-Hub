@@ -4,10 +4,10 @@ import { asyncPopulateInputs } from '../states/shared/action.js';
 import DataListComponent from '../components/ManagePage/sub/DataListComponent.jsx';
 import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.jsx';
 import useInput from '../hooks/useInput.js';
-import { asyncAddPm, asyncEditPm } from '../states/pms/action.js';
-import { asyncAddBp, asyncEditBp } from '../states/bps/action.js';
+import { asyncAddPm, asyncDeletePm } from '../states/pms/action.js';
+import { asyncAddBp, asyncDeleteBp } from '../states/bps/action.js';
 import UnitInputComponent from '../components/ManagePage/sub/UnitInputComponent.jsx';
-import {asyncAddUnit, asyncEditUnit} from '../states/unit/action.js';
+import { asyncAddUnit, asyncDeleteUnit } from '../states/unit/action.js';
 
 function DataManagementPage() {
   const pms = useSelector((states) => states.pms);
@@ -20,9 +20,8 @@ function DataManagementPage() {
 
   const [pageIndex, setPageIndex] = useState(0);
   const [type, setType] = useState('');
-  const [name, onNameChange, setName] = useInput('');
+  const [name, setName] = useState('');
   const [code, onCodeChange, setCode] = useInput('');
-  const [email, onEmailChange, setEmail] = useInput('');
 
   const [unitName, onUnitNameChange, setUnitName] = useInput('');
   const [unitCode, onUnitCodeChange, setUnitCode] = useInput('');
@@ -30,7 +29,6 @@ function DataManagementPage() {
   const user = {
     name: name,
     code: code,
-    email: email
   };
 
   const unit = {
@@ -44,7 +42,6 @@ function DataManagementPage() {
     setType('');
     setName('');
     setCode('');
-    setEmail('');
     setUnitName('');
     setUnitCode('');
   };
@@ -61,27 +58,6 @@ function DataManagementPage() {
   const onAddData = (filterIndex) => {
     emptyInput();
     setPageIndex(filterIndex === 2 ? 2 : 1);
-  };
-
-  const onSelectData = (filterIndex, data) => {
-    if (filterIndex === 2) {
-      setId(data.id);
-      setUnitName(data.name);
-      setUnitCode(data.code);
-
-      setIsEdit(true);
-      setPageIndex(2);
-    }
-    else if (filterIndex === 0 || filterIndex === 1) {
-      setId(data.id);
-      setName(data.name);
-      setCode(data.code);
-      setEmail(data.email);
-      setType(filterIndex === 0 ? 'Project Manager' : 'Business Partner');
-
-      setIsEdit(true);
-      setPageIndex(1);
-    }
   };
 
   const onAddUser = async () => {
@@ -118,14 +94,12 @@ function DataManagementPage() {
     }
   };
 
-  const onEditUser = async () => {
-    const editedUser = { id: id, ...user };
-
+  const onDeleteUser = async (type, userId) => {
     try {
       if (type === 'Project Manager') {
-        await dispatch(asyncEditPm(editedUser));
+        await dispatch(asyncDeletePm(userId));
       } else if (type === 'Business Partner') {
-        await dispatch(asyncEditBp(editedUser));
+        await dispatch(asyncDeleteBp(userId));
       }
       else {
         alert('Tipe pengguna tidak valid!');
@@ -141,10 +115,9 @@ function DataManagementPage() {
     }
   };
 
-  const onEditUnit = async () => {
-    const editedUnit = { id: id, ...unit };
+  const onDeleteUnit = async (unitId) => {
     try {
-      await dispatch(asyncEditUnit(editedUnit));
+      await dispatch(asyncDeleteUnit(unitId));
 
       emptyInput();
       setPageIndex(0);
@@ -163,7 +136,8 @@ function DataManagementPage() {
           bps={bps}
           units={units}
           onAddData={onAddData}
-          onSelectData={onSelectData}/>
+          onDeleteUser={onDeleteUser}
+          onDeleteUnit={onDeleteUnit}/>
       )}
       {pageIndex === 1 && (
         <UserInputComponent
@@ -175,13 +149,10 @@ function DataManagementPage() {
           type={type}
           onTypeChange={setType}
           name={name}
-          onNameChange={onNameChange}
+          onNameChange={setName}
           code={code}
           onCodeChange={onCodeChange}
-          email={email}
-          onEmailChange={onEmailChange}
-          onAddUser={onAddUser}
-          onEditUser={onEditUser}/>
+          onAddUser={onAddUser}/>
       )}
       {pageIndex === 2 && (
         <UnitInputComponent
@@ -193,9 +164,7 @@ function DataManagementPage() {
           onNameChange={onUnitNameChange}
           code={unitCode}
           onCodeChange={onUnitCodeChange}
-          onAddUnit={onAddUnit}
-          onEditUnit={onEditUnit}
-        />
+          onAddUnit={onAddUnit}/>
       )}
     </section>
   );

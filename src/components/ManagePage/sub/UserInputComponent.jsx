@@ -1,23 +1,31 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncGetAllUsers } from '../../../states/users/action.js';
+import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 
-function UserInputComponent({ isEdit, id, onBackPressed, bps, pms, type, onTypeChange, name, onNameChange, code, onCodeChange, email, onEmailChange, onAddUser, onEditUser }) {
+function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name, onNameChange, code, onCodeChange, onAddUser }) {
+  const users = useSelector((states) => states.users);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(asyncGetAllUsers());
+  }, [dispatch]);
+
   const isCodeExists = useMemo(() => {
     const users = [...pms, ...bps];
 
     return users.some((user) =>
-      user.id !== id &&
-        user.code?.trim().toLowerCase() === code.trim().toLowerCase()
+      user.code?.trim().toLowerCase() === code.trim().toLowerCase()
     );
-  }, [pms, bps, code, id]);
+  }, [pms, bps, code]);
 
   const isFormValid =
       type.trim() !== '' &&
       name.trim() !== '' &&
       code.trim() !== '' &&
-      email.trim() !== '' &&
       !isCodeExists;
 
   return (
@@ -45,15 +53,16 @@ function UserInputComponent({ isEdit, id, onBackPressed, bps, pms, type, onTypeC
               onValueChange={onTypeChange}
               id="type"
               label="Tipe Pengguna"
-              placeholder="Project Manager / Business Partner"
-              disabled={isEdit}/>
-            <GeneralInputComponent
+              placeholder="Project Manager / Business Partner"/>
+            <SearchableSelectComponent
+              optionId="name"
+              optionsValue="name"
               id="name"
               label="Nama Pengguna"
               placeholder="Nama"
+              options={users}
               value={name}
-              onChange={onNameChange}
-              disabled={isEdit}/>
+              onValueChange={onNameChange}/>
             <div className="user-input__code-input">
               <GeneralInputComponent
                 id="code"
@@ -67,13 +76,6 @@ function UserInputComponent({ isEdit, id, onBackPressed, bps, pms, type, onTypeC
                 </p>
               )}
             </div>
-            <GeneralInputComponent
-              type="email"
-              id="email"
-              label="Email"
-              placeholder="example@email.com"
-              value={email}
-              onChange={onEmailChange} />
           </div>
         </div>
         <div className="user-input__actions">
@@ -84,8 +86,8 @@ function UserInputComponent({ isEdit, id, onBackPressed, bps, pms, type, onTypeC
                 : 'user-input__action-add-enabled'
             }`}
             disabled={!isFormValid}
-            onClick={isEdit ? onEditUser : onAddUser}>
-            {isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'} <FaArrowRight />
+            onClick={onAddUser}>
+            Tambah Pengguna <FaArrowRight />
           </button>
         </div>
       </div>

@@ -6,15 +6,15 @@ function unitsReducer(units = [], action = {}) {
     return [...units, action.payload.unit];
   case ActionType.RECEIVE_UNITS:
     return action.payload.units;
-  case ActionType.EDIT_UNIT: {
-    const editedUnit = action.payload.unit;
-    return units.map((unit) => {
-      if (unit.id !== editedUnit.id) {
-        return unit;
-      }
-
-      return editedUnit;
-    });
+  case ActionType.DELETE_UNIT:
+    return units.filter((unit) => unit.id !== action.payload.unitId);
+  case ActionType.RESTORE_UNIT: {
+    const { index, unit } = action.payload;
+    return [
+      ...units.slice(0, index),
+      unit,
+      ...units.slice(index)
+    ];
   }
   default:
     return units;

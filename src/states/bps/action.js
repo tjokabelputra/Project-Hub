@@ -3,7 +3,8 @@ import api from '../../util/api.js';
 const ActionType = {
   ADD_BP: 'ADD_BP',
   RECEIVE_BPS: 'RECEIVE_BPS',
-  EDIT_BP: 'EDIT_BP'
+  DELETE_BP: 'DELETE_BP',
+  RESTORE_BP: 'RESTORE_BP'
 };
 
 function addBpActionCreator(bp) {
@@ -24,10 +25,20 @@ function receiveBPsActionCreator(bps) {
   };
 }
 
-function editBpActionCreator(bp) {
+function deleteBpActionCreator(bpId) {
   return {
-    type: ActionType.EDIT_BP,
+    type: ActionType.DELETE_BP,
     payload: {
+      bpId
+    }
+  };
+}
+
+function restoreBpActionCreator({ index, bp }) {
+  return {
+    type: ActionType.RESTORE_BP,
+    payload: {
+      index,
       bp
     }
   };
@@ -48,17 +59,23 @@ function asyncAddBp(bp) {
   };
 }
 
-function asyncEditBp(bp) {
-  return async (dispatch) => {
-    try {
-      const editedBp = await api.editBp(bp);
-      dispatch(editBpActionCreator(editedBp));
+function asyncDeleteBp(bpId) {
+  return async (dispatch, getState) => {
+    const { bps } = getState();
 
-      return editedBp;
+    const oldIndex = bps.findIndex(
+      (bp) => bp.id === bpId
+    );
+    const oldBp = bps[oldIndex];
+
+    dispatch(deleteBpActionCreator(bpId));
+
+    try {
+      await api.deleteBp(bpId);
     }
     catch (error) {
       alert(error.message);
-      throw error;
+      dispatch(restoreBpActionCreator({ oldIndex, oldBp }));
     }
   };
 }
@@ -67,7 +84,8 @@ export {
   ActionType,
   addBpActionCreator,
   receiveBPsActionCreator,
-  editBpActionCreator,
+  deleteBpActionCreator,
+  restoreBpActionCreator,
   asyncAddBp,
-  asyncEditBp
+  asyncDeleteBp
 };

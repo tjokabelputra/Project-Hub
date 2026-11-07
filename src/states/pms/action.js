@@ -3,7 +3,8 @@ import api from '../../util/api.js';
 const ActionType = {
   ADD_PM: 'ADD_PM',
   RECEIVE_PMS: 'RECEIVE_PMS',
-  EDIT_PM: 'EDIT_PM'
+  DELETE_PM: 'DELETE_PM',
+  RESTORE_PM: 'RESTORE_PM'
 };
 
 function addPmActionCreator(pm) {
@@ -24,10 +25,20 @@ function receivePMsActionCreator(pms) {
   };
 }
 
-function editPmActionCreator(pm) {
+function deletePmActionCreator(pmId) {
   return {
-    type: ActionType.EDIT_PM,
+    type: ActionType.DELETE_PM,
     payload: {
+      pmId
+    }
+  };
+}
+
+function restorePmActionCreator({ index, pm }) {
+  return {
+    type: ActionType.RESTORE_PM,
+    payload: {
+      index,
       pm
     }
   };
@@ -48,17 +59,23 @@ function asyncAddPm(pm) {
   };
 }
 
-function asyncEditPm(pm) {
-  return async (dispatch) => {
-    try {
-      const editedPm = await api.editPm(pm);
-      dispatch(editPmActionCreator(editedPm));
+function asyncDeletePm(pmId) {
+  return async (dispatch, getState) => {
+    const { pms } = getState();
 
-      return editedPm;
+    const oldIndex = pms.findIndex(
+      (pm) => pm.id === pmId
+    );
+    const oldPm = pms[oldIndex];
+
+    dispatch(deletePmActionCreator(pmId));
+
+    try {
+      await api.deletePm(pmId);
     }
     catch (error) {
       alert(error.message);
-      throw error;
+      dispatch(restorePmActionCreator({ oldIndex, oldPm }));
     }
   };
 }
@@ -67,7 +84,8 @@ export {
   ActionType,
   addPmActionCreator,
   receivePMsActionCreator,
-  editPmActionCreator,
+  deletePmActionCreator,
+  restorePmActionCreator,
   asyncAddPm,
-  asyncEditPm
+  asyncDeletePm
 };

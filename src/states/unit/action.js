@@ -3,7 +3,8 @@ import api from '../../util/api.js';
 const ActionType = {
   ADD_UNIT: 'ADD_UNIT',
   RECEIVE_UNITS: 'RECEIVE_UNITS',
-  EDIT_UNIT: 'EDIT_UNIT'
+  DELETE_UNIT: 'DELETE_UNIT',
+  RESTORE_UNIT: 'RESTORE_UNIT'
 };
 
 function addUnitActionCreator(unit) {
@@ -24,10 +25,20 @@ function receiveUnitsActionCreator(units) {
   };
 }
 
-function editUnitActionCreator(unit) {
+function deleteUnitActionCreator(unitId) {
   return {
-    type: ActionType.EDIT_UNIT,
+    type: ActionType.DELETE_UNIT,
     payload: {
+      unitId
+    }
+  };
+}
+
+function restoreUnitActionCreator({ index, unit }) {
+  return {
+    type: ActionType.RESTORE_UNIT,
+    payload: {
+      index,
       unit
     }
   };
@@ -48,17 +59,23 @@ function asyncAddUnit(unit) {
   };
 }
 
-function asyncEditUnit(unit) {
-  return async (dispatch) => {
-    try {
-      const editedUnit = await api.editUnit(unit);
-      dispatch(editUnitActionCreator(editedUnit));
+function asyncDeleteUnit(unitId) {
+  return async (dispatch, getState) => {
+    const { units } = getState();
 
-      return editedUnit;
+    const oldIndex = units.findIndex(
+      (unit) => unit.id === unitId
+    );
+    const oldUnit = units[oldIndex];
+
+    dispatch(deleteUnitActionCreator(unitId));
+
+    try {
+      await api.deleteUnit(unitId);
     }
-    catch (error) {
+    catch (error){
       alert(error.message);
-      throw error;
+      dispatch(restoreUnitActionCreator({ oldIndex, oldUnit }));
     }
   };
 }
@@ -67,7 +84,8 @@ export {
   ActionType,
   addUnitActionCreator,
   receiveUnitsActionCreator,
-  editUnitActionCreator,
+  deleteUnitActionCreator,
+  restoreUnitActionCreator,
   asyncAddUnit,
-  asyncEditUnit
+  asyncDeleteUnit
 };
