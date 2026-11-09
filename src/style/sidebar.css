@@ -85,6 +85,10 @@
     border-top: 1px solid var(--border);
 }
 
+.sidebar__user:hover {
+    cursor: pointer;
+}
+
 .sidebar__user img {
     width: 36px;
     height: 36px;
@@ -103,7 +107,7 @@
     font-weight: bold;
 }
 
-.sidebar-user-info__role {
+.sidebar-user-info__email {
     color: var(--text-tertiary);
     font-size: 14px;
 }

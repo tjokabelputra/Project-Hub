@@ -1,0 +1,105 @@
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+.profile-page__info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    width: 50%;
+    background: var(--surface-secondary);
+    border-radius: 8px;
+}
+
+.profile-page__header {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.profile-page__icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-surface);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.profile-page__header-text {
+    display: flex;
+    flex-direction: column;
+    color: var(--text-primary);
+}
+
+.profile-page__header-text p:first-child {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.profile-page__header-text p:last-child {
+    font-size: 14px;
+}
+
+.profile-page__main {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    padding-block: 16px;
+    padding-inline: 24px;
+    background: var(--primary-surface);
+    border-radius: 8px;
+}
+
+.profile-page__profile-picture > img {
+    border-radius: 999px;
+}
+
+.profile-page__profile_info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.profile-page__profile_info p:first-child, .profile-page__logout-info p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-page__profile_info p:last-child, .profile-page__logout-info p:last-child {
+    font-size: 16px;
+}
+
+.profile-page__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile-page__logout-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-page__logout-button {
+    height: max-content;
+    padding-inline: 16px;
+    padding-block: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--danger);
+    border: 2px solid var(--danger);
+    border-radius: 8px;
+}

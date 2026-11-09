@@ -1,6 +1,24 @@
 const api = (() => {
   const BASE_URL = 'http://localhost:3000/api/v1';
 
+  async function _fetchWithAuth(url, option = {}) {
+    return fetch(url, {
+      ...option,
+      headers: {
+        ...option.headers,
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    });
+  }
+
+  function putAccessToken(token) {
+    localStorage.setItem('access_token', token);
+  }
+
+  function getAccessToken() {
+    return localStorage.getItem('access_token');
+  }
+
   async function uploadDocuments(file) {
     try {
       const urlResponse = await fetch(`${BASE_URL}/documents/upload-url`, {
@@ -174,7 +192,7 @@ const api = (() => {
   }
 
   async function addUpdate(update) {
-    const response = await fetch(`${BASE_URL}/updates/add`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/updates/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -204,7 +222,7 @@ const api = (() => {
   }
 
   async function getUpdates() {
-    const response = await fetch(`${BASE_URL}/updates/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/updates/all`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -217,7 +235,7 @@ const api = (() => {
   }
 
   async function editUpdate(editedUpdate) {
-    const response = await fetch(`${BASE_URL}/updates/edit`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/updates/edit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -247,7 +265,7 @@ const api = (() => {
   }
 
   async function deleteUpdate(updateId) {
-    const response = await fetch(`${BASE_URL}/updates/delete/${updateId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/updates/delete/${updateId}`, {
       method: 'DELETE'
     });
 
@@ -260,7 +278,65 @@ const api = (() => {
   }
 
   async function getAllUsers() {
-    const response = await fetch(`${BASE_URL}/user/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/user/all`);
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function register({ name, email, password }) {
+    const response = await fetch(`${BASE_URL}/user/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function login({ email, password }) {
+    const response = await fetch(`${BASE_URL}/user/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+    const responseJson = await response.json();
+
+    const { status, message, data } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function getOwnProfile() {
+    const response = await _fetchWithAuth(`${BASE_URL}/user/me`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -446,6 +522,7 @@ const api = (() => {
   }
 
   return {
+    putAccessToken,
     uploadDocuments,
     getDocument,
     deleteDocument,
@@ -458,6 +535,9 @@ const api = (() => {
     editUpdate,
     deleteUpdate,
     getAllUsers,
+    register,
+    login,
+    getOwnProfile,
     addPm,
     getPms,
     deletePm,

@@ -1,0 +1,133 @@
+.login-page, .register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-page-layout, .register-page-layout {
+    width: 25%;
+    background: var(--surface-secondary);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    padding: 36px;
+}
+
+.login-page__header, .register-page__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-page__logo, .register-page__logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px
+}
+
+.login-page__icon, .register-page__icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary);
+    border-radius: 8px;
+    font-size: 20px;
+    color: var(--text-secondary);
+}
+
+.login-page__logo > h1, .register-page__logo > h1 {
+    color: var(--text-primary);
+    font-size: 32px;
+}
+
+.login-page__header > p, .register-page > p {
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.login-page__input, .register-page__input {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.login-page__input-section,
+.login-page__actions,
+.register-page__input-section,
+.register-page__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.login-page__actions a,
+.login-page__actions a:visited,
+.register-page__actions a,
+.register-page__actions a:visited
+{
+    text-decoration: none;
+    color: var(--primary);
+}
+
+
+.login-page__actions, .register-page__actions {
+    align-items: center;
+}
+
+.login-page__login, .register-page__register {
+    width: 100%;
+    padding-inline: 16px;
+    padding-block: 8px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: bold;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+}
+
+.register-page__disable, .login-page__login-disable {
+    color: var(--text-tertiary);
+    background: var(--surface-secondary);
+    border: 2px solid var(--border);
+}
+
+.register-page__password-hint {
+    font-size: 12px;
+    margin-top: 6px;
+    transition: color 0.2s ease;
+}
+
+.register-page__password-hint.invalid {
+    color: var(--danger);
+}
+
+.register-page__password-hint.valid {
+    color: var(--success);
+}
+
+.register-page__register:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.register-page__email-hint, .login-page__email-hint {
+    font-size: 12px;
+    margin-top: 6px;
+    transition: color 0.2s ease;
+}
+
+.register-page__email-hint.invalid, .login-page__email-hint.invalid {
+    color: var(--danger);
+}
+
+.register-page__email-hint.valid, .login-page__email-hint.valid {
+    color: var(--success);
+}

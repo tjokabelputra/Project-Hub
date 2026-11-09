@@ -79,3 +79,8 @@ export function calculateDaysLate(targetGoLive) {
 
   return Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24)));
 }
+
+export function isEmailValid(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.trim());
+}

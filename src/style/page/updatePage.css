@@ -8,7 +8,6 @@
     flex-direction: column;
     padding-block: 16px;
     padding-inline: 32px;
-    background: var(--surface-secondary);
 }
 
 .input-update__header h1 {

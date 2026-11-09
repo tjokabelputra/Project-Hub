@@ -1,6 +1,6 @@
 import React from 'react';
-import { FaEye } from 'react-icons/fa';
-import {formatDate, formatDateTime} from '../../util/util.js';
+import {FaEye, FaTrash} from 'react-icons/fa';
+import { formatDate, formatDateTime } from '../../util/util.js';
 
 function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
   return (
@@ -14,6 +14,7 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
             <td>Kendala/Isu</td>
             <td>Next Action</td>
             <td>Terakhir Diupdate</td>
+            <td>Diupdate Oleh</td>
             <td>Aksi</td>
           </tr>
         </thead>
@@ -26,9 +27,11 @@ function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {
               <td>{update.issue}</td>
               <td>{update.nextStep}</td>
               <td>{formatDateTime(update.updatedAt)}</td>
+              <td>{update.updatedBy}</td>
               <td className="history-list-table__action">
                 <div className="history-list-table__action-buttons">
                   <button type="button" onClick={() => onPreviewUpdate(update)}><FaEye /></button>
+                  <button type="button" onClick={() => onDeleteUpdate(update.id)}><FaTrash /></button>
                 </div>
               </td>
             </tr>

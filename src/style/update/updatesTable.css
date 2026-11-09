@@ -20,35 +20,54 @@
     border-bottom: 1px solid var(--border);
 }
 
+/* Tanggal */
 .history-list-table__header td:nth-child(1),
 .history-list-table__body td:nth-child(1) {
     width: 9%;
     text-align: center;
 }
 
+/* Nama Project */
 .history-list-table__header td:nth-child(2),
 .history-list-table__body td:nth-child(2) {
-    width: 13%;
+    width: 12%;
 }
 
+/* Progress/Output */
 .history-list-table__header td:nth-child(3),
 .history-list-table__body td:nth-child(3) {
-    width: 21%;
+    width: 19%;
 }
 
+/* Kendala/Isu */
 .history-list-table__header td:nth-child(4),
 .history-list-table__body td:nth-child(4) {
-    width: 19%;
+    width: 18%;
 }
 
+/* Next Action */
 .history-list-table__header td:nth-child(5),
 .history-list-table__body td:nth-child(5) {
-    width: 19%;
+    width: 18%;
 }
 
+/* Updated By */
 .history-list-table__header td:nth-child(6),
 .history-list-table__body td:nth-child(6) {
-    width: 14%;
+    width: 10%;
+}
+
+/* Terakhir Update */
+.history-list-table__header td:nth-child(7),
+.history-list-table__body td:nth-child(7) {
+    width: 10%;
+}
+
+/* Aksi */
+.history-list-table__header td:nth-child(8),
+.history-list-table__body td:nth-child(8) {
+    width: 4%;
+    text-align: center;
 }
 
 .history-list-table__header td:nth-child(7),
@@ -73,4 +92,8 @@
 
 .history-list-table__action-buttons button:first-child {
     color: var(--primary);
+}
+
+.history-list-table__action-buttons button:last-child {
+    color: var(--danger);
 }

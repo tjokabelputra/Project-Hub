@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FaFolder, FaHome, FaClipboard, FaPen } from 'react-icons/fa';
-import { NavLink } from 'react-router';
-import {FaGear} from "react-icons/fa6";
+import { NavLink, useNavigate } from 'react-router';
+import { FaGear } from 'react-icons/fa6';
 
-function SidebarComponent({ profilePicture, name, role }) {
+function SidebarComponent({ profilePicture, name, email }) {
+  const navigate = useNavigate();
   return (
     <aside className="sidebar">
       <div className="sidebar__general">
@@ -38,11 +39,11 @@ function SidebarComponent({ profilePicture, name, role }) {
         </nav>
 
       </div>
-      <div className="sidebar__user">
+      <div className="sidebar__user" onClick={() => navigate('/profile')}>
         <img src={profilePicture} alt={name} />
         <div className="sidebar-user__info">
           <p className="sidebar-user-info__name">{name}</p>
-          <p className="sidebar-user-info__role">{role}</p>
+          <p className="sidebar-user-info__email">{email}</p>
         </div>
       </div>
     </aside>
@@ -52,7 +53,7 @@ function SidebarComponent({ profilePicture, name, role }) {
 SidebarComponent.propTypes = {
   profilePicture: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired
 };
 
 export default SidebarComponent;
