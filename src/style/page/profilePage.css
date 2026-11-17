@@ -3,14 +3,16 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 24px;
+    gap: 40px;
 }
 
-.profile-page__info {
+.profile-page__info, .profile-page__reset-password {
     display: flex;
     flex-direction: column;
     gap: 24px;
     padding: 24px;
     width: 50%;
+    height: max-content;
     background: var(--surface-secondary);
     border-radius: 8px;
 }
@@ -102,4 +104,47 @@
     background: var(--danger);
     border: 2px solid var(--danger);
     border-radius: 8px;
+}
+
+.profile-page__reset-input {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-page__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.profile-page__submit-password {
+    width: max-content;
+    background: var(--primary);
+    padding-inline: 16px;
+    padding-block: 8px;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.profile-page__submit-password-disable {
+    background: var(--surface-secondary);
+    color: var(--text-tertiary);
+    border: 2px solid var(--border);
+}
+
+.profile-page__password-hint {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.profile-page__password-hint.valid {
+    color: var(--success);
+}
+
+.profile-page__password-hint.invalid {
+    color: var(--danger);
 }

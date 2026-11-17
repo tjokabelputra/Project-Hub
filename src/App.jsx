@@ -73,7 +73,7 @@ function App() {
   return (
     <>
       <div className="app-container">
-        <SidebarComponent name={authUser.name} profilePicture={authUser.profilePicture} email={authUser.email} />
+        <SidebarComponent name={authUser.nama} email={authUser.email} role={authUser.role} />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />

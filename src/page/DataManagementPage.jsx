@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPopulateInputs } from '../states/shared/action.js';
+import { asyncPopulateData } from '../states/shared/action.js';
 import DataListComponent from '../components/ManagePage/sub/DataListComponent.jsx';
 import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.jsx';
 import useInput from '../hooks/useInput.js';
@@ -13,6 +13,7 @@ function DataManagementPage() {
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
   const units = useSelector((states) => states.units);
+  const users = useSelector((states) => states.users);
   const dispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -47,7 +48,7 @@ function DataManagementPage() {
   };
 
   useEffect(() => {
-    dispatch(asyncPopulateInputs());
+    dispatch(asyncPopulateData());
   }, [dispatch]);
 
   const onBackPressed = () => {
@@ -135,6 +136,7 @@ function DataManagementPage() {
           pms={pms}
           bps={bps}
           units={units}
+          users={users}
           onAddData={onAddData}
           onDeleteUser={onDeleteUser}
           onDeleteUnit={onDeleteUnit}/>

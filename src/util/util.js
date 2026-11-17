@@ -84,3 +84,21 @@ export function isEmailValid(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.trim());
 }
+
+export async function _fetchWithAuth(url, option = {}) {
+  return fetch(url, {
+    ...option,
+    headers: {
+      ...option.headers,
+      Authorization: `Bearer ${getAccessToken()}`
+    }
+  });
+}
+
+export function putAccessToken(token) {
+  localStorage.setItem('access_token', token);
+}
+
+export function getAccessToken() {
+  return localStorage.getItem('access_token');
+}

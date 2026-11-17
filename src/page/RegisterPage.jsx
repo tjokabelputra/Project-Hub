@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../util/api.js';
+import userApi from '../util/userApi.js';
 import { FaFolder } from 'react-icons/fa';
 import GeneralInputComponent from '../components/input/GeneralInputComponent.jsx';
 import useInput from '../hooks/useInput.js';
@@ -7,23 +7,28 @@ import { Link, useNavigate } from 'react-router';
 import { isEmailValid } from '../util/util.js';
 
 function RegisterPage() {
-  const [name, onNameChange] = useInput();
   const [email, onEmailChange] = useInput();
+  const [code, onCodeChange] = useInput();
   const [password, onPasswordChange] = useInput();
+  const [repeatPassword, onRepeatPasswordChange] = useInput();
+
   const navigate = useNavigate();
 
-  const isPasswordValid = password.length >= 8;
   const isEmailValidValue = isEmailValid(email);
+  const isPasswordValid = password.length >= 8;
+  const isPasswordMatch = password === repeatPassword;
+  const isCodeValid = code.trim().length === 64;
 
   const isFormValid =
-      name.trim() !== '' &&
       isEmailValidValue &&
-      isPasswordValid;
+      isCodeValid &&
+      isPasswordValid &&
+      isPasswordMatch;
 
   const onRegister = async () => {
     if (!isFormValid) return;
 
-    const success = await api.register({ name, email, password });
+    const success = await userApi.activateAccount({ email, token: code, password });
 
     if (success) {
       navigate('/login');
@@ -44,12 +49,6 @@ function RegisterPage() {
         </div>
         <div className="register-page__input">
           <div className="register-page__input-section">
-            <GeneralInputComponent
-              id="name"
-              label="Nama"
-              placeholder="Nama Pengguna"
-              value={name}
-              onChange={onNameChange}/>
             <div className="register-page__email">
               <GeneralInputComponent
                 type="email"
@@ -71,6 +70,28 @@ function RegisterPage() {
                     : 'Format email tidak valid'}
               </p>
             </div>
+            <div className="register-page__code">
+              <GeneralInputComponent
+                id="code"
+                label="Kode Aktivasi"
+                placeholder="Masukkan 64 karakter kode aktivasi"
+                value={code}
+                onChange={onCodeChange}
+              />
+              <p className={`register-page__code-hint ${
+                code.length === 0
+                  ? ''
+                  : isCodeValid
+                    ? 'valid'
+                    : 'invalid'
+              }`}>
+                {code.length === 0
+                  ? 'Masukkan kode aktivasi'
+                  : isCodeValid
+                    ? 'Format kode aktivasi valid'
+                    : 'Kode aktivasi harus 64 karakter'}
+              </p>
+            </div>
             <div className="register-page__password">
               <GeneralInputComponent
                 type="password"
@@ -82,6 +103,25 @@ function RegisterPage() {
               <p className={`register-page__password-hint ${isPasswordValid ? 'valid' : 'invalid'}`}>
                 Minimal 8 karakter
               </p>
+            </div>
+            <div className="register-page__repeat-password">
+              <GeneralInputComponent
+                type="password"
+                id="repeat-password"
+                label="Ulangi Kata Sandi"
+                placeholder="Masukkan ulang kata sandi"
+                value={repeatPassword}
+                onChange={onRepeatPasswordChange}
+              />
+              {repeatPassword.length > 0 && (
+                <p className={`register-page__password-hint ${
+                  isPasswordMatch ? 'valid' : 'invalid'
+                }`}>
+                  {isPasswordMatch
+                    ? 'Kata sandi cocok'
+                    : 'Kata sandi tidak cocok'}
+                </p>
+              )}
             </div>
           </div>
           <div className="register-page__actions">

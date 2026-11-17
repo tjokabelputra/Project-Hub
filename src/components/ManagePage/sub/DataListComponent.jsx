@@ -3,19 +3,21 @@ import FilterComponent from '../../FilterComponent.jsx';
 import { FaPlus } from 'react-icons/fa';
 import DataListTable from '../DataListTable.jsx';
 
-function DataListComponent({ pms, bps, units, onAddData, onDeleteUser, onDeleteUnit }) {
+function DataListComponent({ pms, bps, units, users, onAddData, onDeleteUser, onDeleteUnit }) {
   const [filterIndex, setFilterIndex] = useState(0);
 
   const filterCounts = {
     pms: pms.length,
     bps: bps.length,
-    units: units.length
+    units: units.length,
+    users: users.length
   };
 
   const filters = [
     { label: 'Project Manager', count: filterCounts.pms },
     { label: 'Business Partner', count: filterCounts.bps },
-    { label: 'Requesting Unit', count: filterCounts.units }
+    { label: 'Requesting Unit', count: filterCounts.units },
+    { label: 'Users', count: filterCounts.users }
   ];
 
   return (
@@ -38,6 +40,7 @@ function DataListComponent({ pms, bps, units, onAddData, onDeleteUser, onDeleteU
         pms={pms}
         bps={bps}
         units={units}
+        users={users}
         filterIndex={filterIndex}
         onDeleteUser={onDeleteUser}
         onDeleteUnit={onDeleteUnit}/>

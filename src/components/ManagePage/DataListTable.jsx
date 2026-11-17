@@ -1,122 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { FaPencil } from 'react-icons/fa6';
-import { FaTrash } from 'react-icons/fa';
-import PaginationComponent from '../PaginationComponent.jsx';
+import React from 'react';
+import RoleDataTable from './RoleDataTable.jsx';
+import UnitDataTable from './UnitDataTable.jsx';
+import UserDataTable from './UserDataTable.jsx';
 
-function DataListTable({ pms, bps, units, filterIndex, onDeleteUser, onDeleteUnit }) {
-  const [filteredData, setFilteredData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+function DataListPage({ pms, bps, units, users, filterIndex }) {
+  switch (filterIndex) {
+  case 0:
+    return (
+      <RoleDataTable
+        data={pms}
+        role="Project Manager"/>
+    );
 
-  const tableSize = 5;
-  const startIndex = (currentPage - 1) * tableSize;
-  const endIndex = startIndex + tableSize;
+  case 1:
+    return (
+      <RoleDataTable
+        data={bps}
+        role="Business Partner"/>
+    );
 
-  const isUnit = filterIndex === 2;
+  case 2:
+    return (
+      <UnitDataTable data={units}/>
+    );
 
-  const paginationType = [
-    'Project Managers',
-    'Business Partners',
-    'Requesting Units'
-  ][filterIndex] || 'Project Managers';
+  case 3:
+    return <UserDataTable data={users} />;
 
-  useEffect(() => {
-    const setFilter = () => {
-      switch (filterIndex) {
-      case 0:
-        setFilteredData(pms);
-        break;
-      case 1:
-        setFilteredData(bps);
-        break;
-      case 2:
-        setFilteredData(units);
-        break;
-      default:
-        setFilteredData(pms);
-      }
-
-      setCurrentPage(1);
-    };
-
-    setFilter();
-  }, [pms, bps, units, filterIndex]);
-
-  return (
-    <div className="data-list-layout">
-      <table className={`data-list-table ${isUnit ? 'data-list-table--unit' : ''}`}>
-        <thead className="data-list-table__header">
-          <tr>
-            <td>No</td>
-            <td>
-              {isUnit
-                ? 'Nama Unit Pengusul'
-                : filterIndex === 0
-                  ? 'Nama Project Manager'
-                  : 'Nama Business Partner'}
-            </td>
-            <td>
-              {isUnit
-                ? 'Kode Unit'
-                : filterIndex === 0
-                  ? 'Kode Project Manager'
-                  : 'Kode Business Partner'}
-            </td>
-            {!isUnit && <td>Email</td>}
-            <td>Aksi</td>
-          </tr>
-        </thead>
-        <tbody className="data-list-table__body">
-          {filteredData.slice(startIndex, endIndex).map((data, index) => (
-            <tr key={data.id}>
-              <td>{startIndex + index + 1}</td>
-              <td className="data-list-table__name">
-                {data.name}
-              </td>
-              <td>{data.code}</td>
-
-              {!isUnit && (
-                <td>{data.email}</td>
-              )}
-              <td className="data-list-table__action">
-                <div className="data-list-table__action-buttons">
-                  <button
-                    type="button"
-                    className="data-list-table__action-delete"
-                    onClick={() => {
-                      if (isUnit) {
-                        onDeleteUnit(data.id);
-                      } else if (filterIndex === 0) {
-                        onDeleteUser('Project Manager', data.id);
-                      } else {
-                        onDeleteUser('Business Partner', data.id);
-                      }
-                    }}>
-                    <FaTrash />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-          {filteredData.length === 0 && (
-            <tr>
-              <td colSpan={isUnit ? 4 : 5}>
-                  Tidak ada data.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      <PaginationComponent
-        type={paginationType}
-        filteredDataLength={filteredData.length}
-        tableSize={tableSize}
-        startIndex={startIndex}
-        endIndex={endIndex}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
-    </div>
-  );
+  default:
+    return null;
+  }
 }
 
-export default DataListTable;
+export default DataListPage;

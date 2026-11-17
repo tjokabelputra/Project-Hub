@@ -4,7 +4,7 @@ import { FaFolder, FaHome, FaClipboard, FaPen } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router';
 import { FaGear } from 'react-icons/fa6';
 
-function SidebarComponent({ profilePicture, name, email }) {
+function SidebarComponent({ name, email, role }) {
   const navigate = useNavigate();
   return (
     <aside className="sidebar">
@@ -32,15 +32,20 @@ function SidebarComponent({ profilePicture, name, email }) {
             <span>Input Update</span>
           </NavLink>
 
-          <NavLink to="/management" className="sidebar-general-navigation__link">
-            <FaGear className="sidebar-navigation__icon" />
-            <span>Manage Data</span>
-          </NavLink>
+          { role === 'ADMIN' && (
+            <NavLink to="/management" className="sidebar-general-navigation__link">
+              <FaGear className="sidebar-navigation__icon" />
+              <span>Manage Data</span>
+            </NavLink>
+          )}
         </nav>
 
       </div>
       <div className="sidebar__user" onClick={() => navigate('/profile')}>
-        <img src={profilePicture} alt={name} />
+        <img
+          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=random&color=CBD5E1&bold=true`}
+          alt={name}
+        />
         <div className="sidebar-user__info">
           <p className="sidebar-user-info__name">{name}</p>
           <p className="sidebar-user-info__email">{email}</p>
@@ -51,7 +56,6 @@ function SidebarComponent({ profilePicture, name, email }) {
 }
 
 SidebarComponent.propTypes = {
-  profilePicture: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired
 };

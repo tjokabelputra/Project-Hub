@@ -1,4 +1,4 @@
-import api from '../../util/api.js';
+import userApi from '../../util/userApi.js';
 
 const ActionType = {
   RECEIVE_USERS: 'RECEIVE_USERS'
@@ -16,7 +16,7 @@ function receiveUsersActionCreator(users) {
 function asyncGetAllUsers() {
   return async (dispatch) => {
     try {
-      const users = await api.getAllUsers();
+      const users = await userApi.getAllUsers();
       dispatch(receiveUsersActionCreator(users));
 
       return users;

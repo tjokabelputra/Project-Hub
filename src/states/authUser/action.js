@@ -1,4 +1,5 @@
-import api from '../../util/api.js';
+import userApi from '../../util/userApi.js';
+import { putAccessToken } from '../../util/util.js';
 
 const ActionType = {
   SET_AUTH_USER: 'SET_AUTH_USER',
@@ -26,9 +27,9 @@ function unsetAuthUserActionCreator() {
 function asyncSetAuthUser({ email, password }) {
   return async (dispatch) => {
     try {
-      const token = await api.login({ email, password });
-      api.putAccessToken(token);
-      const authUser = await api.getOwnProfile();
+      const data = await userApi.login({ email, password });
+      putAccessToken(data.token);
+      const authUser = await userApi.getOwnProfile();
 
       dispatch(setAuthUserActionCreator(authUser));
       return true;
@@ -43,7 +44,7 @@ function asyncSetAuthUser({ email, password }) {
 function asyncUnsetAuthUser() {
   return async (dispatch) => {
     dispatch(unsetAuthUserActionCreator());
-    api.putAccessToken('');
+    putAccessToken('');
   };
 }
 

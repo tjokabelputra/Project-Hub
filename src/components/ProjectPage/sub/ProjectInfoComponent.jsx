@@ -7,7 +7,7 @@ import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import { dummyProjectCategories, dummyProjectStatus } from '../../../data/dummy.js';
 import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPopulateInputs } from '../../../states/shared/action.js';
+import { asyncPopulateData } from '../../../states/shared/action.js';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 
 function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
@@ -35,7 +35,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
   const inputListSecond = [pm, bp, requestingUnit, owner, projectInfo, targetGoLive];
 
   useEffect(() => {
-    dispatch(asyncPopulateInputs());
+    dispatch(asyncPopulateData());
   }, [dispatch]);
 
   const isCodeDuplicate =
