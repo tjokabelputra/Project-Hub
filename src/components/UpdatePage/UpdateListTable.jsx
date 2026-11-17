@@ -1,5 +1,5 @@
 import React from 'react';
-import {FaEye, FaTrash} from 'react-icons/fa';
+import { FaEye, FaTrash } from 'react-icons/fa';
 import { formatDate, formatDateTime } from '../../util/util.js';
 
 function UpdateListTable({ updates, onPreviewUpdate, onDeleteUpdate }) {

@@ -21,7 +21,7 @@ const api = (() => {
 
   async function uploadDocuments(file) {
     try {
-      const urlResponse = await fetch(`${BASE_URL}/documents/upload-url`, {
+      const urlResponse = await _fetchWithAuth(`${BASE_URL}/documents/upload-url`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const api = (() => {
   }
 
   async function getDocument(documentId) {
-    const response = await fetch(`${BASE_URL}/documents/${documentId}/download`);
+    const response = await _fetchWithAuth(`${BASE_URL}/documents/${documentId}/download`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -81,7 +81,7 @@ const api = (() => {
   }
 
   async function deleteDocument(objectKey) {
-    const response = await fetch(`${BASE_URL}/documents/delete`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/documents/delete`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
@@ -100,7 +100,7 @@ const api = (() => {
   }
 
   async function addProject(project) {
-    const response = await fetch(`${BASE_URL}/projects/add`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/projects/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ const api = (() => {
   }
 
   async function getProjects() {
-    const response = await fetch(`${BASE_URL}/projects/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/projects/all`);
 
     const responseJson = await response.json();
 
@@ -148,7 +148,7 @@ const api = (() => {
   }
 
   async function editProject(editedProject) {
-    const response = await fetch(`${BASE_URL}/projects/edit`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/projects/edit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -179,7 +179,7 @@ const api = (() => {
   }
 
   async function deleteProject(projectId) {
-    const response = await fetch(`${BASE_URL}/projects/delete/${projectId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/projects/delete/${projectId}`, {
       method: 'PUT',
     });
 
@@ -349,7 +349,7 @@ const api = (() => {
   }
 
   async function addPm(pm) {
-    const response = await fetch(`${BASE_URL}/pms/add`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/pms/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -371,7 +371,7 @@ const api = (() => {
   }
 
   async function getPms() {
-    const response = await fetch(`${BASE_URL}/pms/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/pms/all`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -384,7 +384,7 @@ const api = (() => {
   }
 
   async function deletePm(pmId) {
-    const response = await fetch(`${BASE_URL}/pms/delete/${pmId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/pms/delete/${pmId}`, {
       method: 'PUT'
     });
 
@@ -398,7 +398,7 @@ const api = (() => {
 
 
   async function addBp(bp) {
-    const response = await fetch(`${BASE_URL}/bps/add`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/bps/add`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -420,7 +420,7 @@ const api = (() => {
   }
 
   async function getBps() {
-    const response = await fetch(`${BASE_URL}/bps/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/bps/all`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -433,7 +433,7 @@ const api = (() => {
   }
 
   async function deleteBp(bpId) {
-    const response = await fetch(`${BASE_URL}/bps/delete/${bpId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/bps/delete/${bpId}`, {
       method: 'PUT'
     });
 
@@ -446,7 +446,7 @@ const api = (() => {
   }
 
   async function addUnit(unit) {
-    const response = await fetch(`${BASE_URL}/units/add`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/units/add`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -468,7 +468,7 @@ const api = (() => {
   }
 
   async function getUnits(){
-    const response = await fetch(`${BASE_URL}/units/all`);
+    const response = await _fetchWithAuth(`${BASE_URL}/units/all`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
@@ -481,7 +481,7 @@ const api = (() => {
   }
 
   async function deleteUnit(unitId){
-    const response = await fetch(`${BASE_URL}/units/delete/${unitId}`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/units/delete/${unitId}`, {
       method: 'PUT'
     });
 
@@ -494,7 +494,7 @@ const api = (() => {
   }
 
   async function generateInsight() {
-    const response = await fetch(`${BASE_URL}/ai/generate`, {
+    const response = await _fetchWithAuth(`${BASE_URL}/ai/generate`, {
       method: 'POST'
     });
     const responseJson = await response.json();
@@ -509,7 +509,7 @@ const api = (() => {
   }
 
   async function getLatestInsight() {
-    const response = await fetch(`${BASE_URL}/ai/latest`);
+    const response = await _fetchWithAuth(`${BASE_URL}/ai/latest`);
     const responseJson = await response.json();
 
     const { status, message, data } = responseJson;
