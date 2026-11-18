@@ -1,4 +1,4 @@
-import api from '../../util/api.js';
+import dashboardApi from "../../util/dashboardApi.js";
 
 const ActionType = {
   LATEST_INSIGHT: 'LATEST_INSIGHT'
@@ -16,7 +16,7 @@ function latestInsightActionCreator(insight) {
 function asyncGenerateInsight() {
   return async (dispatch) => {
     try {
-      const newInsight = await api.generateInsight();
+      const newInsight = await dashboardApi.generateAiSummary();
       dispatch(latestInsightActionCreator(newInsight));
 
       return newInsight;
@@ -31,7 +31,7 @@ function asyncGenerateInsight() {
 function asyncGetLatestInsight() {
   return async (dispatch) => {
     try {
-      const latestInsight = await api.getLatestInsight();
+      const latestInsight = await dashboardApi.getAiSummary();
       dispatch(latestInsightActionCreator(latestInsight));
 
       return latestInsight;

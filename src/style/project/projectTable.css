@@ -95,7 +95,7 @@
     border: 1px solid var(--success-surface);
 }
 
-.project-list-table__status-on_hold p {
+.project-list-table__status-pending p {
     background: var(--warning-surface);
     color: var(--warning);
     border: 1px solid var(--warning-surface);

@@ -14,7 +14,7 @@ function PriorityProjectCard({ projects }) {
       <div className="priority-project-card__content">
         { upcomingProjects.map((project) => (
           <div className="priority-project-card__info" key={project.id}>
-            <p className="priority-project-card__name">{project.name}</p>
+            <p className="priority-project-card__name">{project.nama}</p>
             <p className="priority-project-card__stage">{formatDate(project.targetGoLive)}</p>
           </div>
         ))}

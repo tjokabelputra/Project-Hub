@@ -1,12 +1,10 @@
 import React from 'react';
 import { MdRefresh } from 'react-icons/md';
 import { RxLightningBolt } from 'react-icons/rx';
-import { formatDateTime } from '../../util/util.js';
+import { formatDateTime, formatLabel, formatPeriod } from '../../util/util.js';
 import LoadingSpinner from '../LoadingSpinner.jsx';
 
 function InsightComponent({ insight, isLoading, onGenerate }) {
-  const keyInsights = insight?.response?.keyInsights || [];
-
   return (
     <div className="insight">
       <div className="insight__header">
@@ -17,7 +15,7 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
           <div className="insight__text">
             <div className="insight__title">
               <h1>AI Insight & Recommendatio</h1>
-              <p>{formatDateTime(insight.createdAt)}</p>
+              <p>{formatDateTime(insight.generatedAt)}</p>
             </div>
             <p>Analisis pola portofolio strategis, audit tata kelola, dan rekomendasi otomatis oleh Project Hub AI engine.</p>
           </div>
@@ -40,24 +38,57 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
         </button>
       </div>
       <div className="insight__main">
-        <p>Temuan Kunci & Analisis Risiko</p>
-        <div className="insight__list">
-          {keyInsights.map((point) => (
-            <div className={`insight__card insight__card-${point.severity.toLowerCase()}`}>
-              <div className="insight__card-header">
-                <p className={`insight__severity insight__severity-${point.severity.toLowerCase()}`}>{point.severity}</p>
-                <div className="insight__list-info">
-                  <p>{point.title}</p>
-                  <p>{point.description}</p>
+        <div className="insight__latest">
+          <div className="insight__latest-header">
+            <div className="insight__latest-info">
+              <h2>Latest analysis</h2>
+              <p>{formatDateTime(insight?.generatedAt)}</p>
+            </div>
+
+            <span className="insight__latest-period">
+              {insight?.period?.start && insight?.period?.end
+                ? `${formatPeriod(insight.period.start)} – ${formatPeriod(insight.period.end)}`
+                : '-'}
+            </span>
+          </div>
+          <div className="insight__latest-condition">
+            <p>OVERALL CONDITION</p>
+            <h3>Portofolio membutuhkan perhatian</h3>
+            <span>{insight?.condition}</span>
+          </div>
+          <div className="insight__latest-stats">
+            <div>
+              <strong>{insight?.attention?.length ?? 0}</strong>
+              <span>Needs attention</span>
+            </div>
+            <div>
+              <strong>{insight?.stageChangeProjectCount ?? 0}</strong>
+              <span>Stage changes</span>
+            </div>
+            <div>
+              <strong>{insight?.completedProjectCount ?? 0}</strong>
+              <span>Completed</span>
+            </div>
+          </div>
+        </div>
+        <div className="insight__attention">
+          <p>Perlu Perhatian</p>
+          {(insight?.attention || []).map((item, index) => (
+            <div className={`insight__attention-item insight__attention-item-${item.prioritas.toLowerCase()}`} key={index}>
+              <div className="insight__attention-header">
+                <p className={`insight__attention-priority insight__attention-priority-${item.prioritas.toLowerCase()}`}>{formatLabel(item.prioritas)}</p>
+                <div className="insight__attention-header-info">
+                  <p>{item.nama}</p>
+                  <p>{item.insight}</p>
                 </div>
               </div>
-              <div className="insight__recommendation">
-                <strong>Aksi Mitigasi:</strong>
-                <p>{point.recommendedAction}</p>
+              <div className="insight__attention-action">
+                <p>{item.action}</p>
               </div>
             </div>
           ))}
         </div>
+        <div className="insight__"></div>
       </div>
     </div>
   );

@@ -114,7 +114,6 @@ const projectApi = (() => {
         targetGoLive: editedProject.targetGoLive,
         prioritas: editedProject.prioritas,
         status: editedProject.status,
-        stages: editedProject.stages
       })
     });
     const responseJson = await response.json();

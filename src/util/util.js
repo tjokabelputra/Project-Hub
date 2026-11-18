@@ -74,6 +74,7 @@ export function calculateDaysLate(targetGoLive) {
   if (!targetGoLive) return 0;
 
   const [year, month, day] = targetGoLive
+    .slice(0, 10)
     .split('-')
     .map(Number);
 
@@ -84,7 +85,10 @@ export function calculateDaysLate(targetGoLive) {
 
   const difference = today.getTime() - deadline.getTime();
 
-  return Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24)));
+  return Math.max(
+    0,
+    Math.floor(difference / (1000 * 60 * 60 * 24))
+  );
 }
 
 export function isEmailValid(email) {
@@ -125,4 +129,12 @@ export const getIdByName = (data, name) => {
   );
 
   return selected?.id || '';
+};
+
+export const formatPeriod = (date) => {
+  return new Date(`${date}T00:00:00`).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
 };

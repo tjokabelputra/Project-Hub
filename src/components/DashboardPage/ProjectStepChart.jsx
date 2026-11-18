@@ -1,36 +1,39 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 
-const stages = ['Inisiasi', 'Pra Komite', 'Komite TI B', 'Komite TI A', 'Completed'];
+const STAGE_CONFIG = [
+  {
+    stage: 'PRA_KOMITE',
+    name: 'Pra Komite'
+  },
+  {
+    stage: 'KOMITE_TI_B',
+    name: 'Komite TI B'
+  },
+  {
+    stage: 'KOMITE_TI_A',
+    name: 'Komite TI A'
+  }
+];
 
-function ProjectStepChart({ projects }) {
-  const chartData = [
-    { stage: 'Inisiasi', progress: 0, completed: 0, onHold: 0 },
-    ...stages.slice(1, -1).map((stage) => ({
-      stage,
-      progress: 0,
-      completed: 0,
-      onHold: 0,
-    })),
-    { stage: 'Completed', progress: 0, completed: 0, onHold: 0 },
-  ];
-
-  projects.forEach((project) => {
-    const stageName = project.currentStage || 'Inisiasi';
-
-    const stageData = chartData.find(
-      (item) => item.stage === stageName,
-    );
-
-    if (project.status === 'On Progress') {
-      stageData.progress += 1;
-    } else if (project.status === 'Completed') {
-      stageData.completed += 1;
-    } else if (project.status === 'On Hold') {
-      stageData.onHold += 1;
-    }
-  });
+function ProjectStepChart({ stageCounts }) {
+  const chartData = STAGE_CONFIG.map((item) => ({
+    stage: item.name,
+    planned: stageCounts?.[item.stage]?.PLANNED ?? 0,
+    progress: stageCounts?.[item.stage]?.ON_PROGRESS ?? 0,
+    completed: stageCounts?.[item.stage]?.SELESAI ?? 0
+  }));
 
   return (
     <div className="project-stage-chart">
@@ -39,38 +42,49 @@ function ProjectStepChart({ projects }) {
       <div className="project-stage-chart__content">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData}>
-            <CartesianGrid vertical={false} stroke="#E8EDF5"/>
+            <CartesianGrid vertical={false} stroke="#E8EDF5" />
+
             <XAxis
               dataKey="stage"
-              tickLine={false}/>
+              tickLine={false}
+            />
+
             <YAxis
               allowDecimals={false}
               domain={[0, 'auto']}
               axisLine={false}
-              tickLine={false}/>
+              tickLine={false}
+            />
+
             <Tooltip />
             <Legend
               verticalAlign="middle"
               align="right"
-              layout="vertical"/>
+              layout="vertical"
+            />
+
+            <Bar
+              dataKey="planned"
+              name="Planned"
+              stackId="status"
+              fill="#D97706FF"
+              barSize={40}
+            />
+
             <Bar
               dataKey="progress"
               name="On Progress"
               stackId="status"
               fill="#198754"
-              radius={[4, 4, 0, 0]}
-              barSize={40}/>
+            />
+
             <Bar
               dataKey="completed"
               name="Completed"
               stackId="status"
+              fill="#2563EB"
               radius={[4, 4, 0, 0]}
-              fill="#2563EB"/>
-            <Bar
-              dataKey="onHold"
-              name="On Hold"
-              stackId="status" fill="#DC3545"
-              radius={[4, 4, 0, 0]}/>
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -79,7 +93,7 @@ function ProjectStepChart({ projects }) {
 }
 
 ProjectStepChart.propTypes = {
-  projects: PropTypes.array.isRequired,
+  stageCounts: PropTypes.object.isRequired
 };
 
 export default ProjectStepChart;

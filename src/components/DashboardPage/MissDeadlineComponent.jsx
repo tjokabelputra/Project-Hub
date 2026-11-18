@@ -40,8 +40,8 @@ function MissDeadlineComponent({ projects, total }) {
                 return (
                   <div className="missed-deadline__info-card">
                     <p key={project.id}>
-                      <strong>{project.name}</strong>
-                      {' '}  <strong>({project.code})</strong>
+                      <strong>{project.nama}</strong>
+                      {' '}  <strong>({project.kodeProject})</strong>
                       {' '} <strong className="missed-deadline__date-past">(Terlambat {daysLate} Hari)</strong>
                     </p>
                   </div>

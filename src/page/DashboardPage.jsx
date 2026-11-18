@@ -6,35 +6,39 @@ import ProjectStatusChart from '../components/DashboardPage/ProjectStatusChart.j
 import ProjectStepChart from '../components/DashboardPage/ProjectStepChart.jsx';
 import PriorityProjectCard from '../components/DashboardPage/PriorityProjectCard.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import {asyncGenerateInsight, asyncGetLatestInsight} from '../states/insight/action.js';
+import { asyncGenerateInsight, asyncGetLatestInsight } from '../states/insight/action.js';
 import MissDeadlineComponent from '../components/DashboardPage/MissDeadlineComponent.jsx';
 import InsightComponent from '../components/DashboardPage/InsightComponent.jsx';
+import { asyncGetDashboard } from '../states/dashboard/action.js';
 
 function DashboardPage({ projects }) {
+  const dashboardData = useSelector((states) => states.dashboard);
   const insight = useSelector((states) => states.insight);
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    dispatch(asyncGetDashboard());
     dispatch(asyncGetLatestInsight());
   }, [dispatch]);
 
   function getMissedDeadlineProjects(projects) {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+
+    const todayString = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, '0'),
+      String(today.getDate()).padStart(2, '0')
+    ].join('-');
 
     return projects.filter((project) => {
       if (!project.targetGoLive) return false;
-      if (project.status === 'Completed') return false;
+      if (project.status === 'SELESAI') return false;
 
-      const [year, month, day] = project.targetGoLive
-        .split('-')
-        .map(Number);
+      const deadlineString = project.targetGoLive.slice(0, 10);
 
-      const deadline = new Date(year, month - 1, day);
-
-      return deadline < today;
+      return deadlineString < todayString;
     });
   }
 
@@ -42,37 +46,30 @@ function DashboardPage({ projects }) {
     return getMissedDeadlineProjects(projects);
   }, [projects]);
 
-  const projectStats = {
-    all: projects.length,
-    onProgress: projects.filter((project) => project.status === 'On Progress').length,
-    completed: projects.filter((project) => project.status === 'Completed').length,
-    onHoldProjects: projects.filter((project) => project.status === 'On Hold').length,
-  };
-
   const projectCards = [
     {
       status: 'ALL',
       icon: FaFolder,
       title: 'Total Projects',
-      content: projectStats.all,
+      content: dashboardData.totalProjects,
     },
     {
       status: 'On Progress',
       icon: FaRegClock,
       title: 'On Progress Projects',
-      content: projectStats.onProgress,
-    },
-    {
-      status: 'Completed',
-      icon: FaCheck,
-      title: 'Completed Projects',
-      content: projectStats.completed,
+      content: dashboardData.statusCounts?.ON_PROGRESS ?? 0,
     },
     {
       status: 'On Hold',
       icon: FaRegPauseCircle,
       title: 'On Hold Projects',
-      content: projectStats.onHoldProjects,
+      content: dashboardData.statusCounts?.ON_HOLD ?? 0,
+    },
+    {
+      status: 'Completed',
+      icon: FaCheck,
+      title: 'Completed Projects',
+      content: dashboardData.statusCounts?.SELESAI ?? 0,
     },
   ];
 
@@ -110,10 +107,15 @@ function DashboardPage({ projects }) {
       </div>
       <div className="dashboard-page__chart-section">
         <div className="dashboard-page__chart-item">
-          <ProjectStatusChart projects={projects} />
+          <ProjectStatusChart
+            statusCounts={dashboardData.statusCounts}
+            totalProjects={dashboardData.totalProjects}
+          />
         </div>
         <div className="dashboard-page__chart-item dashboard-page__chart-item--wide">
-          <ProjectStepChart projects={projects} />
+          <ProjectStepChart
+            stageCounts={dashboardData.stageCounts}
+          />
         </div>
         <div className="dashboard-page__chart-item">
           <PriorityProjectCard projects={projects}/>
