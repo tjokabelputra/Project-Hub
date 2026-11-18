@@ -1,20 +1,11 @@
 import api from '../../util/api.js';
+import masterApi from '../../util/masterApi.js';
 
 const ActionType = {
-  ADD_BP: 'ADD_BP',
   RECEIVE_BPS: 'RECEIVE_BPS',
   DELETE_BP: 'DELETE_BP',
   RESTORE_BP: 'RESTORE_BP'
 };
-
-function addBpActionCreator(bp) {
-  return {
-    type: ActionType.ADD_BP,
-    payload:{
-      bp
-    }
-  };
-}
 
 function receiveBPsActionCreator(bps) {
   return {
@@ -44,11 +35,12 @@ function restoreBpActionCreator({ index, bp }) {
   };
 }
 
-function asyncAddBp(bp) {
+function asyncAddBp(name) {
   return async (dispatch) => {
     try {
-      const newBp = await api.addBp(bp);
-      dispatch(addBpActionCreator(newBp));
+      const newBp = await masterApi.addBp(name);
+      const bps = await masterApi.getBps();
+      dispatch(receiveBPsActionCreator(bps));
 
       return newBp;
     }
@@ -82,7 +74,6 @@ function asyncDeleteBp(bpId) {
 
 export {
   ActionType,
-  addBpActionCreator,
   receiveBPsActionCreator,
   deleteBpActionCreator,
   restoreBpActionCreator,

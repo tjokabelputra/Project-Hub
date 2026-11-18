@@ -1,20 +1,11 @@
 import api from '../../util/api.js';
+import masterApi from "../../util/masterApi.js";
 
 const ActionType = {
-  ADD_PM: 'ADD_PM',
   RECEIVE_PMS: 'RECEIVE_PMS',
   DELETE_PM: 'DELETE_PM',
   RESTORE_PM: 'RESTORE_PM'
 };
-
-function addPmActionCreator(pm) {
-  return {
-    type: ActionType.ADD_PM,
-    payload: {
-      pm
-    }
-  };
-}
 
 function receivePMsActionCreator(pms) {
   return {
@@ -44,11 +35,12 @@ function restorePmActionCreator({ index, pm }) {
   };
 }
 
-function asyncAddPm(pm) {
+function asyncAddPm(name) {
   return async (dispatch) => {
     try {
-      const newPm = await api.addPm(pm);
-      dispatch(addPmActionCreator(newPm));
+      const newPm = await masterApi.addPm(name);
+      const pms = await masterApi.getPms();
+      dispatch(receivePMsActionCreator(pms));
 
       return newPm;
     }
@@ -82,7 +74,6 @@ function asyncDeletePm(pmId) {
 
 export {
   ActionType,
-  addPmActionCreator,
   receivePMsActionCreator,
   deletePmActionCreator,
   restorePmActionCreator,

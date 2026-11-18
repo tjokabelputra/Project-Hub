@@ -22,11 +22,11 @@ function RoleDataTable({ data, role }) {
       <table className="data-list-table">
         <thead className="data-list-table__header">
           <tr>
-            <th>No</th>
-            <th>Nama {role}</th>
-            <th>Kode {role}</th>
-            <th>Email</th>
-            <th>Aksi</th>
+            <td>No</td>
+            <td>Nama {role}</td>
+            <td>Kode {role}</td>
+            <td>Dipakai</td>
+            <td>Aksi</td>
           </tr>
         </thead>
         <tbody className="data-list-table__body">
@@ -34,16 +34,17 @@ function RoleDataTable({ data, role }) {
             <tr key={item.id}>
               <td>{startIndex + index + 1}</td>
               <td className="data-list-table__name">
-                {item.name}
+                {item.nama}
               </td>
-              <td>{item.code}</td>
-              <td>{item.email}</td>
+              <td>{item.id}</td>
+              <td>{item._count.projects} Project</td>
               <td className="data-list-table__action">
                 <div className="data-list-table__action-buttons">
                   <button
                     type="button"
                     className="data-list-table__action-edit"
-                    title="Edit">
+                    title="Edit"
+                  >
                     <FaPencil />
                   </button>
                 </div>
@@ -52,7 +53,7 @@ function RoleDataTable({ data, role }) {
           ))}
           {data.length === 0 && (
             <tr>
-              <td colSpan={5}>Tidak ada data.</td>
+              <td colSpan={4}>Tidak ada data.</td>
             </tr>
           )}
         </tbody>

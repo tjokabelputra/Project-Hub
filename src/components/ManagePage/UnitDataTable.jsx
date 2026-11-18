@@ -18,10 +18,10 @@ function UnitDataTable({ data }) {
       <table className="data-list-table data-list-table--unit">
         <thead className="data-list-table__header">
           <tr>
-            <th>No</th>
-            <th>Nama Unit Pengusul</th>
-            <th>Kode Unit</th>
-            <th>Aksi</th>
+            <td>No</td>
+            <td>Nama Unit Pengusul</td>
+            <td>Dipakai</td>
+            <td>Aksi</td>
           </tr>
         </thead>
         <tbody className="data-list-table__body">
@@ -29,9 +29,9 @@ function UnitDataTable({ data }) {
             <tr key={item.id}>
               <td>{startIndex + index + 1}</td>
               <td className="data-list-table__name">
-                {item.name}
+                {item.nama}
               </td>
-              <td>{item.code}</td>
+              <td>{item._count.projects} Projects</td>
               <td className="data-list-table__action">
                 <div className="data-list-table__action-buttons">
                   <button

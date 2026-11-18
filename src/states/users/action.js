@@ -13,13 +13,15 @@ function receiveUsersActionCreator(users) {
   };
 }
 
-function asyncGetAllUsers() {
+function asyncAddUser(user) {
   return async (dispatch) => {
     try {
+      const newUser = await userApi.addUser(user);
       const users = await userApi.getAllUsers();
+
       dispatch(receiveUsersActionCreator(users));
 
-      return users;
+      return newUser;
     }
     catch (error) {
       alert(error.message);
@@ -30,5 +32,5 @@ function asyncGetAllUsers() {
 export {
   ActionType,
   receiveUsersActionCreator,
-  asyncGetAllUsers
+  asyncAddUser
 };

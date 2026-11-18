@@ -1,20 +1,11 @@
 import api from '../../util/api.js';
+import masterApi from '../../util/masterApi.js';
 
 const ActionType = {
-  ADD_UNIT: 'ADD_UNIT',
   RECEIVE_UNITS: 'RECEIVE_UNITS',
   DELETE_UNIT: 'DELETE_UNIT',
   RESTORE_UNIT: 'RESTORE_UNIT'
 };
-
-function addUnitActionCreator(unit) {
-  return {
-    type: ActionType.ADD_UNIT,
-    payload: {
-      unit
-    }
-  };
-}
 
 function receiveUnitsActionCreator(units) {
   return {
@@ -44,11 +35,12 @@ function restoreUnitActionCreator({ index, unit }) {
   };
 }
 
-function asyncAddUnit(unit) {
+function asyncAddUnit(name) {
   return async (dispatch) => {
     try {
-      const newUnit = await api.addUnit(unit);
-      dispatch(addUnitActionCreator(newUnit));
+      const newUnit = await masterApi.addUnit(name);
+      const units = await masterApi.getUnits();
+      dispatch(receiveUnitsActionCreator(units));
 
       return newUnit;
     }
@@ -82,7 +74,6 @@ function asyncDeleteUnit(unitId) {
 
 export {
   ActionType,
-  addUnitActionCreator,
   receiveUnitsActionCreator,
   deleteUnitActionCreator,
   restoreUnitActionCreator,

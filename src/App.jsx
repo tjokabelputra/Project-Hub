@@ -9,8 +9,8 @@ import SidebarComponent from './components/SidebarComponent.jsx';
 import DataManagementPage from './page/DataManagementPage.jsx';
 import { asyncPreloadProcess } from './states/isPreload/action.js';
 import LoginPage from './page/LoginPage.jsx';
-import RegisterPage from "./page/RegisterPage.jsx";
-import ProfilePage from "./page/ProfilePage.jsx";
+import RegisterPage from './page/RegisterPage.jsx';
+import ProfilePage from './page/ProfilePage.jsx';
 
 function App() {
   const authUser = useSelector((states) => states.authUser);
@@ -87,7 +87,14 @@ function App() {
                   onSubmitEdit={onSubmitEdit}/>
               }/>
             <Route path="/updates" element={<InputUpdatePage projects={projects}/>} />
-            <Route path="/management" element={<DataManagementPage />} />
+            <Route
+              path="/management"
+              element={
+                authUser.role === 'ADMIN'
+                  ? <DataManagementPage />
+                  : <Navigate to="/dashboard" replace />
+              }
+            />
             <Route path="/profile" element={<ProfilePage user={authUser} />} />
           </Routes>
         </main>

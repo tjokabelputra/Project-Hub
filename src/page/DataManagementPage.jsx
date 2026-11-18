@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateData } from '../states/shared/action.js';
 import DataListComponent from '../components/ManagePage/sub/DataListComponent.jsx';
-import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.jsx';
+import RoleInputComponent from '../components/ManagePage/sub/RoleInputComponent.jsx';
 import useInput from '../hooks/useInput.js';
-import { asyncAddPm, asyncDeletePm } from '../states/pms/action.js';
-import { asyncAddBp, asyncDeleteBp } from '../states/bps/action.js';
+import { asyncAddPm } from '../states/pms/action.js';
+import { asyncAddBp } from '../states/bps/action.js';
 import UnitInputComponent from '../components/ManagePage/sub/UnitInputComponent.jsx';
-import { asyncAddUnit, asyncDeleteUnit } from '../states/unit/action.js';
+import { asyncAddUnit } from '../states/unit/action.js';
+import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.jsx';
+import { asyncAddUser } from '../states/users/action.js';
 
 function DataManagementPage() {
   const pms = useSelector((states) => states.pms);
@@ -20,21 +22,31 @@ function DataManagementPage() {
   const [id, setId] = useState('');
 
   const [pageIndex, setPageIndex] = useState(0);
+
   const [type, setType] = useState('');
-  const [name, setName] = useState('');
-  const [code, onCodeChange, setCode] = useInput('');
+  const [name, onNameChange, setName] = useInput('');
 
   const [unitName, onUnitNameChange, setUnitName] = useInput('');
-  const [unitCode, onUnitCodeChange, setUnitCode] = useInput('');
 
-  const user = {
-    name: name,
-    code: code,
+  const [username, onUsernameChange, setUsername] = useInput('');
+  const [email, onEmailChange, setEmail] = useInput('');
+  const [role, setRole] = useState('');
+  const [pmId, onPmIdChange, setPmId] = useInput('');
+  const [bpId, onBpIdChange, setBpId] = useInput('');
+
+  const roleMapping = {
+    Admin: 'ADMIN',
+    PM: 'PROJECT_MANAGER',
+    BP: 'BUSINESS_PARTNER',
+    Viewer: 'VIEWER'
   };
 
-  const unit = {
-    name: unitName,
-    code: unitCode
+  const user = {
+    nama: username,
+    email: email,
+    role: roleMapping[role],
+    ...(role === 'PM' && { projectManagerId: pmId }),
+    ...(role === 'BP' && { businessPartnerId: bpId })
   };
 
   const emptyInput = () => {
@@ -42,9 +54,12 @@ function DataManagementPage() {
     setId('');
     setType('');
     setName('');
-    setCode('');
     setUnitName('');
-    setUnitCode('');
+    setUsername('');
+    setEmail('');
+    setRole('');
+    setPmId('');
+    setBpId('');
   };
 
   useEffect(() => {
@@ -58,15 +73,15 @@ function DataManagementPage() {
 
   const onAddData = (filterIndex) => {
     emptyInput();
-    setPageIndex(filterIndex === 2 ? 2 : 1);
+    setPageIndex(filterIndex === 2 ? 2 : filterIndex === 3 ? 3 : 1);
   };
 
-  const onAddUser = async () => {
+  const onAddRole = async () => {
     try {
       if (type === 'Project Manager') {
-        await dispatch(asyncAddPm(user));
+        await dispatch(asyncAddPm(name));
       } else if (type === 'Business Partner') {
-        await dispatch(asyncAddBp(user));
+        await dispatch(asyncAddBp(name));
       }
       else {
         alert('Tipe pengguna tidak valid!');
@@ -84,7 +99,7 @@ function DataManagementPage() {
 
   const onAddUnit = async () => {
     try {
-      await dispatch(asyncAddUnit(unit));
+      await dispatch(asyncAddUnit(unitName));
 
       emptyInput();
       setPageIndex(0);
@@ -95,37 +110,16 @@ function DataManagementPage() {
     }
   };
 
-  const onDeleteUser = async (type, userId) => {
+  const onAddUser = async () => {
     try {
-      if (type === 'Project Manager') {
-        await dispatch(asyncDeletePm(userId));
-      } else if (type === 'Business Partner') {
-        await dispatch(asyncDeleteBp(userId));
-      }
-      else {
-        alert('Tipe pengguna tidak valid!');
-        return;
-      }
+      await dispatch(asyncAddUser(user));
 
       emptyInput();
       setPageIndex(0);
     }
     catch (error) {
       console.error(error);
-      alert(error.message || `Gagal mengedit ${type}. Silakan coba lagi.`);
-    }
-  };
-
-  const onDeleteUnit = async (unitId) => {
-    try {
-      await dispatch(asyncDeleteUnit(unitId));
-
-      emptyInput();
-      setPageIndex(0);
-    }
-    catch (error) {
-      console.error(error);
-      alert(error.message || 'Gagal mengedit Unit. Silakan coba lagi.');
+      alert(error.message || 'Gagal menambahkan Pengguna. Silakan coba lagi.');
     }
   };
 
@@ -137,12 +131,10 @@ function DataManagementPage() {
           bps={bps}
           units={units}
           users={users}
-          onAddData={onAddData}
-          onDeleteUser={onDeleteUser}
-          onDeleteUnit={onDeleteUnit}/>
+          onAddData={onAddData}/>
       )}
       {pageIndex === 1 && (
-        <UserInputComponent
+        <RoleInputComponent
           isEdit={isEdit}
           id={id}
           onBackPressed={onBackPressed}
@@ -151,10 +143,8 @@ function DataManagementPage() {
           type={type}
           onTypeChange={setType}
           name={name}
-          onNameChange={setName}
-          code={code}
-          onCodeChange={onCodeChange}
-          onAddUser={onAddUser}/>
+          onNameChange={onNameChange}
+          onAddRole={onAddRole}/>
       )}
       {pageIndex === 2 && (
         <UnitInputComponent
@@ -164,9 +154,22 @@ function DataManagementPage() {
           units={units}
           name={unitName}
           onNameChange={onUnitNameChange}
-          code={unitCode}
-          onCodeChange={onUnitCodeChange}
           onAddUnit={onAddUnit}/>
+      )}
+      {pageIndex === 3 && (
+        <UserInputComponent
+          onBackPressed={onBackPressed}
+          name={username}
+          onNameChange={onUsernameChange}
+          email={email}
+          onEmailChange={onEmailChange}
+          role={role}
+          onRoleChange={setRole}
+          pmId={pmId}
+          onPmIdChange={onPmIdChange}
+          bpId={bpId}
+          onBpIdChange={onBpIdChange}
+          onAddUser={onAddUser}/>
       )}
     </section>
   );

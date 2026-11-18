@@ -1,32 +1,27 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { asyncGetAllUsers } from '../../../states/users/action.js';
-import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
+import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
+import { isEmailValid } from '../../../util/util.js';
 
-function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name, onNameChange, code, onCodeChange, onAddUser }) {
-  const users = useSelector((states) => states.users);
-  const dispatch = useDispatch();
+function UserInputComponent({ onBackPressed, name, onNameChange, email, onEmailChange, role, onRoleChange, pmId, onPmIdChange, bpId, onBpIdChange, onAddUser }) {
+  const isProjectManager = role === 'PM';
+  const isBusinessPartner = role === 'BP';
 
-  useEffect(() => {
-    dispatch(asyncGetAllUsers());
-  }, [dispatch]);
+  const emailValid = isEmailValid(email);
+  const isPmValid = isProjectManager && pmId.trim() !== '';
+  const isBpValid = isBusinessPartner && bpId.trim() !== '';
 
-  const isCodeExists = useMemo(() => {
-    const users = [...pms, ...bps];
-
-    return users.some((user) =>
-      user.code?.trim().toLowerCase() === code.trim().toLowerCase()
-    );
-  }, [pms, bps, code]);
+  const isProfileValid =
+        role === 'Admin' || role === 'Viewer' ||
+        (isProjectManager && isPmValid) ||
+        (isBusinessPartner && isBpValid);
 
   const isFormValid =
-      type.trim() !== '' &&
-      name.trim() !== '' &&
-      code.trim() !== '' &&
-      !isCodeExists;
+        name.trim() !== '' &&
+        emailValid &&
+        role.trim() !== '' &&
+        isProfileValid;
 
   return (
     <div className="user-input">
@@ -42,52 +37,59 @@ function UserInputComponent({ onBackPressed, bps, pms, type, onTypeChange, name,
         <div className="user-input__input-layout">
           <p className="user-input__title">Informasi Pengguna</p>
           <div className="user-input__inputs">
-            <DropdownInputComponent
-              options={
-                [
-                  { id: 'PM', value: 'Project Manager' },
-                  { id: 'BP', value: 'Business Partner' }
-                ]
-              }
-              value={type}
-              onValueChange={onTypeChange}
-              id="type"
-              label="Tipe Pengguna"
-              placeholder="Project Manager / Business Partner"/>
-            <SearchableSelectComponent
-              optionId="name"
-              optionsValue="name"
+            <GeneralInputComponent
               id="name"
-              label="Nama Pengguna"
+              label="Nama Unit"
               placeholder="Nama"
-              options={users}
               value={name}
-              onValueChange={onNameChange}/>
-            <div className="user-input__code-input">
+              onChange={onNameChange} />
+            <GeneralInputComponent
+              type="email"
+              id="email"
+              label="Email"
+              placeholder="example@gmail.com"
+              value={email}
+              onChange={onEmailChange} />
+            <DropdownInputComponent
+              options={[
+                { id: 'ADMIN', value: 'Admin' },
+                { id: 'PROJECT_MANAGER', value: 'PM' },
+                { id: 'BUSINESS_PARTNER', value: 'BP' },
+                { id: 'VIEWER', value: 'Viewer' }
+              ]}
+              value={role}
+              onValueChange={onRoleChange}
+              id="role"
+              label="Role Pengguna"
+              placeholder="Pilih Role" />
+            { isProjectManager && (
               <GeneralInputComponent
-                id="code"
-                label="Kode"
-                placeholder="PM-XXX / BP-XXX"
-                value={code}
-                onChange={onCodeChange} />
-              {isCodeExists && code.trim() !== '' && (
-                <p className="user-input__error">
-                          Kode sudah digunakan.
-                </p>
-              )}
-            </div>
+                id="pm"
+                label="Kode PM"
+                placeholder="PM-XXX"
+                value={pmId}
+                onChange={onPmIdChange} />
+            )}
+            { isBusinessPartner && (
+              <GeneralInputComponent
+                id="bp"
+                label="Kode BP"
+                placeholder="BP-XXX"
+                value={bpId}
+                onChange={onBpIdChange}/>
+            )}
           </div>
         </div>
-        <div className="user-input__actions">
+        <div className="unit-input__actions">
           <button
-            className={`user-input__action-add ${
+            className={`unit-input__action-add ${
               !isFormValid
-                ? 'user-input__action-add-disable'
-                : 'user-input__action-add-enabled'
+                ? 'unit-input__action-add-disable'
+                : 'unit-input__action-add-enabled'
             }`}
             disabled={!isFormValid}
             onClick={onAddUser}>
-            Tambah Pengguna <FaArrowRight />
+                  Tambah Unit <FaArrowRight />
           </button>
         </div>
       </div>

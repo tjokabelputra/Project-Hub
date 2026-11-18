@@ -2,8 +2,6 @@ import { ActionType } from './action.js';
 
 function unitsReducer(units = [], action = {}) {
   switch (action.type) {
-  case ActionType.ADD_UNIT:
-    return [...units, action.payload.unit];
   case ActionType.RECEIVE_UNITS:
     return action.payload.units;
   case ActionType.DELETE_UNIT:

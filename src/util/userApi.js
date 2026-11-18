@@ -113,13 +113,39 @@ const userApi = (() => {
     return data;
   }
 
+  async function addUser(user) {
+    const response = await _fetchWithAuth(`${BASE_URL}/auth/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nama: user.nama,
+        email: user.email,
+        role: user.role,
+        projectManagerId: user.projectManagerId,
+        businessPartnerId: user.businessPartnerId
+      })
+    });
+    const responseJson = await response.json();
+
+    const { success, message, data } = responseJson;
+
+    if (success !== false) {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   return {
     activateAccount,
     login,
     getOwnProfile,
     changePassword,
     getAllUsers,
-    reRegisterToken
+    reRegisterToken,
+    addUser
   };
 })();
 
