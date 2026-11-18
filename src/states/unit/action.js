@@ -35,6 +35,18 @@ function restoreUnitActionCreator({ index, unit }) {
   };
 }
 
+function asyncGetUnits() {
+  return async (dispatch) => {
+    try {
+      const units = await masterApi.getUnits();
+      dispatch(receiveUnitsActionCreator(units));
+    }
+    catch (error) {
+      alert(error);
+    }
+  };
+}
+
 function asyncAddUnit(name) {
   return async (dispatch) => {
     try {
@@ -77,6 +89,7 @@ export {
   receiveUnitsActionCreator,
   deleteUnitActionCreator,
   restoreUnitActionCreator,
+  asyncGetUnits,
   asyncAddUnit,
   asyncDeleteUnit
 };

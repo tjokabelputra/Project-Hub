@@ -4,17 +4,22 @@ import ProjectInputHeaderComponent from '../ProjectInputHeaderComponent.jsx';
 import PageIndicatorComponent from '../PageIndicatorComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
-import { dummyProjectCategories, dummyProjectStatus } from '../../../data/dummy.js';
 import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateData } from '../../../states/shared/action.js';
 import PageFooterComponent from '../PageFooterComponent.jsx';
+import { asyncGetEnums } from '../../../states/enums/action.js';
+import { formatLabel } from '../../../util/util.js';
+import {asyncGetPms} from "../../../states/pms/action.js";
+import {asyncGetBps} from "../../../states/bps/action.js";
+import {asyncGetUnits} from "../../../states/unit/action.js";
 
 function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
 {
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
   const units = useSelector((states) => states.units);
+  const enums = useSelector((states) => states.enums);
   const dispatch = useDispatch();
 
   const {
@@ -23,28 +28,33 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
     description, onDescChange,
     category, setCategory,
     status, setStatus,
+    priority, setPriority,
     pm, setPM,
     bp, setBP,
     requestingUnit, setUnit,
     owner, onOwnerChange,
+    workingUnits, setWorkingUnits,
     projectDate, onProjectDateChange,
     targetGoLive, onTargetDateChange
   } = projectInfo;
 
-  const inputListFirst = [code, name, description, category, status];
+  const inputListFirst = [code, name, description, category, status, priority];
   const inputListSecond = [pm, bp, requestingUnit, owner, projectInfo, targetGoLive];
 
   useEffect(() => {
-    dispatch(asyncPopulateData());
+    dispatch(asyncGetPms());
+    dispatch(asyncGetBps());
+    dispatch(asyncGetUnits());
+    dispatch(asyncGetEnums());
   }, [dispatch]);
 
   const isCodeDuplicate =
       type === 'New' && projects.some((project) =>
-        String(project.id).trim().toLowerCase() === String(code ?? '').trim().toLowerCase());
+        String(project.kodeProject).trim().toLowerCase() === String(code ?? '').trim().toLowerCase());
 
   const isNameDuplicate =
       type === 'New' && projects.some((project) =>
-        String(project.name).trim().toLowerCase() === String(name ?? '').trim().toLowerCase());
+        String(project.nama).trim().toLowerCase() === String(name ?? '').trim().toLowerCase());
 
   return (
     <div className="project-input-layout__first">
@@ -77,8 +87,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     label="Kode Project"
                     placeholder="PRJ-XXX"
                     options={projects}
-                    optionsId="code"
-                    optionsValue="code"
+                    optionsId="kodeProject"
+                    optionsValue="kodeProject"
                     value={code}
                     onValueChange={onCodeSelected}
                     disabled={isEdit}/>
@@ -112,14 +122,33 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   placeholder="Kategori Project"
                   value={category}
                   onValueChange={setCategory}
-                  options={dummyProjectCategories}/>
+                  options={(enums?.kategori || []).map((item) => ({
+                    id: item,
+                    value: item.replaceAll('_', ' ')
+                  }))}
+                />
                 <DropdownInputComponent
                   id="status"
                   label="Status Project"
                   placeholder="Status Project"
                   value={status}
                   onValueChange={setStatus}
-                  options={dummyProjectStatus}/>
+                  options={(enums?.status || []).map((item) => ({
+                    id: item,
+                    value: formatLabel(item)
+                  }))}
+                />
+                <DropdownInputComponent
+                  id="priority"
+                  label="Prioritas"
+                  placeholder="Prioritas Project"
+                  value={priority}
+                  onValueChange={setPriority}
+                  options={(enums?.prioritas || []).map((item) => ({
+                    id: item,
+                    value: formatLabel(item)
+                  }))}
+                />
               </div>
             ) : (
               <div className="project-info__inputs">
@@ -128,8 +157,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Nama PM"
                   placeholder="Masukan Nama PM"
                   options={pms}
-                  optionsId="name"
-                  optionsValue="name"
+                  optionsId="nama"
+                  optionsValue="nama"
                   value={pm}
                   onValueChange={setPM}/>
                 <SearchableSelectComponent
@@ -137,8 +166,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Nama BP"
                   placeholder="Masukan Nama BP"
                   options={bps}
-                  optionsId="name"
-                  optionsValue="name"
+                  optionsId="nama"
+                  optionsValue="nama"
                   value={bp}
                   onValueChange={setBP}/>
                 <SearchableSelectComponent
@@ -146,11 +175,10 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   label="Unit Pengusul"
                   placeholder="Masukan Nama Unit"
                   options={units}
-                  optionsId="code"
-                  optionsValue="code"
+                  optionsId="nama"
+                  optionsValue="nama"
                   value={requestingUnit}
-                  onValueChange={setUnit}
-                  minInput={1}/>
+                  onValueChange={setUnit}/>
                 <GeneralInputComponent
                   id="owner"
                   label="Owner/PIC"
@@ -158,6 +186,33 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                   placeholder="Masukan Owner/PIC"
                   value={owner}
                   onChange={onOwnerChange}/>
+                <div className="project-info__developer">
+                  <label className="project-info__developer-label">
+                    Unit Kerja
+                  </label>
+                  <div className="project-info__developer-options">
+                    {['ADV', 'RDL', 'WDL', 'DMA'].map((unit) => (
+                      <label key={unit} className="project-info__developer-option">
+                        <input
+                          type="checkbox"
+                          checked={workingUnits.includes(unit)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setWorkingUnits([...workingUnits, unit]);
+                            } else {
+                              setWorkingUnits(
+                                workingUnits.filter((item) => item !== unit)
+                              );
+                            }
+                          }}
+                        />
+                        <span>{unit}</span>
+                      </label>
+                    ))}
+                  </div>
+
+                  <small>Pilih satu atau lebih.</small>
+                </div>
                 <GeneralInputComponent
                   id="date"
                   label="Tanggal Project"

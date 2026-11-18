@@ -4,15 +4,14 @@ import { FaFile, FaTrash } from 'react-icons/fa';
 import { formatFileSize } from '../../util/util.js';
 import LoadingSpinner from '../LoadingSpinner.jsx';
 
-function DocumentListComponent({ supportingDocuments, actionable = true, isDelete = false, onDeleteDocuments, onDownload, deletingObjectKeys = [] }) {
+function DocumentListComponent({ supportingDocuments = [], actionable = true, isDelete = false, onDeleteDocuments, onDownload, deletingObjectKeys = [] }) {
   return (
     <div className="document-list">
       {supportingDocuments.map((document) => {
-        const isDeleting = deletingObjectKeys.includes(document.objectKey);
-
+        const isDeleting = deletingObjectKeys.includes(document.id || document.name);
         return (
           <div
-            key={document.id || document.objectKey}
+            key={document.id}
             className="document-list__item"
           >
             <div className="document-list__item-main">
@@ -22,12 +21,12 @@ function DocumentListComponent({ supportingDocuments, actionable = true, isDelet
               <div className="document-list__item-info">
                 <p
                   className="document-list__file-name"
-                  onClick={() => onDownload(document.id)}
+                  onClick={() => onDownload(document.id, document.namaFile)}
                   title="Klik untuk download"
                 >
-                  {document.name}
+                  {document.namaFile || document.name}
                 </p>
-                <p>{formatFileSize(document.size)}</p>
+                <p>{formatFileSize(document.ukuran ?? document.size)}</p>
               </div>
             </div>
 
@@ -37,7 +36,7 @@ function DocumentListComponent({ supportingDocuments, actionable = true, isDelet
               ) : (
                 <FaTrash
                   className="document-list__delete"
-                  onClick={() => onDeleteDocuments(document.objectKey)}
+                  onClick={() => onDeleteDocuments(document)}
                 />
               )
             )}

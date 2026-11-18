@@ -40,3 +40,53 @@
 .project-info__input-wide {
     grid-column: span 2;
 }
+
+.project-info__developer {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.project-info__developer-label {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.project-info__developer-options {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.project-info__developer-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-inline: 16px;
+    padding-block: 8px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.project-info__developer-option input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.project-info__developer small {
+    color: var(--primary);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .project-info__developer-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

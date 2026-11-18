@@ -2,16 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GeneralInputComponent from '../input/GeneralInputComponent.jsx';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
-import { dummyProjectStage, dummyStagesStatus } from '../../data/dummy.js';
+import { useSelector } from 'react-redux';
+import { formatLabel } from '../../util/util.js';
 
 function StagesInputComponent({ stage, onStageChange, date, onDateChange, status, onStatusChange, notes, onNoteChange, onAddStage }) {
   const isFormComplete = [stage, date, status, notes].every((value) => value.trim() !== '');
+  const enums = useSelector((states) => states.enums);
 
   return (
     <div className="stages-input">
       <div className="stages-input__input-section">
         <DropdownInputComponent
-          options={dummyProjectStage}
+          options={(enums?.tahap || []).map((item) => ({
+            id: item,
+            value: formatLabel(item)
+          }))}
           value={stage}
           onValueChange={onStageChange}
           id="stage" label="Tahapan"
@@ -24,7 +29,10 @@ function StagesInputComponent({ stage, onStageChange, date, onDateChange, status
           value={date}
           onChange={onDateChange} />
         <DropdownInputComponent
-          options={dummyStagesStatus}
+          options={(enums?.statusTahapan || []).map((item) => ({
+            id: item,
+            value: formatLabel(item)
+          }))}
           value={status}
           onValueChange={onStatusChange}
           id="status"

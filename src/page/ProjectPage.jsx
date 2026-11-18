@@ -6,7 +6,10 @@ import ProjectInfoComponent from '../components/ProjectPage/sub/ProjectInfoCompo
 import useInput from '../hooks/useInput.js';
 import ProjectStagesComponent from '../components/ProjectPage/sub/ProjectStagesComponent.jsx';
 import ProjectReviewComponent from '../components/ProjectPage/sub/ProjectReviewComponent.jsx';
-import api from '../util/api.js';
+import documentApi from '../util/documentApi.js';
+import { useSelector } from 'react-redux';
+import { formatLabel, getIdByName } from '../util/util.js';
+import projectApi from '../util/projectApi.js';
 
 function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -18,32 +21,46 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   const [description, onDescChange, setDesc] = useInput('');
   const [category, setCategory] = useState('');
   const [status, setStatus] = useState('');
+  const [priority, setPriority] = useState('');
   const [pm, setPM] = useState('');
   const [bp, setBP] = useState('');
   const [requestingUnit, setUnit] = useState('');
   const [owner, onOwnerChange, setOwner] = useInput('');
+  const [workingUnits, setWorkingUnits] = useState([]);
   const [projectDate, onProjectDateChange, setProjectDate] = useInput('');
   const [targetGoLive, onTargetDateChange, setTargetDate] = useInput('');
-  const [currentStage, setCurrentStage] = useState('');
   const [stagesHistory, setStagesHistory] = useState([]);
   const [supportingDocuments, setSupportingDocuments] = useState([]);
 
+  const pms = useSelector((states) => states.pms);
+  const bps = useSelector((states) => states.bps);
+  const units = useSelector((states) => states.units);
+
   //Format object for api request body
   const projectFormat = {
-    code: code,
-    name: name,
-    description: description,
-    category: category,
-    projectType: projectType,
-    status: status,
-    pm: pm,
-    bp: bp,
-    requestingUnit: requestingUnit,
-    owner: owner,
-    projectDate: projectDate,
+    kategori: category.trim().replace(/\s+/g, '_'),
+    jenis: projectType.toUpperCase(),
+    kodeProject: code,
+    nama: name,
+    deskripsi: description,
+    pmId: getIdByName(pms, pm),
+    bpId: getIdByName(bps, bp),
+    unitId: getIdByName(units, requestingUnit),
+    unitKerjaDeveloper: workingUnits,
+    ownerPic: owner,
+    tanggalProject: projectDate,
     targetGoLive: targetGoLive,
-    stagesHistory: stagesHistory,
-    supportingDocuments: supportingDocuments
+    prioritas: priority.toUpperCase(),
+    status: status.toUpperCase().replace(/\s+/g, '_'),
+    stages: stagesHistory.map((item) => ({
+      tahap: item.stage.trim().replace(/\s+/g, '_').toUpperCase(),
+      ...(item.date && { tanggalRencana: item.date }),
+      status: item.status.trim().replace(/\s+/g, '_').toUpperCase(),
+      catatan: item.notes || null
+    })),
+    newDocuments: supportingDocuments.filter(
+      (document) => document instanceof File
+    )
   };
 
   //Reset input
@@ -55,13 +72,14 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     setDesc('');
     setCategory('');
     setStatus('');
+    setPriority('');
     setPM('');
     setBP('');
     setUnit('');
     setOwner('');
+    setWorkingUnits([]);
     setProjectDate('');
     setTargetDate('');
-    setCurrentStage('');
     setStagesHistory([]);
     setSupportingDocuments([]);
   };
@@ -69,21 +87,30 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   //Selecting project for edit
   const setProject = (project) => {
     setId(project.id);
-    setType(project.projectType);
-    setCode(project.code);
-    setName(project.name);
-    setDesc(project.description);
-    setCategory(project.category);
-    setStatus(project.status);
-    setPM(project.pm);
-    setBP(project.bp);
-    setUnit(project.requestingUnit);
-    setOwner(project.owner);
-    setProjectDate(project.projectDate);
-    setTargetDate(project.targetGoLive);
-    setCurrentStage(project.currentStage);
-    setStagesHistory(project.stagesHistory);
-    setSupportingDocuments(project.supportingDocuments);
+    setType(project.jenis);
+    setCode(project.kodeProject);
+    setName(project.nama);
+    setDesc(project.deskripsi);
+    setCategory(project.kategori?.replaceAll('_', ' ') || '');
+    setStatus(formatLabel(project.status));
+    setPriority(formatLabel(project.prioritas));
+    setPM(project.pm?.nama);
+    setBP(project.bp?.nama);
+    setUnit(project.unitPengusul?.nama);
+    setOwner(project.ownerPic);
+    setWorkingUnits(project.unitKerjaDeveloper);
+    setProjectDate(project.tanggalProject?.split('T')[0]);
+    setTargetDate(project.targetGoLive?.split('T')[0]);
+    setStagesHistory(
+      (project.stages || []).map((item) => ({
+        id: item.id,
+        stage: formatLabel(item.tahap),
+        date: item.tanggalRencana?.split('T')[0] || '',
+        status: formatLabel(item.status),
+        notes: item.catatan || ''
+      }))
+    );
+    setSupportingDocuments(project.documents);
   };
 
   const onBackPressed = () => {
@@ -105,26 +132,32 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     }
   };
 
-  const onEditProject = (projectId) => {
-    const editedProject = projects.find((project) => project.id === projectId);
+  const onEditProject = async (projectId) => {
+    try {
+      const editedProject = await projectApi.getProjectDetail(projectId);
 
-    if (!editedProject) return;
+      if (!editedProject) return;
 
-    setProject(editedProject);
-    setIsEdit(true);
-    setPageIndex(2);
+      setProject(editedProject);
+      setIsEdit(true);
+      setPageIndex(2);
+      console.log(editedProject);
+    }
+    catch (error) {
+      alert(error.message || 'Failed to load project detail.');
+    }
   };
 
   const onCodeSelected = (code) => {
     const project = projects.find(
-      (project) => String(project.code) === String(code)
+      (project) => String(project.kodeProject) === String(code)
     );
 
     if (!project) return;
 
-    setCode(project.code);
-    setName(project.name);
-    setDesc(project.description);
+    setCode(project.kodeProject);
+    setName(project.nama);
+    setDesc(project.deskripsi);
   };
 
   const projectInfo = {
@@ -133,17 +166,33 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     description, onDescChange,
     category, setCategory,
     status, setStatus,
+    priority, setPriority,
     pm, setPM,
     bp, setBP,
     requestingUnit, setUnit,
     owner, onOwnerChange,
+    workingUnits, setWorkingUnits,
     projectDate, onProjectDateChange,
     targetGoLive, onTargetDateChange
   };
 
   const newProject = {
-    projectType, code, name, description, category, status, pm, bp, requestingUnit, owner, projectDate, targetGoLive,
-    currentStage, stagesHistory, supportingDocuments
+    jenis: projectType,
+    kodeProject: code,
+    nama: name,
+    deskripsi: description,
+    kategori: category,
+    status,
+    prioritas: priority,
+    pm,
+    bp,
+    unitPengusul: requestingUnit,
+    ownerPic: owner,
+    unitKerjaDeveloper: workingUnits,
+    tanggalProject: projectDate,
+    targetGoLive: targetGoLive,
+    stages: stagesHistory,
+    documents: supportingDocuments
   };
 
   const addNewProject = async () => {
@@ -160,7 +209,6 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   const editProject = () => {
     const updatedProject = {
       id: id,
-      currentStage: currentStage,
       ...projectFormat
     };
     try {
@@ -174,20 +222,22 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
     }
   };
 
-  const onDownloadDocument = async (documentId) => {
+  const onDownloadDocument = async (documentId, documentName) => {
     try {
-      const downloadUrl = await api.getDocument(documentId);
+      const fileBlob = await documentApi.downloadDocument(documentId);
 
-      const link = window.document.createElement('a');
+      const downloadUrl = window.URL.createObjectURL(fileBlob);
+
+      const link = document.createElement('a');
       link.href = downloadUrl;
+      link.download = documentName;
 
-      link.setAttribute('download', '');
-
-      window.document.body.appendChild(link);
+      document.body.appendChild(link);
       link.click();
       link.remove();
-    }
-    catch (error) {
+
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
       console.error('Failed to download document:', error);
       alert(error.message);
     }

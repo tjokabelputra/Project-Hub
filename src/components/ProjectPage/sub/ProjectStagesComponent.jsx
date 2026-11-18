@@ -9,11 +9,11 @@ import { LuCloudUpload } from 'react-icons/lu';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 import ProjectStagesTable from '../ProjectStagesTable.jsx';
 import useInput from '../../../hooks/useInput.js';
-import LoadingSpinner from '../../LoadingSpinner.jsx';
+import documentApi from "../../../util/documentApi.js";
 
 function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setStagesHistory, supportingDocuments, setSupportingDocuments, onDownloadDocument, onPreviousPage, onNextPage }) {
   const fileInputRef = useRef(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [editingStageIndex, setEditingStageIndex] = useState(null);
   const [deletingObjectKeys, setDeletingObjectKeys] = useState([]);
   const [stage, setStage] = useState('');
   const [date, onDateChange, setDate] = useInput('');
@@ -25,61 +25,80 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
   };
 
   const handleAddStages = () => {
-    const newStages = {
-      stage: stage,
-      date: date,
-      status: status,
-      notes: notes
+    const updatedStage = {
+      ...(editingStageIndex !== null
+        ? stagesHistory[editingStageIndex]
+        : {}),
+      stage,
+      date,
+      status,
+      notes
     };
 
-    setStagesHistory((prev) => [
-      ...prev,
-      newStages
-    ]);
+    if (editingStageIndex !== null) {
+      setStagesHistory((prev) =>
+        prev.map((item, index) =>
+          index === editingStageIndex ? updatedStage : item
+        )
+      );
+    }
+    else {
+      setStagesHistory((prev) => [...prev, updatedStage]);
+    }
 
     setStage('');
     setDate('');
     setStatus('');
     setNotes('');
+    setEditingStageIndex(null);
   };
 
-  const handleFileChange = async (event) => {
-    const selectedFile = event.target.files[0];
+  const handleEditStage = (index) => {
+    const selectedStage = stagesHistory[index];
 
-    if (!selectedFile) return;
+    setStage(selectedStage.stage);
+    setDate(selectedStage.date || '');
+    setStatus(selectedStage.status);
+    setNotes(selectedStage.notes || '');
+
+    setEditingStageIndex(index);
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+
+    if (!selectedFiles.length) return;
+
+    setSupportingDocuments((prev) => [
+      ...prev,
+      ...selectedFiles
+    ]);
 
     event.target.value = '';
-    setIsUploading(true);
-
-    try {
-      const uploadedDocument = await api.uploadDocuments(selectedFile);
-
-      setSupportingDocuments((prev) => [
-        ...prev,
-        {
-          name: uploadedDocument.name,
-          size: uploadedDocument.size,
-          objectKey: uploadedDocument.objectKey,
-          contentType: uploadedDocument.contentType
-        }
-      ]);
-    }
-    catch (error) {
-      console.error(error);
-      alert(`Gagal mengupload ${selectedFile.name}: ${error.message}`);
-    }
-    finally {
-      setIsUploading(false);
-    }
   };
 
-  const handleDeleteDocument = async (objectKey) => {
-    setDeletingObjectKeys((prev) => [...prev, objectKey]);
+  const handleDeleteDocument = async (document) => {
+    if (!document) return;
+
+    if (document instanceof File) {
+      setSupportingDocuments((prev) =>
+        prev.filter((item) => item !== document)
+      );
+      return;
+    }
+
+    if (!document.id) {
+      console.error('Document ID tidak ditemukan:', document);
+      return;
+    }
+
+    setDeletingObjectKeys((prev) => [...prev, document.id]);
 
     try {
-      await api.deleteDocument(objectKey);
+      await documentApi.deleteDocument(document.id);
+
       setSupportingDocuments((prev) =>
-        prev.filter((document) => document.objectKey !== objectKey)
+        prev.filter((item) => item.id !== document.id)
       );
     }
     catch (error) {
@@ -88,13 +107,23 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
     }
     finally {
       setDeletingObjectKeys((prev) =>
-        prev.filter((key) => key !== objectKey)
+        prev.filter((id) => id !== document.id)
       );
     }
   };
 
-  const handleDeleteStage = (id) => {
-    setStagesHistory((prev) => prev.filter((item) => item.id !== id));
+  const handleDeleteStage = (index) => {
+    setStagesHistory((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
+
+    if (editingStageIndex === index) {
+      setEditingStageIndex(null);
+      setStage('');
+      setDate('');
+      setStatus('');
+      setNotes('');
+    }
   };
 
   return (
@@ -119,7 +148,9 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
               <ProjectStagesTable
                 stageHistory={stagesHistory}
                 isDeletable={true}
-                onDeleteStage={handleDeleteStage} />
+                onDeleteStage={handleDeleteStage}
+                onEditStage={handleEditStage}
+              />
             </div>
             <div className="project-stages__input-documents">
               <p>Upload Dokumen Pendukung (Opsional)</p>
@@ -137,32 +168,24 @@ function ProjectStagesComponent({ onBackPressed, pageIndex, stagesHistory, setSt
                   type="file"
                   accept=".pdf,.doc,.xlsx"
                   hidden
-                  disabled={isUploading}
                   onChange={handleFileChange}
                 />
 
                 <div
                   className="project-stages__upload-doc"
-                  onClick={!isUploading ? handleUploadClick : undefined}
+                  onClick={handleUploadClick}
                   role="button"
                   tabIndex={0}
                 >
-                  {isUploading ? (
-                    <>
-                      <LoadingSpinner size={28} />
-                      <p>Mengupload dokumen...</p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="project-stages__upload-icon">
-                        <LuCloudUpload />
-                      </div>
-                      <div className="project-stages__upload-info">
-                        <p>Klik untuk upload</p>
-                        <p>Format: PDF, DOC, XLSX</p>
-                      </div>
-                    </>
-                  )}
+                  <>
+                    <div className="project-stages__upload-icon">
+                      <LuCloudUpload />
+                    </div>
+                    <div className="project-stages__upload-info">
+                      <p>Klik untuk upload</p>
+                      <p>Format: PDF, DOC, XLSX</p>
+                    </div>
+                  </>
                 </div>
               </div>
             </div>

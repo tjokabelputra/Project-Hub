@@ -32,12 +32,12 @@
 
 .project-list-table__header td:nth-child(2),
 .project-list-table tbody td:nth-child(2) {
-    width: 40%;
+    width: 20%;
 }
 
 .project-list-table__header td:nth-child(3),
 .project-list-table tbody td:nth-child(3) {
-    width: 15%;
+    width: 8%;
 }
 
 .project-list-table__header td:nth-child(4),
@@ -52,6 +52,16 @@
 
 .project-list-table__header td:nth-child(6),
 .project-list-table tbody td:nth-child(6) {
+    width: 12%;
+}
+
+.project-list-table__header td:nth-child(7),
+.project-list-table tbody td:nth-child(7) {
+    width: 15%;
+}
+
+.project-list-table__header td:nth-child(8),
+.project-list-table tbody td:nth-child(8) {
     width: 10%;
     text-align: center;
 }
@@ -68,13 +78,30 @@
     font-weight: bold;
 }
 
+.project-list-table__status-draft p {
+    background: var(--surface);
+    color: var(--text-tertiary);
+    border: 1px solid var(--background);
+}
+
+.project-list-table__status-inisiasi p {
+    background: var(--background);
+    border: 1px solid var(--background);
+}
+
 .project-list-table__status-on_progress p {
     background: var(--success-surface);
     color: var(--success);
     border: 1px solid var(--success-surface);
 }
 
-.project-list-table__status-completed p {
+.project-list-table__status-on_hold p {
+    background: var(--warning-surface);
+    color: var(--warning);
+    border: 1px solid var(--warning-surface);
+}
+
+.project-list-table__status-selesai p {
     background: var(--primary-surface);
     color: var(--primary);
     border: 1px solid var(--primary-surface);

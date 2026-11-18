@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FaTrash } from 'react-icons/fa';
-import { formatDate, formatStatus } from '../../util/util.js';
+import { FaTrash, FaEdit } from 'react-icons/fa';
+import { formatDate, formatLabel, formatStatus } from '../../util/util.js';
 
-function ProjectStagesTable({ stageHistory, isDeletable = false, onDeleteStage }) {
+function ProjectStagesTable({ stageHistory, isDeletable = false, onDeleteStage, onEditStage }) {
   return (
     <div className="project-stages">
       <table className={`project-stages-table ${isDeletable ? 'project-stages-table--deletable' : ''}`}>
@@ -19,20 +19,31 @@ function ProjectStagesTable({ stageHistory, isDeletable = false, onDeleteStage }
         <tbody className="project-stages-table__body">
           {stageHistory.map((stage, index) => (
             <tr key={`${stage.stage}-${stage.date}-${index}`}>
-              <td>{stage.stage}</td>
-              <td>{formatDate(stage.date)}</td>
-              <td
-                className={`project-stages-table__status 
-                  project-stages-table__status-${stage.status.toLowerCase()}`
-                }>
+              <td>{formatLabel(stage.stage)}</td>
+              <td>{stage.date ? formatDate(stage.date) : '-'}</td>
+              <td className={`project-stages-table__status project-stages-table__status-${stage.status.toLowerCase()}`}>
                 <p>{formatStatus(stage.status)}</p>
               </td>
               <td>{stage.notes}</td>
               {isDeletable && (
                 <td className="project-stages-table__action">
-                  <button type="button" aria-label={`Hapus tahapan ${stage.stage}`} onClick={() => onDeleteStage(stage.id)}>
-                    <FaTrash />
-                  </button>
+                  <div className="project-stages-table__action-buttons">
+                    <button
+                      type="button"
+                      aria-label={`Edit tahapan ${stage.stage}`}
+                      onClick={() => onEditStage(index)}
+                    >
+                      <FaEdit />
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label={`Hapus tahapan ${stage.stage}`}
+                      onClick={() => onDeleteStage(index)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </td>
               )}
             </tr>
@@ -44,14 +55,10 @@ function ProjectStagesTable({ stageHistory, isDeletable = false, onDeleteStage }
 }
 
 ProjectStagesTable.propTypes = {
-  stageHistory: PropTypes.arrayOf(PropTypes.shape({
-    stage: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-    notes: PropTypes.string.isRequired,
-  })).isRequired,
+  stageHistory: PropTypes.array.isRequired,
   isDeletable: PropTypes.bool,
   onDeleteStage: PropTypes.func,
+  onEditStage: PropTypes.func
 };
 
 export default ProjectStagesTable;

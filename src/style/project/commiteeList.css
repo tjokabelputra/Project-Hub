@@ -1,0 +1,47 @@
+
+.committee-list-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.committee-list-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.committee-list-table__header {
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--background);
+}
+
+.committee-list-table__header td,
+.committee-list-table__body td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.committee-list-table__header td:nth-child(1),
+.committee-list-table__body td:nth-child(1) {
+    width: 15%;
+}
+
+.committee-list-table__header td:nth-child(2),
+.committee-list-table__body td:nth-child(2) {
+    width: 15%;
+}
+
+.committee-list-table__header td:nth-child(3),
+.committee-list-table__body td:nth-child(3) {
+    width: 15%;
+}
+
+.committee-list-table__header td:nth-child(4),
+.committee-list-table__body td:nth-child(4) {
+    width: 55%;
+}

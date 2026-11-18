@@ -1,36 +1,18 @@
 import api from '../../util/api.js';
+import projectApi from '../../util/projectApi.js';
+import documentApi from '../../util/documentApi.js';
 
 const ActionType = {
-  ADD_PROJECT: 'ADD_PROJECT',
   RECEIVE_PROJECTS: 'RECEIVE_PROJECTS',
-  EDIT_PROJECT: 'EDIT_PROJECT',
   DELETE_PROJECT: 'DELETE_PROJECT',
   RESTORE_PROJECT: 'RESTORE_PROJECT'
 };
-
-function addProjectActionCreator(project) {
-  return {
-    type: ActionType.ADD_PROJECT,
-    payload: {
-      project
-    }
-  };
-}
 
 function receiveProjectActionCreator(projects) {
   return {
     type: ActionType.RECEIVE_PROJECTS,
     payload: {
       projects
-    }
-  };
-}
-
-function editProjectActionCreator(project) {
-  return {
-    type: ActionType.EDIT_PROJECT,
-    payload: {
-      project
     }
   };
 }
@@ -57,10 +39,14 @@ function restoreProjectActionCreator({ index, project }) {
 function asyncAddProject(project) {
   return async (dispatch) => {
     try {
-      const newProjects = await api.addProject(project);
-      dispatch(addProjectActionCreator(newProjects));
+      const newProject = await projectApi.addProject(project);
+      if (project.newDocuments.length > 0) {
+        await projectApi.addDocument(newProject.id, project.newDocuments);
+      }
+      const projects = await projectApi.getProjects();
+      dispatch(receiveProjectActionCreator(projects));
 
-      return newProjects;
+      return newProject;
     }
     catch (error) {
       alert(error.message);
@@ -72,7 +58,7 @@ function asyncAddProject(project) {
 function asyncGetProjects() {
   return async (dispatch) => {
     try {
-      const projects = await api.getProjects();
+      const projects = await projectApi.getProjects();
       dispatch(receiveProjectActionCreator(projects));
     }
     catch (error) {
@@ -84,8 +70,15 @@ function asyncGetProjects() {
 function asyncEditProject(editedProject) {
   return async (dispatch) => {
     try {
-      const responseProject = await api.editProject(editedProject);
-      dispatch(editProjectActionCreator(responseProject));
+      await projectApi.editProject(editedProject);
+      await projectApi.editStages(editedProject.id, editedProject.stages);
+      if (editedProject.newDocuments.length > 0) {
+        await projectApi.addDocument(editedProject.id, editedProject.newDocuments);
+      }
+      const projects = await projectApi.getProjects();
+      dispatch(receiveProjectActionCreator(projects));
+
+      return true;
     }
     catch (error) {
       alert(error.message);
@@ -105,7 +98,7 @@ function asyncDeleteProject(projectId) {
     dispatch(deleteProjectActionCreator(projectId));
 
     try {
-      await api.deleteProject(projectId);
+      await projectApi.deleteProject(projectId);
     }
     catch (error) {
       alert(error.message);

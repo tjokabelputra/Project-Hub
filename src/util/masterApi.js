@@ -3,6 +3,19 @@ import { _fetchWithAuth } from './util.js';
 const masterApi = (() => {
   const BASE_URL = 'http://localhost:3000';
 
+  async function getEnums() {
+    const result = await _fetchWithAuth(`${BASE_URL}/master/enums`);
+    const resultJson = await result.json();
+
+    const { success, message, data } = resultJson;
+
+    if (success !== true) {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   async function getPms() {
     const result = await _fetchWithAuth(`${BASE_URL}/master/pm`);
     const resultJson = await result.json();
@@ -106,6 +119,7 @@ const masterApi = (() => {
   }
 
   return {
+    getEnums,
     getPms,
     getBps,
     getUnits,

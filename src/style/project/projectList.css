@@ -52,3 +52,7 @@
     font-size: 14px;
     font-weight: bold;
 }
+
+.project-list__search--right {
+    margin-left: auto;
+}

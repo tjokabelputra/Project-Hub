@@ -9,7 +9,12 @@ export const formatStatus = (status) => {
 export const formatDate = (date) => {
   if (!date) return '-';
 
-  return new Date(`${date}T00:00:00`).toLocaleDateString('id-ID', {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) return '-';
+
+  return parsedDate.toLocaleDateString('id-ID', {
+    timeZone: 'Asia/Jakarta',
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -17,6 +22,8 @@ export const formatDate = (date) => {
 };
 
 export const formatFileSize = (size) => {
+  if (size == null || Number.isNaN(Number(size))) return '-';
+
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
   let count = 0;
 
@@ -102,3 +109,20 @@ export function putAccessToken(token) {
 export function getAccessToken() {
   return localStorage.getItem('access_token');
 }
+
+export const formatLabel = (value) => {
+  if (!value) return '-';
+
+  return value
+    .replace(/_/g, ' ')
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+export const getIdByName = (data, name) => {
+  const selected = data.find(
+    (item) => (item.nama || item.name) === name
+  );
+
+  return selected?.id || '';
+};

@@ -36,7 +36,7 @@
     height: 24px;
 }
 
-.project-detail-modal__info, .project-detail-modal__stages, .project-detail-modal__documents {
+.project-detail-modal__info, .project-detail-modal__stages, .project-detail-modal__documents, .project-detail-modal__history {
     display: flex;
     flex-direction: column;
     gap: 16px;

@@ -12,6 +12,8 @@
 @import '../project/pageFooter.css';
 @import '../project/projectReview.css';
 @import '../project/projectDeleteModal.css';
+@import '../project/commiteeList.css';
+@import '../project/updateHistory.css';
 
 .project-page {
     display: flex;

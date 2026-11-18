@@ -22,14 +22,15 @@ function ProjectReviewComponent({ onBackPressed, onPreviousPage, pageIndex, newP
             <div className="project-review__project-steps">
               <p>Tahapan Project</p>
               <ProjectStagesTable
-                stageHistory={newProject.stagesHistory}/>
+                stageHistory={newProject.stages}/>
             </div>
             <div className="project-review__project-docs">
               <p>Dokumen Pendukung</p>
               <DocumentListComponent
                 actionable={false}
-                supportingDocuments={newProject.supportingDocuments}
-                onDownload={onDownloadDocument}/>
+                supportingDocuments={newProject.documents}
+                onDownload={onDownloadDocument}
+              />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import api from '../../util/api.js';
-import masterApi from "../../util/masterApi.js";
+import masterApi from '../../util/masterApi.js';
 
 const ActionType = {
   RECEIVE_PMS: 'RECEIVE_PMS',
@@ -31,6 +31,18 @@ function restorePmActionCreator({ index, pm }) {
     payload: {
       index,
       pm
+    }
+  };
+}
+
+function asyncGetPms() {
+  return async (dispatch) => {
+    try {
+      const pms = await masterApi.getPms();
+      dispatch(receivePMsActionCreator(pms));
+    }
+    catch (error) {
+      alert(error);
     }
   };
 }
@@ -77,6 +89,7 @@ export {
   receivePMsActionCreator,
   deletePmActionCreator,
   restorePmActionCreator,
+  asyncGetPms,
   asyncAddPm,
   asyncDeletePm
 };

@@ -35,6 +35,18 @@ function restoreBpActionCreator({ index, bp }) {
   };
 }
 
+function asyncGetBps() {
+  return async (dispatch) => {
+    try {
+      const bps = await masterApi.getBps();
+      dispatch(receiveBPsActionCreator(bps));
+    }
+    catch (error) {
+      alert(error);
+    }
+  };
+}
+
 function asyncAddBp(name) {
   return async (dispatch) => {
     try {
@@ -77,6 +89,7 @@ export {
   receiveBPsActionCreator,
   deleteBpActionCreator,
   restoreBpActionCreator,
+  asyncGetBps,
   asyncAddBp,
   asyncDeleteBp
 };

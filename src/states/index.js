@@ -8,6 +8,7 @@ import insightReducer from './insight/reducer.js';
 import usersReducer from './users/reducer.js';
 import authUserReducer from './authUser/reducer.js';
 import isPreloadReducer from './isPreload/reducer.js';
+import enumsReducer from "./enums/reducer.js";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     users: usersReducer,
     bps: bpsReducer,
     pms: pmsReducer,
+    enums: enumsReducer,
     projects: projectsReducer,
     units: unitsReducer,
     updates: updatesReducer,

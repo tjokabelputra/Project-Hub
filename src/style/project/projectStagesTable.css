@@ -54,14 +54,37 @@
 .project-stages-table--deletable thead td:nth-child(5),
 .project-stages-table--deletable tbody td:nth-child(5) {
     width: 8%;
+    text-align: center;
+}
+
+.project-stages-table__action {
+    vertical-align: middle;
+}
+
+.project-stages-table__action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .project-stages-table__action button {
-    color: var(--danger);
-    background: transparent;
-    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
     cursor: pointer;
+    border: none;
+    background: transparent;
     font-size: 16px;
+}
+
+.project-stages-table__action button:first-child {
+    color: var(--primary);
+}
+
+.project-stages-table__action button:last-child {
+    color: var(--danger);
 }
 
 .project-stages-table__status p {
@@ -79,14 +102,14 @@
     border: 1px solid var(--warning-surface);
 }
 
-.project-stages-table__status-revision p {
-    color: var(--danger);
-    background: var(--danger-surface);
-    border: 1px solid var(--danger-surface);
-}
-
-.project-stages-table__status-accepted p {
+.project-stages-table__status-on p {
     color: var(--primary);
     background: var(--primary-surface);
     border: 1px solid var(--primary-surface);
+}
+
+.project-stages-table__status-selesai p {
+    color: var(--success);
+    background: var(--success-surface);
+    border: 1px solid var(--success-surface);
 }

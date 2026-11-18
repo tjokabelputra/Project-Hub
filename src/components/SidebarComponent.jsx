@@ -27,10 +27,12 @@ function SidebarComponent({ name, email, role }) {
             <span>Project</span>
           </NavLink>
 
-          <NavLink to="/updates" className="sidebar-general-navigation__link">
-            <FaPen className="sidebar-navigation__icon" />
-            <span>Input Update</span>
-          </NavLink>
+          { role !== 'VIEWER' && (
+            <NavLink to="/updates" className="sidebar-general-navigation__link">
+              <FaPen className="sidebar-navigation__icon" />
+              <span>Input Update</span>
+            </NavLink>
+          )}
 
           { role === 'ADMIN' && (
             <NavLink to="/management" className="sidebar-general-navigation__link">

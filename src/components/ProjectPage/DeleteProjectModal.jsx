@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {formatLabel} from "../../util/util.js";
 
 function DeleteProjectModal({ project, onClose, onConfirm }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -34,15 +35,15 @@ function DeleteProjectModal({ project, onClose, onConfirm }) {
         <div className="delete-project-modal__info">
           <div className="delete-project-modal__info-row">
             <span>Nama Project</span>
-            <strong>{project.name}</strong>
+            <strong>{project.nama}</strong>
           </div>
           <div className="delete-project-modal__info-row">
             <span>Kode Project</span>
-            <strong>{project.code}</strong>
+            <strong>{project.kodeProject}</strong>
           </div>
           <div className="delete-project-modal__info-row">
-            <span>Tahapan Saat Ini</span>
-            <strong>{project.currentStage || '-'}</strong>
+            <span>Status</span>
+            <strong>{project.status ? formatLabel(project.status) : '-'}</strong>
           </div>
         </div>
         <div className="delete-project-modal__warning">
