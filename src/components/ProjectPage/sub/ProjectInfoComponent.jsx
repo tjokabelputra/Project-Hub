@@ -6,15 +6,14 @@ import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import SearchableSelectComponent from '../../input/SearchableSelectComponent.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncPopulateData } from '../../../states/shared/action.js';
 import PageFooterComponent from '../PageFooterComponent.jsx';
 import { asyncGetEnums } from '../../../states/enums/action.js';
 import { formatLabel } from '../../../util/util.js';
-import {asyncGetPms} from "../../../states/pms/action.js";
-import {asyncGetBps} from "../../../states/bps/action.js";
-import {asyncGetUnits} from "../../../states/unit/action.js";
+import { asyncGetPms } from '../../../states/pms/action.js';
+import { asyncGetBps } from '../../../states/bps/action.js';
+import { asyncGetUnits } from '../../../states/unit/action.js';
 
-function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
+function ProjectInfoComponent({ pageIndex, type, projects, projectId, onBackPressed, projectInfo, onPreviousPage, onNextPage, isEdit })
 {
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
@@ -23,7 +22,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
   const dispatch = useDispatch();
 
   const {
-    code, onCodeChange, onCodeSelected,
+    code, onCodeChange,
     name, onNameChange,
     description, onDescChange,
     category, setCategory,
@@ -38,7 +37,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
     targetGoLive, onTargetDateChange
   } = projectInfo;
 
-  const inputListFirst = [code, name, description, category, status, priority];
+  const inputListFirst = [name, description, category, status, priority, ...(type !== 'New' ? [code] : [])];
   const inputListSecond = [pm, bp, requestingUnit, owner, projectInfo, targetGoLive];
 
   useEffect(() => {
@@ -48,13 +47,19 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
     dispatch(asyncGetEnums());
   }, [dispatch]);
 
-  const isCodeDuplicate =
-      type === 'New' && projects.some((project) =>
-        String(project.kodeProject).trim().toLowerCase() === String(code ?? '').trim().toLowerCase());
+  const isCodeDuplicate = projects.some((project) => {
+    const sameCode =
+        String(project.kodeProject || '').trim().toLowerCase() ===
+        String(code || '').trim().toLowerCase();
+
+    const isDifferentProject =
+        String(project.id) !== String(projectId);
+
+    return sameCode && (!isEdit || isDifferentProject);
+  });
 
   const isNameDuplicate =
-      type === 'New' && projects.some((project) =>
-        String(project.nama).trim().toLowerCase() === String(name ?? '').trim().toLowerCase());
+      projects.some((project) => String(project.nama).trim().toLowerCase() === String(name ?? '').trim().toLowerCase());
 
   return (
     <div className="project-input-layout__first">
@@ -66,33 +71,21 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
             <p className="project-info__title">Informasi Project</p>
             { pageIndex === 2 ? (
               <div className="project-info__inputs">
-                { type === 'New' ? (
-                  <div>
-                    <GeneralInputComponent
-                      id="code"
-                      label="Kode Project"
-                      type="text"
-                      placeholder="PRJ-XXX"
-                      value={code}
-                      onChange={onCodeChange}
-                      disabled={isEdit}/>
-
-                    { (isCodeDuplicate && !isEdit) && (
-                      <p className="input-error">Kode project sudah digunakan.</p>
-                    )}
-                  </div>
-                ) : (
-                  <SearchableSelectComponent
+                <div>
+                  <GeneralInputComponent
                     id="code"
                     label="Kode Project"
+                    type="text"
                     placeholder="PRJ-XXX"
-                    options={projects}
-                    optionsId="kodeProject"
-                    optionsValue="kodeProject"
                     value={code}
-                    onValueChange={onCodeSelected}
-                    disabled={isEdit}/>
-                )}
+                    onChange={onCodeChange}/>
+
+                  {isCodeDuplicate && (
+                    <p className="input-error">
+                        Kode project sudah digunakan.
+                    </p>
+                  )}
+                </div>
                 <div>
                   <GeneralInputComponent
                     id="name"
@@ -100,8 +93,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     type="text"
                     placeholder="Nama Project"
                     value={name}
-                    onChange={onNameChange}
-                    disabled={(type === 'Existing' || isEdit)}/>
+                    onChange={onNameChange}/>
                   {(isNameDuplicate && !isEdit) && (
                     <p className="input-error">Nama project sudah digunakan.</p>
                   )}
@@ -113,8 +105,7 @@ function ProjectInfoComponent({ pageIndex, type, projects, onBackPressed, projec
                     type="text"
                     placeholder="Deskripsi Singkat Project"
                     value={description}
-                    onChange={onDescChange}
-                    disabled={(type === 'Existing' || isEdit)}/>
+                    onChange={onDescChange}/>
                 </div>
                 <DropdownInputComponent
                   id="category"

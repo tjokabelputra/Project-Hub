@@ -31,9 +31,9 @@ function ProjectTypeComponent({ pageIndex, type, onTypeChange, onBackPressed, ne
               </div>
               <div
                 className= {
-                  `project-type__existing ${ type === 'Existing' ? 'project-type__selected' : ''}`
+                  `project-type__existing ${ type === 'Addendum' ? 'project-type__selected' : ''}`
                 }
-                onClick={() => onTypeChange('Existing')}>
+                onClick={() => onTypeChange('Addendum')}>
                 <div className="project-type__existing-icon">
                   <LuFilePen />
                 </div>

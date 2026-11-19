@@ -270,6 +270,7 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
           pageIndex={pageIndex}
           type={projectType}
           projects={projects}
+          projectId={id}
           onBackPressed={onBackPressed}
           projectInfo={projectInfo}
           onPreviousPage={prevPage}

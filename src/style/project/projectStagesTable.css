@@ -34,26 +34,12 @@
 
 .project-stages-table__header td:nth-child(4),
 .project-stages-table tbody td:nth-child(4) {
-    width: 55%;
+    width: 40%;
 }
 
-.project-stages-table--deletable thead td:nth-child(1),
-.project-stages-table--deletable tbody td:nth-child(1),
-.project-stages-table--deletable thead td:nth-child(2),
-.project-stages-table--deletable tbody td:nth-child(2),
-.project-stages-table--deletable thead td:nth-child(3),
-.project-stages-table--deletable tbody td:nth-child(3) {
-    width: 15%;
-}
-
-.project-stages-table--deletable thead td:nth-child(4),
-.project-stages-table--deletable tbody td:nth-child(4) {
-    width: 47%;
-}
-
-.project-stages-table--deletable thead td:nth-child(5),
-.project-stages-table--deletable tbody td:nth-child(5) {
-    width: 8%;
+.project-stages-table__header td:nth-child(5),
+.project-stages-table tbody td:nth-child(5) {
+    width: 10%;
     text-align: center;
 }
 
@@ -81,10 +67,6 @@
 
 .project-stages-table__action button:first-child {
     color: var(--primary);
-}
-
-.project-stages-table__action button:last-child {
-    color: var(--danger);
 }
 
 .project-stages-table__status p {
