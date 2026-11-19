@@ -3,8 +3,11 @@ import { MdRefresh } from 'react-icons/md';
 import { RxLightningBolt } from 'react-icons/rx';
 import { formatDateTime, formatLabel, formatPeriod } from '../../util/util.js';
 import LoadingSpinner from '../LoadingSpinner.jsx';
+import { useSelector } from 'react-redux';
 
 function InsightComponent({ insight, isLoading, onGenerate }) {
+  const authUser = useSelector((states) => states.authUser);
+
   return (
     <div className="insight">
       <div className="insight__header">
@@ -20,22 +23,24 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
             <p>Analisis pola portofolio strategis, audit tata kelola, dan rekomendasi otomatis oleh Project Hub AI engine.</p>
           </div>
         </div>
-        <button
-          className="insight__generate"
-          onClick={onGenerate}
-          disabled={isLoading}>
-          {isLoading ? (
-            <>
-              <LoadingSpinner size={16} />
-                Generating...
-            </>
-          ) : (
-            <>
-              <MdRefresh />
-                Generate Action
-            </>
-          )}
-        </button>
+        {authUser.role !== 'VIEWER' && (
+          <button
+            className="insight__generate"
+            onClick={onGenerate}
+            disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <LoadingSpinner size={16} />
+                    Generating...
+              </>
+            ) : (
+              <>
+                <MdRefresh />
+                    Generate Action
+              </>
+            )}
+          </button>
+        )}
       </div>
       <div className="insight__main">
         <div className="insight__latest">

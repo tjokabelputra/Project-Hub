@@ -3,6 +3,25 @@
     border-radius: 16px;
 }
 
+.input-update__item-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-inline: 24px;
+    padding-top: 24px;
+}
+
+.input-update__remove {
+    color: var(--text-secondary);
+    background: var(--danger);
+    border: 2px solid var(--danger);
+    padding-inline: 8px;
+    padding-block: 4px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .input-update__input-section {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -14,11 +33,17 @@
 .input-update__action {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-between;
     gap: 16px;
     padding-block: 16px;
     padding-inline: 24px;
     border-top: 1px solid var(--border);
+}
+
+.input-update__action-other {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
 }
 
 .input-update__action button {
@@ -42,7 +67,7 @@
     border: 2px solid var(--border);
 }
 
-.input-update__create {
+.input-update__create,  .input-update__add {
     color: var(--text-secondary);
     background: var(--primary);
     border: 2px solid var(--primary);

@@ -1,8 +1,19 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdInfo, MdRefresh } from 'react-icons/md';
 
 function MessagePreviewComponent({ message, onGetMessage }) {
+  const hasMessage = message.trim().length > 0;
+
+  const convertWhatsAppToMarkdown = (text) => {
+    return text.replace(
+      /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
+      '**$1**'
+    );
+  };
+
   const whatsappUrl = message.trim()
     ? `https://wa.me/?text=${encodeURIComponent(message)}`
     : '';
@@ -18,9 +29,16 @@ function MessagePreviewComponent({ message, onGetMessage }) {
         </button>
       </div>
       <div className="message-preview__main">
-        <pre className="message-preview__text">
-          {message || 'Klik Refresh untuk membuat preview pesan.'}
-        </pre>
+        <div className="message-preview__text">
+          {hasMessage ? (
+            <ReactMarkdown
+              remarkPlugins={[remarkBreaks]}>
+              {convertWhatsAppToMarkdown(message)}
+            </ReactMarkdown>
+          ) : (
+            'Klik Refresh untuk membuat preview pesan.'
+          )}
+        </div>
       </div>
       <div className="message-preview__info">
         <MdInfo className="message-preview__info-icon" />

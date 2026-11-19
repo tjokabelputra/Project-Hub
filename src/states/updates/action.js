@@ -1,21 +1,8 @@
-import api from '../../util/api.js';
+import updateApi from "../../util/updateApi.js";
 
 const ActionType = {
-  ADD_UPDATE: 'ADD_UPDATE',
   RECEIVE_UPDATES: 'RECEIVE_UPDATES',
-  EDIT_UPDATE: 'EDIT_UPDATE',
-  DELETE_UPDATE: 'DELETE_UPDATE',
-  RESTORE_UPDATE: 'RESTORE_UPDATE',
 };
-
-function addUpdateActionCreator(update) {
-  return {
-    type: ActionType.ADD_UPDATE,
-    payload: {
-      update
-    }
-  };
-}
 
 function receiveUpdatesActionCreator(updates) {
   return {
@@ -26,38 +13,12 @@ function receiveUpdatesActionCreator(updates) {
   };
 }
 
-function editUpdateActionCreator(editedUpdate) {
-  return {
-    type: ActionType.EDIT_UPDATE,
-    payload: {
-      editedUpdate
-    }
-  };
-}
-
-function deleteUpdateActionCreator(updateId) {
-  return {
-    type: ActionType.DELETE_UPDATE,
-    payload: {
-      updateId
-    }
-  };
-}
-
-function restoreUpdateActionCreator(index, update) {
-  return {
-    type: ActionType.RESTORE_UPDATE,
-    payload: {
-      index, update
-    }
-  };
-}
-
 function asyncAddUpdate(update) {
   return async (dispatch) => {
     try {
-      const newUpdate = await api.addUpdate(update);
-      dispatch(addUpdateActionCreator(newUpdate));
+      const newUpdate = await updateApi.addUpdate(update);
+      const updates = await updateApi.addUpdate(update.id);
+      dispatch(receiveUpdatesActionCreator(updates));
 
       return newUpdate;
     }
@@ -68,10 +29,10 @@ function asyncAddUpdate(update) {
   };
 }
 
-function asyncGetUpdates() {
+function asyncGetUpdates(projectId) {
   return async (dispatch) => {
     try {
-      const updates = await api.getUpdates();
+      const updates = await updateApi.getUpdates(projectId);
       dispatch(receiveUpdatesActionCreator(updates));
     }
     catch (error) {
@@ -80,47 +41,9 @@ function asyncGetUpdates() {
   };
 }
 
-function asyncEditUpdate(editedUpdate) {
-  return async (dispatch) => {
-    try {
-      const newUpdate = await api.editUpdate(editedUpdate);
-      dispatch(editUpdateActionCreator(newUpdate));
-    }
-    catch (error) {
-      alert(error.message);
-    }
-  };
-}
-
-function asyncDeleteUpdate(updateId) {
-  return async (dispatch, getState) => {
-    const { updates } = getState();
-
-    const oldIndex = updates.findIndex(
-      (update) => update.id === updateId
-    );
-    const oldUpdate = updates[oldIndex];
-
-    dispatch(deleteUpdateActionCreator(updateId));
-    try {
-      await api.deleteUpdate(updateId);
-    }
-    catch (error) {
-      alert(error.message);
-      dispatch(restoreUpdateActionCreator(oldIndex, oldUpdate));
-    }
-  };
-}
-
 export {
   ActionType,
-  addUpdateActionCreator,
   receiveUpdatesActionCreator,
-  editUpdateActionCreator,
-  deleteUpdateActionCreator,
-  restoreUpdateActionCreator,
   asyncAddUpdate,
   asyncGetUpdates,
-  asyncEditUpdate,
-  asyncDeleteUpdate
 };

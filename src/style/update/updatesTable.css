@@ -23,32 +23,32 @@
 /* Tanggal */
 .history-list-table__header td:nth-child(1),
 .history-list-table__body td:nth-child(1) {
-    width: 9%;
+    width: 10%;
     text-align: center;
 }
 
-/* Nama Project */
+/* Status Project */
 .history-list-table__header td:nth-child(2),
 .history-list-table__body td:nth-child(2) {
-    width: 12%;
+    width: 10%;
 }
 
 /* Progress/Output */
 .history-list-table__header td:nth-child(3),
 .history-list-table__body td:nth-child(3) {
-    width: 19%;
+    width: 20%;
 }
 
 /* Kendala/Isu */
 .history-list-table__header td:nth-child(4),
 .history-list-table__body td:nth-child(4) {
-    width: 18%;
+    width: 20%;
 }
 
 /* Next Action */
 .history-list-table__header td:nth-child(5),
 .history-list-table__body td:nth-child(5) {
-    width: 18%;
+    width: 20%;
 }
 
 /* Updated By */
@@ -63,11 +63,43 @@
     width: 10%;
 }
 
-/* Aksi */
-.history-list-table__header td:nth-child(8),
-.history-list-table__body td:nth-child(8) {
-    width: 4%;
-    text-align: center;
+.history-list-table__status {
+    width: max-content;
+    padding-inline: 16px;
+    padding-block: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 16px;
+}
+
+.history-list-table__status-draft {
+    background: var(--surface);
+    color: var(--text-tertiary);
+}
+
+.history-list-table__status-inisiasi {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.history-list-table__status-on_progress {
+    background: var(--success-surface);
+    color: var(--success);
+}
+
+.history-list-table__status-pending {
+    background: var(--warning-surface);
+    color: var(--warning);
+}
+
+.history-list-table__status-on_hold {
+    background: var(--danger-surface);
+    color: var(--danger);
+}
+
+.history-list-table__status-selesai {
+    background: var(--primary-surface);
+    color: var(--primary);
 }
 
 .history-list-table__action-buttons {
@@ -86,8 +118,4 @@
 
 .history-list-table__action-buttons button:first-child {
     color: var(--primary);
-}
-
-.history-list-table__action-buttons button:last-child {
-    color: var(--danger);
 }

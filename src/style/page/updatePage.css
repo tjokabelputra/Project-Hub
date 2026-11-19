@@ -54,10 +54,16 @@
 .input-update__history-title {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 16px;
     color: var(--text-primary);
     font-size: 20px;
     font-weight: bold;
+}
+
+.input-update__project-select {
+    width: 40%;
 }
 
 .input-update__view-history {

@@ -78,7 +78,7 @@ DropdownInputComponent.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   accentValue: PropTypes.bool,
