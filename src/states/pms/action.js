@@ -63,23 +63,18 @@ function asyncAddPm(name) {
   };
 }
 
-function asyncDeletePm(pmId) {
-  return async (dispatch, getState) => {
-    const { pms } = getState();
-
-    const oldIndex = pms.findIndex(
-      (pm) => pm.id === pmId
-    );
-    const oldPm = pms[oldIndex];
-
-    dispatch(deletePmActionCreator(pmId));
-
+function asyncEditPm({ id, name }) {
+  return async (dispatch) => {
     try {
-      await api.deletePm(pmId);
+      const editedPm = await masterApi.editPm({ id, name });
+      const pms = await masterApi.getPms();
+      dispatch(receivePMsActionCreator(pms));
+
+      return editedPm;
     }
     catch (error) {
       alert(error.message);
-      dispatch(restorePmActionCreator({ oldIndex, oldPm }));
+      throw error;
     }
   };
 }
@@ -91,5 +86,5 @@ export {
   restorePmActionCreator,
   asyncGetPms,
   asyncAddPm,
-  asyncDeletePm
+  asyncEditPm
 };

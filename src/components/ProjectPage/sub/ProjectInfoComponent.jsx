@@ -78,8 +78,8 @@ function ProjectInfoComponent({ pageIndex, type, projects, projectId, onBackPres
                     type="text"
                     placeholder="PRJ-XXX"
                     value={code}
+                    disabled={type === 'New'}
                     onChange={onCodeChange}/>
-
                   {isCodeDuplicate && (
                     <p className="input-error">
                         Kode project sudah digunakan.

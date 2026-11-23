@@ -63,23 +63,18 @@ function asyncAddUnit(name) {
   };
 }
 
-function asyncDeleteUnit(unitId) {
-  return async (dispatch, getState) => {
-    const { units } = getState();
-
-    const oldIndex = units.findIndex(
-      (unit) => unit.id === unitId
-    );
-    const oldUnit = units[oldIndex];
-
-    dispatch(deleteUnitActionCreator(unitId));
-
+function asyncEditUnit({ id, unitName }) {
+  return async (dispatch) => {
     try {
-      await api.deleteUnit(unitId);
+      const editedUnit = await masterApi.editUnit({ id, unitName });
+      const units = await masterApi.getUnits();
+      dispatch(receiveUnitsActionCreator(units));
+
+      return editedUnit;
     }
-    catch (error){
+    catch (error) {
       alert(error.message);
-      dispatch(restoreUnitActionCreator({ oldIndex, oldUnit }));
+      throw error;
     }
   };
 }
@@ -91,5 +86,5 @@ export {
   restoreUnitActionCreator,
   asyncGetUnits,
   asyncAddUnit,
-  asyncDeleteUnit
+  asyncEditUnit
 };

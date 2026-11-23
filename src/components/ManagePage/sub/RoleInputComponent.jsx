@@ -4,7 +4,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import DropdownInputComponent from '../../input/DropdownInputComponent.jsx';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 
-function RoleInputComponent({ onBackPressed, type, onTypeChange, name, onNameChange, onAddRole }) {
+function RoleInputComponent({ isEdit, onBackPressed, type, onTypeChange, name, onNameChange, onAddRole, onEditRole }) {
   const isFormValid = type.trim() !== '' && name.trim() !== '';
 
   return (
@@ -29,7 +29,7 @@ function RoleInputComponent({ onBackPressed, type, onTypeChange, name, onNameCha
               value={type}
               onValueChange={onTypeChange}
               id="type"
-              label="Tipe Pengguna"
+              label="Tipe Role"
               placeholder="Project Manager / Business Partner"
             />
             <GeneralInputComponent
@@ -49,8 +49,8 @@ function RoleInputComponent({ onBackPressed, type, onTypeChange, name, onNameCha
                 : 'role-input__action-add-enabled'
             }`}
             disabled={!isFormValid}
-            onClick={onAddRole}>
-              Tambah Pengguna <FaArrowRight />
+            onClick={isEdit ? onEditRole : onAddRole}>
+            {isEdit ? 'Edit Role' : 'Tambah Role'} <FaArrowRight />
           </button>
         </div>
       </div>

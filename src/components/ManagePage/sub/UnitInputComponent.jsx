@@ -2,7 +2,7 @@ import React from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import GeneralInputComponent from '../../input/GeneralInputComponent.jsx';
 
-function UnitInputComponent({ onBackPressed, name, onNameChange, onAddUnit }) {
+function UnitInputComponent({ isEdit, onBackPressed, name, onNameChange, onAddUnit, onEditUnit }) {
   const isFormValid = name.trim() !== '';
   return (
     <div className="unit-input">
@@ -34,8 +34,8 @@ function UnitInputComponent({ onBackPressed, name, onNameChange, onAddUnit }) {
                 : 'unit-input__action-add-enabled'
             }`}
             disabled={!isFormValid}
-            onClick={onAddUnit}>
-            Tambah Unit <FaArrowRight />
+            onClick={isEdit ? onEditUnit : onAddUnit}>
+            {isEdit ? 'Edit Unit' : 'Tambah Unit'} <FaArrowRight />
           </button>
         </div>
       </div>

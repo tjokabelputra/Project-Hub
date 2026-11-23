@@ -4,10 +4,10 @@ import { asyncPopulateData } from '../states/shared/action.js';
 import DataListComponent from '../components/ManagePage/sub/DataListComponent.jsx';
 import RoleInputComponent from '../components/ManagePage/sub/RoleInputComponent.jsx';
 import useInput from '../hooks/useInput.js';
-import { asyncAddPm } from '../states/pms/action.js';
-import { asyncAddBp } from '../states/bps/action.js';
+import { asyncAddPm, asyncEditPm } from '../states/pms/action.js';
+import { asyncAddBp, asyncEditBp } from '../states/bps/action.js';
 import UnitInputComponent from '../components/ManagePage/sub/UnitInputComponent.jsx';
-import { asyncAddUnit } from '../states/unit/action.js';
+import {asyncAddUnit, asyncEditUnit} from '../states/unit/action.js';
 import UserInputComponent from '../components/ManagePage/sub/UserInputComponent.jsx';
 import { asyncAddUser } from '../states/users/action.js';
 
@@ -123,6 +123,56 @@ function DataManagementPage() {
     }
   };
 
+  const onRoleSelected = (item, selectedRole) => {
+    setId(item.id);
+    setType(selectedRole);
+    setName(item.nama);
+    setIsEdit(true);
+    setPageIndex(1);
+  };
+
+  const onUnitSelected = (item) => {
+    setId(item.id);
+    setUnitName(item.nama);
+    setIsEdit(true);
+    setPageIndex(2);
+  };
+
+  const onEditRole = async () => {
+    try {
+      if (type === 'Project Manager') {
+        await dispatch(asyncEditPm({ id, name }));
+      }
+      else if (type === 'Business Partner') {
+        await dispatch(asyncEditBp({ id, name }));
+      }
+      else {
+        alert('Tipe pengguna tidak valid!');
+        return;
+      }
+
+      emptyInput();
+      setPageIndex(0);
+    }
+    catch (error) {
+      console.error(error);
+      alert(error.message || 'Gagal mengedit Role. Silakan coba lagi.');
+    }
+  };
+
+  const onEditUnit = async () => {
+    try {
+      await dispatch(asyncEditUnit({ id, unitName }));
+
+      emptyInput();
+      setPageIndex(0);
+    }
+    catch (error) {
+      console.error(error);
+      alert(error.message || 'Gagal mengedit Unit. Silakan coba lagi.');
+    }
+  };
+
   return (
     <section className="management-page">
       {pageIndex === 0 && (
@@ -131,7 +181,9 @@ function DataManagementPage() {
           bps={bps}
           units={units}
           users={users}
-          onAddData={onAddData}/>
+          onAddData={onAddData}
+          onRoleSelected={onRoleSelected}
+          onUnitSelected={onUnitSelected}/>
       )}
       {pageIndex === 1 && (
         <RoleInputComponent
@@ -144,7 +196,8 @@ function DataManagementPage() {
           onTypeChange={setType}
           name={name}
           onNameChange={onNameChange}
-          onAddRole={onAddRole}/>
+          onAddRole={onAddRole}
+          onEditRole={onEditRole}/>
       )}
       {pageIndex === 2 && (
         <UnitInputComponent
@@ -154,7 +207,8 @@ function DataManagementPage() {
           units={units}
           name={unitName}
           onNameChange={onUnitNameChange}
-          onAddUnit={onAddUnit}/>
+          onAddUnit={onAddUnit}
+          onEditUnit={onEditUnit}/>
       )}
       {pageIndex === 3 && (
         <UserInputComponent

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 import PaginationComponent from '../PaginationComponent.jsx';
 
-function UnitDataTable({ data }) {
+function UnitDataTable({ data, onUnitSelected }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const tableSize = 10;
@@ -37,7 +37,8 @@ function UnitDataTable({ data }) {
                   <button
                     type="button"
                     className="data-list-table__action-edit"
-                    title="Edit">
+                    title="Edit"
+                    onClick={() => onUnitSelected(item)}>
                     <FaPencil />
                   </button>
                 </div>

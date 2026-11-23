@@ -63,23 +63,18 @@ function asyncAddBp(name) {
   };
 }
 
-function asyncDeleteBp(bpId) {
-  return async (dispatch, getState) => {
-    const { bps } = getState();
-
-    const oldIndex = bps.findIndex(
-      (bp) => bp.id === bpId
-    );
-    const oldBp = bps[oldIndex];
-
-    dispatch(deleteBpActionCreator(bpId));
-
+function asyncEditBp({ id, name }) {
+  return async (dispatch) => {
     try {
-      await api.deleteBp(bpId);
+      const editedBp = await masterApi.editBp({ id, name });
+      const bps = await masterApi.getBps();
+      dispatch(receiveBPsActionCreator(bps));
+
+      return editedBp;
     }
     catch (error) {
       alert(error.message);
-      dispatch(restoreBpActionCreator({ oldIndex, oldBp }));
+      throw error;
     }
   };
 }
@@ -91,5 +86,5 @@ export {
   restoreBpActionCreator,
   asyncGetBps,
   asyncAddBp,
-  asyncDeleteBp
+  asyncEditBp
 };

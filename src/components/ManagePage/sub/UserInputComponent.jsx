@@ -39,7 +39,7 @@ function UserInputComponent({ onBackPressed, name, onNameChange, email, onEmailC
           <div className="user-input__inputs">
             <GeneralInputComponent
               id="name"
-              label="Nama Unit"
+              label="Nama Pengguna"
               placeholder="Nama"
               value={name}
               onChange={onNameChange} />

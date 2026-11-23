@@ -118,6 +118,69 @@ const masterApi = (() => {
     return data;
   }
 
+  async function editPm({ id, name }) {
+    const result = await _fetchWithAuth(`${BASE_URL}/master/pm/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nama: name
+      })
+    });
+    const resultJson = await result.json();
+
+    const { success, message, data } = resultJson;
+
+    if (success !== true) {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function editBp({ id, name }) {
+    const result = await _fetchWithAuth(`${BASE_URL}/master/bp/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nama: name
+      })
+    });
+    const resultJson = await result.json();
+
+    const { success, message, data } = resultJson;
+
+    if (success !== true) {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
+  async function editUnit({ id, unitName }) {
+    const result = await _fetchWithAuth(`${BASE_URL}/master/units/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nama: unitName
+      })
+    });
+    const resultJson = await result.json();
+
+    const { success, message, data } = resultJson;
+
+    if (success !== true) {
+      throw new Error(message);
+    }
+
+    return data;
+  }
+
   return {
     getEnums,
     getPms,
@@ -125,7 +188,10 @@ const masterApi = (() => {
     getUnits,
     addPm,
     addBp,
-    addUnit
+    addUnit,
+    editPm,
+    editBp,
+    editUnit
   };
 })();
 

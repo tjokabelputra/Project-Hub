@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 import PaginationComponent from '../PaginationComponent.jsx';
 
-function RoleDataTable({ data, role }) {
+function RoleDataTable({ data, role, onRoleSelected }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const tableSize = 10;
@@ -44,6 +44,7 @@ function RoleDataTable({ data, role }) {
                     type="button"
                     className="data-list-table__action-edit"
                     title="Edit"
+                    onClick={() => onRoleSelected(item, role)}
                   >
                     <FaPencil />
                   </button>
