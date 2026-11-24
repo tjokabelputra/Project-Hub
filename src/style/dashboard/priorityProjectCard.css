@@ -3,6 +3,7 @@
     flex-direction: column;
     background: var(--surface-secondary);
     padding: 24px;
+    gap: 8px;
     border: 1px solid var(--border);
     border-radius: 16px;
 }
@@ -13,34 +14,62 @@
     font-weight: bold;
 }
 
-.priority-project-card__content {
-    display: flex;
-    flex-direction: column;
+.priority-project-card__content ul {
+    margin: 0;
+    list-style: none;
 }
 
-.priority-project-card__info{
+.priority-project-card__content li {
+    border-bottom: 1px solid var(--border);
     padding-block: 8px;
+}
+
+.priority-project-card__content li:last-child {
+    border-bottom: none;
+}
+
+.priority-project-card__item {
     display: flex;
     flex-direction: row;
-    gap: 8px;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border);
-}
-
-.priority-project-card__name {
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.priority-project-card__stage {
-    background: var(--danger-surface);
-    padding-inline: 8px;
     padding-block: 4px;
-    border-radius: 8px;
-    color: var(--danger);
-    white-space: nowrap;
-    font-size: 14px;
+}
+
+.priority-project-card__project {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.priority-project-card__project > p {
+    font-size: 18px;
     font-weight: bold;
+}
+
+.priority-project-card__project > span {
+    font-size: 16px;
+    color: var(--text-tertiary);
+}
+
+.priority-project-card__committee {
+    font-size: 14px;
+    text-align: right;
+    padding-inline: 16px;
+    padding-block: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: var(--text-secondary);
+}
+
+.priority-project-card__committee-pra-komite {
+    background: var(--danger);
+}
+
+.priority-project-card__committee-komite-ti-b {
+    background: var(--warning);
+}
+
+.priority-project-card__committee-komite-ti-a {
+    background: var(--success);
 }

@@ -1,23 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../util/util.js';
+import { formatLabel } from '../../util/util.js';
 
-function PriorityProjectCard({ projects }) {
-  const upcomingProjects = projects
-    .filter((project) => project.status !== 'Completed' && project.targetGoLive)
-    .sort((a, b) => new Date(a.targetGoLive) - new Date(b.targetGoLive))
-    .slice(0, 5);
+function PriorityProjectCard({ priorities = [] }) {
+
+  const getLatestCommittee = (stages) => {
+    if (!stages || stages.length === 0) return '-';
+
+    const latestStage = [...stages]
+      .reverse()
+      .find((stage) => stage.status !== 'PLANNED');
+
+    const selectedStage = latestStage || stages[0];
+
+    return formatLabel(selectedStage.tahap);
+  };
 
   return (
     <div className="priority-project-card">
       <p className="priority-project-card__title">Project Prioritas</p>
       <div className="priority-project-card__content">
-        { upcomingProjects.map((project) => (
-          <div className="priority-project-card__info" key={project.id}>
-            <p className="priority-project-card__name">{project.nama}</p>
-            <p className="priority-project-card__stage">{formatDate(project.targetGoLive)}</p>
-          </div>
-        ))}
+        <ul>
+          {priorities.map((item) => (
+            <li key={item.id}>
+              <div className="priority-project-card__item">
+                <div className="priority-project-card__project">
+                  <p>{item.nama}</p>
+                  <span>{item.kodeProject}</span>
+                </div>
+                <div
+                  className={`priority-project-card__committee priority-project-card__committee-${getLatestCommittee(item.stages)
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')}`}>
+                  {getLatestCommittee(item.stages)}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

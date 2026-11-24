@@ -17,23 +17,19 @@ function PaginationComponent({ type, filteredDataLength, tableSize, startIndex, 
   return (
     <div className="pagination-component">
       <p>
-                Menampilkan{' '}
-        {filteredDataLength === 0 ? 0 : startIndex + 1}
+                Menampilkan {filteredDataLength === 0 ? 0 : startIndex + 1}
         {' - '}
-        {Math.min(endIndex, filteredDataLength)}
+        {endIndex}
         {' dari '}
         {filteredDataLength} {type}
       </p>
       <div className="pagination-component__actions">
         <button
           type="button"
-          className={
-            currentPage !== 1
-              ? 'pagination-component__page pagination-component__page--active'
-              : 'pagination-component__page'
-          }
+          className="pagination-component__page"
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((page) => page - 1)}>
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
                     Sebelumnya
         </button>
 
@@ -52,13 +48,9 @@ function PaginationComponent({ type, filteredDataLength, tableSize, startIndex, 
         ))}
         <button
           type="button"
-          className={
-            currentPage === pageCount || pageCount === 0
-              ? 'pagination-component__page'
-              : 'pagination-component__page pagination-component__page--active'
-          }
-          disabled={currentPage === pageCount || pageCount === 0}
-          onClick={() => setCurrentPage((page) => page + 1)}
+          className="pagination-component__page"
+          disabled={currentPage >= pageCount}
+          onClick={() => setCurrentPage(currentPage + 1)}
         >
                     Selanjutnya
         </button>

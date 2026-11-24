@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import InputUpdateComponent from '../components/UpdatePage/InputUpdateComponent.jsx';
 import UpdateListTable from '../components/UpdatePage/UpdateListTable.jsx';
 import MessagePreviewComponent from '../components/UpdatePage/MessagePreviewComponent.jsx';
-import DropdownInputComponent from '../components/input/DropdownInputComponent.jsx';
 import { asyncGetUpdates } from '../states/updates/action.js';
 import updateApi from '../util/updateApi.js';
+import SearchableSelectComponent from '../components/input/SearchableSelectComponent.jsx';
+import { asyncGetProjects } from '../states/projects/action.js';
 
 function getTodayDate() {
   const today = new Date();
@@ -31,8 +32,9 @@ function createEmptyItem() {
   };
 }
 
-function InputUpdatePage({ projects = [] }) {
+function InputUpdatePage() {
   const updates = useSelector((states) => states.updates);
+  const projects = useSelector((states) => states.projects.data);
   const dispatch = useDispatch();
 
   const [historyProjectId, setHistoryProjectId] = useState('');
@@ -43,8 +45,12 @@ function InputUpdatePage({ projects = [] }) {
     .filter((project) => project.status !== 'SELESAI')
     .map((project) => ({
       id: project.id,
-      value: `${project.nama} (${project.kodeProject || '-'})`
+      value: `${project.nama} (${project.kodeProject || '-'})`,
     }));
+
+  useEffect(() => {
+    dispatch(asyncGetProjects(1, 100));
+  }, [dispatch]);
 
   useEffect(() => {
     const getUpdate = () => {
@@ -199,7 +205,7 @@ function InputUpdatePage({ projects = [] }) {
               <p>Update History</p>
             </div>
             <div className="input-update__project-select">
-              <DropdownInputComponent
+              <SearchableSelectComponent
                 options={projectOptions}
                 value={
                   projectOptions.find(
@@ -208,7 +214,7 @@ function InputUpdatePage({ projects = [] }) {
                 }
                 onValueChange={onHistoryProjectChange}
                 id="history-project"
-                placeholder="Pilih project..." />
+                placeholder="Pilih project..."/>
             </div>
           </div>
           <UpdateListTable updates={updates} />

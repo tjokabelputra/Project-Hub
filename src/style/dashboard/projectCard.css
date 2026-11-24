@@ -53,13 +53,13 @@
     color: var(--danger);
 }
 
-.project-card__header p {
+.project-card__title {
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 }
 
-.project-card p {
+.project-card > p {
     color: var(--text-primary);
     font-size: 24px;
     font-weight: bold;

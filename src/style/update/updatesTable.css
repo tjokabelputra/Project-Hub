@@ -20,20 +20,20 @@
     border-bottom: 1px solid var(--border);
 }
 
-/* Tanggal */
+/* Tanggal & Jam */
 .history-list-table__header td:nth-child(1),
 .history-list-table__body td:nth-child(1) {
-    width: 10%;
+    width: 15%;
     text-align: center;
 }
 
-/* Status Project */
+/* Status */
 .history-list-table__header td:nth-child(2),
 .history-list-table__body td:nth-child(2) {
     width: 10%;
 }
 
-/* Progress/Output */
+/* Aktivitas */
 .history-list-table__header td:nth-child(3),
 .history-list-table__body td:nth-child(3) {
     width: 20%;
@@ -54,13 +54,7 @@
 /* Updated By */
 .history-list-table__header td:nth-child(6),
 .history-list-table__body td:nth-child(6) {
-    width: 10%;
-}
-
-/* Terakhir Update */
-.history-list-table__header td:nth-child(7),
-.history-list-table__body td:nth-child(7) {
-    width: 10%;
+    width: 15%;
 }
 
 .history-list-table__status {

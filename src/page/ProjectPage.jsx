@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ProjectListComponent from '../components/ProjectPage/sub/ProjectListComponent.jsx';
 import ProjectTypeComponent from '../components/ProjectPage/sub/ProjectTypeComponent.jsx';
@@ -7,11 +7,12 @@ import useInput from '../hooks/useInput.js';
 import ProjectStagesComponent from '../components/ProjectPage/sub/ProjectStagesComponent.jsx';
 import ProjectReviewComponent from '../components/ProjectPage/sub/ProjectReviewComponent.jsx';
 import documentApi from '../util/documentApi.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatLabel, getIdByName } from '../util/util.js';
 import projectApi from '../util/projectApi.js';
+import { asyncGetProjects } from '../states/projects/action.js';
 
-function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) {
+function ProjectPage({ onDeleteProject, onAddProject, onSubmitEdit }) {
   const [isEdit, setIsEdit] = useState(false);
   const [id, setId] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
@@ -35,6 +36,10 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
   const pms = useSelector((states) => states.pms);
   const bps = useSelector((states) => states.bps);
   const units = useSelector((states) => states.units);
+  const projectsState = useSelector((states) => states.projects);
+  const dispatch = useDispatch();
+  const projects = projectsState.data;
+  const pagination = projectsState.pagination;
 
   //Format object for api request body
   const projectFormat = {
@@ -62,6 +67,10 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
       (document) => document instanceof File
     )
   };
+
+  useEffect(() => {
+    dispatch(asyncGetProjects(1, 10));
+  }, [dispatch]);
 
   //Reset input
   const resetInput = () => {
@@ -111,6 +120,10 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
       }))
     );
     setSupportingDocuments(project.documents);
+  };
+
+  const onPageChange = (page) => {
+    dispatch(asyncGetProjects(page, 10));
   };
 
   const onBackPressed = () => {
@@ -249,6 +262,8 @@ function ProjectPage({ projects, onDeleteProject, onAddProject, onSubmitEdit }) 
           (
             <ProjectListComponent
               projects={projects}
+              pagination={pagination}
+              onPageChange={onPageChange}
               nextPage={nextPage}
               onDeleteProject={onDeleteProject}
               onEditProject={onEditProject}

@@ -11,7 +11,6 @@ function SearchableSelectComponent({
   optionsValue = 'value',
   value,
   onValueChange,
-  minInput = 3,
   disabled = false
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +21,13 @@ function SearchableSelectComponent({
     (option) => String(option[optionsValue]) === String(value)
   );
 
-  const filteredOptions  = search.trim().length >= minInput
-    ? options.filter((option) => String(option[optionsValue] ?? '')
-      .toLowerCase().includes(search.trim().toLowerCase())).slice(0, 10)
-    : [];
+  const filteredOptions = search.trim().length > 0
+    ? options.filter((option) =>
+      String(option[optionsValue] ?? '')
+        .toLowerCase()
+        .includes(search.trim().toLowerCase())
+    ).slice(0, 10)
+    : options.slice(0, 10);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -49,8 +51,8 @@ function SearchableSelectComponent({
   }
 
   return (
-    <div className="searchable-select">
-      <label>{label}</label>
+    <div className="searchable-select" ref={containerRef}>
+      <label htmlFor={id}>{label}</label>
       <div className="searchable-select__control">
         <input
           id={id}
@@ -58,6 +60,9 @@ function SearchableSelectComponent({
           placeholder={placeholder}
           value={isOpen ? search : selectedOption?.[optionsValue] ?? ''}
           disabled={disabled}
+          onFocus={() => {
+            setIsOpen(true);
+          }}
           onChange={(event) => {
             setSearch(event.target.value);
             setIsOpen(true);
@@ -67,9 +72,7 @@ function SearchableSelectComponent({
 
       { isOpen && !disabled && (
         <ul className="searchable-select__list">
-          {search.trim().length < minInput ? (
-            <li className="searchable-select__empty">Ketik minimal {minInput} karakter untuk mencari</li>
-          ) : filteredOptions.length > 0 ? (
+          {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (
               <li key={option[optionsId]}>
                 <button
@@ -95,7 +98,7 @@ function SearchableSelectComponent({
 
 SearchableSelectComponent.propTypes = {
   id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   optionId: PropTypes.string,

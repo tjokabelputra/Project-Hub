@@ -8,9 +8,7 @@ import PaginationComponent from '../PaginationComponent.jsx';
 import DeleteProjectModal from './DeleteProjectModal.jsx';
 import { useSelector } from 'react-redux';
 
-function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onEditProject, onDownloadDocument }) {
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-  const [currentPage, setCurrentPage] = useState(1);
+function ProjectListTable({ projects, pagination, onPageChange, onDeleteProject, onEditProject, onDownloadDocument }) {
   const [displayDetail, setDisplayDetail] = useState(false);
   const [selectedProject, setSelectedProject] = useState({});
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
@@ -18,48 +16,19 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
 
   const authedUser = useSelector((states) => states.authUser);
 
-  const tableSize = 10;
-  const startIndex = (currentPage - 1) * tableSize;
-  const endIndex = startIndex + tableSize;
+  const currentPage = pagination?.page || 1;
+  const tableSize = pagination?.limit || 10;
+  const totalProjects = pagination?.total || 0;
+  const totalPages = pagination?.totalPages || 1;
 
-  useEffect(() => {
-    const setFilter = () => {
-      let searchedProjects = projects;
-      if (keyword.length >= 3) {
-        searchedProjects = projects.filter((project) => project.nama.toLowerCase().includes(keyword.toLowerCase()));
-      }
+  const startIndex = totalProjects === 0
+    ? 0
+    : (currentPage - 1) * tableSize;
 
-      switch (filterIndex) {
-      case 0:
-        setFilteredProjects(searchedProjects);
-        break;
-      case 1:
-        setFilteredProjects(searchedProjects.filter((project) => project.status === 'DRAFT'));
-        break;
-      case 2:
-        setFilteredProjects(searchedProjects.filter((project) => project.status === 'INISIASI'));
-        break;
-      case 3:
-        setFilteredProjects(searchedProjects.filter((project) => project.status === 'ON_PROGRESS'));
-        break;
-      case 4:
-        setFilteredProjects(searchedProjects.filter((project) => project.status === 'PENDING'));
-        break;
-      case 5:
-        setFilteredProjects(searchedProjects.filter((project) => project.status === 'ON_HOLD'));
-        break;
-      case 6:
-        setFilteredProjects(searchedProjects.filter((projects) => projects.status === 'SELESAI'));
-        break;
-      default:
-        setFilteredProjects(searchedProjects);
-      }
-
-      setCurrentPage(1);
-    };
-
-    setFilter();
-  }, [projects, filterIndex, keyword]);
+  const endIndex = Math.min(
+    startIndex + projects.length,
+    totalProjects
+  );
 
   const displayProjectDetail = (project) => {
     setDisplayDetail(true);
@@ -83,11 +52,12 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
             <td>BP</td>
             <td>Status</td>
             <td>Unit Pengusul</td>
+            <td>Unit Kerja</td>
             <td>Aksi</td>
           </tr>
         </thead>
         <tbody className="project-list-table__body">
-          {filteredProjects.slice(startIndex, endIndex).map((project, index) => (
+          {projects.map((project, index) => (
             <tr key={project.id}>
               <td>{startIndex + index + 1}</td>
               <td className="project-list-table__name">{project.nama}</td>
@@ -96,6 +66,12 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
               <td>{project.bp.nama}</td>
               <td className={`project-list-table__status project-list-table__status-${project.status.toLowerCase().replace(/\s+/g, '_')}`}><p>{formatStatus(project.status)}</p></td>
               <td>{project.unitPengusul.nama}</td>
+              <td>
+                {Array.isArray(project.unitKerjaDeveloper) &&
+                project.unitKerjaDeveloper.length > 0
+                  ? project.unitKerjaDeveloper.join(', ')
+                  : '-'}
+              </td>
               <td className="project-list-table__action">
                 <div className="project-list-table__action-buttons">
                   <button
@@ -125,12 +101,14 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
       </table>
       <PaginationComponent
         type="Project"
-        filteredDataLength={filteredProjects.length}
+        filteredDataLength={totalProjects}
         tableSize={tableSize}
         startIndex={startIndex}
         endIndex={endIndex}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage} />
+        pageCount={totalPages}
+        setCurrentPage={onPageChange}
+      />
       { displayDetail && (
         <ProjectDetailModal
           project={selectedProject}
@@ -152,8 +130,8 @@ function ProjectListTable({ projects, filterIndex, keyword, onDeleteProject, onE
 
 ProjectListTable.propTypes = {
   projects: PropTypes.array.isRequired,
-  filterIndex: PropTypes.number.isRequired,
-  keyword: PropTypes.string.isRequired,
+  pagination: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   onDeleteProject: PropTypes.func.isRequired,
   onEditProject: PropTypes.func.isRequired
 };

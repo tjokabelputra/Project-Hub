@@ -15,18 +15,11 @@ import ProfilePage from './page/ProfilePage.jsx';
 function App() {
   const authUser = useSelector((states) => states.authUser);
   const isPreload = useSelector((states) => states.isPreload);
-  const projects = useSelector((states) => states.projects);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(asyncPreloadProcess());
   }, [dispatch]);
-
-  React.useEffect(() => {
-    if (!isPreload && authUser) {
-      dispatch(asyncGetProjects());
-    }
-  }, [dispatch, authUser, isPreload]);
 
   if (isPreload) {
     return null;
@@ -77,16 +70,15 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<DashboardPage projects={projects}/>} />
+            <Route path="/dashboard" element={<DashboardPage/>} />
             <Route path="/projects"
               element={
                 <ProjectPage
-                  projects={projects}
                   onDeleteProject={onDeleteProject}
                   onAddProject={onAddProject}
                   onSubmitEdit={onSubmitEdit}/>
               }/>
-            <Route path="/updates" element={<InputUpdatePage projects={projects}/>} />
+            <Route path="/updates" element={<InputUpdatePage/>} />
             <Route
               path="/management"
               element={

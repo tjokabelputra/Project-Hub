@@ -1,0 +1,109 @@
+.project-search {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background: var(--surface-secondary);
+    border-radius: 16px;
+}
+
+.project-search__input {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-search-input {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: 8px;
+    row-gap: 8px;
+}
+
+.project-search-table-layout {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-secondary);
+    border-radius: 16px;
+}
+
+.project-search-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.project-search-table__header {
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--background);
+}
+
+.project-search-table__header td, .project-search-table__body td {
+    padding-block: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.project-search-table__header td:nth-child(1),
+.project-search-table__body td:nth-child(1) {
+    width: 5%;
+    text-align: center;
+}
+
+.project-search-table__header td:nth-child(2),
+.project-search-table__body td:nth-child(2) {
+    width: 30%;
+}
+
+.project-search-table__header td:nth-child(3),
+.project-search-table__body td:nth-child(3) {
+    width: 10%;
+}
+
+.project-search-table__header td:nth-child(4),
+.project-search-table__body td:nth-child(4) {
+    width: 10%;
+}
+
+.project-search-table__header td:nth-child(5),
+.project-search-table__body td:nth-child(5) {
+    width: 15%;
+}
+
+.project-search-table__header td:nth-child(6),
+.project-search-table__body td:nth-child(6) {
+    width: 18%;
+}
+
+.project-search-table__header td:nth-child(7),
+.project-search-table__body td:nth-child(7) {
+    width: 12%;
+}
+
+.project-search__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 16px;
+}
+
+.project-search__actions button {
+    padding-inline: 16px;
+    padding-block: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.project-search__actions button:first-child {
+    background: var(--surface-secondary);
+    color: var(--text-tertiary);
+    border: 2px solid var(--border);
+}
+
+.project-search__actions button:last-child {
+    background: var(--primary);
+    color: var(--text-secondary);
+    border: 2px solid var(--primary);
+}

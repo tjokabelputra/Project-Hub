@@ -1,7 +1,7 @@
 .project-list {
     display: flex;
     flex-direction: column;
-    width: 75%;
+    width: 100%;
     padding: 24px;
     gap: 24px;
 }
@@ -23,22 +23,6 @@
     font-size: 14px;
 }
 
-.project-list__header-action {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.project-list__header-action input {
-    width: 60%;
-    height: 48px;
-    padding-inline: 16px;
-    padding-block: 8px;
-    font-size: 14px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-}
-
 .project-list__header-action button {
     display: flex;
     gap: 8px;
@@ -51,8 +35,4 @@
     color: var(--text-secondary);
     font-size: 14px;
     font-weight: bold;
-}
-
-.project-list__search--right {
-    margin-left: auto;
 }

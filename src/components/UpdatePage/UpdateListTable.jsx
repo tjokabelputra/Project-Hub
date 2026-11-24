@@ -7,26 +7,24 @@ function UpdateListTable({ updates }) {
       <table className="history-list-table">
         <thead className="history-list-table__header">
           <tr>
-            <td>Tanggal</td>
+            <td>Tanggal & Jam</td>
             <td>Status</td>
             <td>Aktivitas</td>
             <td>Kendala/Isu</td>
             <td>Next Action</td>
-            <td>Terakhir Diupdate</td>
             <td>Diupdate Oleh</td>
           </tr>
         </thead>
         <tbody className="history-list-table__body">
           {updates.map((update) => (
             <tr key={update.id}>
-              <td>{formatDate(update.tanggal)}</td>
+              <td>{formatDateTime(update.tanggalInput)}</td>
               <td>
                 <p className={`history-list-table__status history-list-table__status-${update.status.toLowerCase()}`}>{formatLabel(update.status)}</p>
               </td>
               <td>{update.aktivitas}</td>
               <td>{update.kendala}</td>
               <td>{update.nextAction}</td>
-              <td>{formatDateTime(update.tanggalInput)}</td>
               <td>{update.modifiedBy.nama}</td>
             </tr>
           ))}

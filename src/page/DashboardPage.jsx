@@ -10,19 +10,39 @@ import { asyncGenerateInsight, asyncGetLatestInsight } from '../states/insight/a
 import MissDeadlineComponent from '../components/DashboardPage/MissDeadlineComponent.jsx';
 import InsightComponent from '../components/DashboardPage/InsightComponent.jsx';
 import { asyncGetDashboard } from '../states/dashboard/action.js';
+import { MdOutlinePending } from 'react-icons/md';
+import ProjectSearchComponent from '../components/DashboardPage/ProjectSearchComponent.jsx';
+import { asyncGetPms } from '../states/pms/action.js';
+import { asyncGetBps } from '../states/bps/action.js';
+import { asyncGetUnits } from '../states/unit/action.js';
+import { asyncGetEnums } from '../states/enums/action.js';
+import { asyncGetProjects } from '../states/projects/action.js';
 
-function DashboardPage({ projects }) {
+function DashboardPage() {
   const dashboardData = useSelector((states) => states.dashboard);
   const insight = useSelector((states) => states.insight);
+  const projectsState = useSelector((states) => states.projects);
+  const enums = useSelector((states) => states.enums);
+  const pms = useSelector((states) => states.pms);
+  const bps = useSelector((states) => states.bps);
+  const units = useSelector((states) => states.units);
   const dispatch = useDispatch();
+  const projects = projectsState.data;
+  const pagination = projectsState.pagination;
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    dispatch(asyncGetProjects(1, 10));
     dispatch(asyncGetDashboard());
     dispatch(asyncGetLatestInsight());
+    dispatch(asyncGetEnums());
+    dispatch(asyncGetPms());
+    dispatch(asyncGetBps());
+    dispatch(asyncGetUnits());
   }, [dispatch]);
 
+  /**
   function getMissedDeadlineProjects(projects) {
     const today = new Date();
 
@@ -45,6 +65,7 @@ function DashboardPage({ projects }) {
   const missedDeadlineProjects = useMemo(() => {
     return getMissedDeadlineProjects(projects);
   }, [projects]);
+   **/
 
   const projectCards = [
     {
@@ -58,6 +79,12 @@ function DashboardPage({ projects }) {
       icon: FaRegClock,
       title: 'On Progress Projects',
       content: dashboardData.statusCounts?.ON_PROGRESS ?? 0,
+    },
+    {
+      status: 'Pending',
+      icon: MdOutlinePending,
+      title: 'Pending Project',
+      content: dashboardData.statusCounts?.PENDING ?? 0,
     },
     {
       status: 'On Hold',
@@ -94,7 +121,6 @@ function DashboardPage({ projects }) {
         <h1>Dashboard Monitoring</h1>
         <p>Ringkasan status project dan tahapan komite secara real-time.</p>
       </div>
-      <MissDeadlineComponent projects={missedDeadlineProjects} total={missedDeadlineProjects.length} />
       <div className="dashboard-page__project-status">
         {projectCards.map((card) => (
           <ProjectCard
@@ -118,10 +144,21 @@ function DashboardPage({ projects }) {
           />
         </div>
         <div className="dashboard-page__chart-item">
-          <PriorityProjectCard projects={projects}/>
+          <PriorityProjectCard priorities={dashboardData.priorities}/>
         </div>
       </div>
-      <InsightComponent insight={insight} onGenerate={onGenerate} isLoading={isLoading} />
+      <InsightComponent
+        insight={insight}
+        onGenerate={onGenerate}
+        isLoading={isLoading} />
+      <ProjectSearchComponent
+        projects={projects}
+        pagination={pagination}
+        onPageChange={(page) => dispatch(asyncGetProjects(page))}
+        enums={enums}
+        pms={pms}
+        bps={bps}
+        units={units}/>
     </section>
   );
 }

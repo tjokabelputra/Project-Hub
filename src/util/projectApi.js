@@ -3,17 +3,65 @@ import { _fetchWithAuth } from './util.js';
 const projectApi = (() => {
   const BASE_URL = 'http://localhost:3000';
 
-  async function getProjects() {
-    const response = await _fetchWithAuth(`${BASE_URL}/projects`);
+  async function getProjects({ page = 1, limit = 10 }) {
+    const response = await _fetchWithAuth(`${BASE_URL}/projects?page=${page}&limit=${limit}`);
     const responseJson = await response.json();
 
-    const { success, message, data } = responseJson;
+    const { success, message, data, pagination } = responseJson;
 
     if (success !== true) {
       throw new Error(message);
     }
 
-    return data;
+    return {
+      data,
+      pagination
+    };
+  }
+
+  async function filterProject({
+    page = 1,
+    limit = 10,
+    search = '',
+    status = '',
+    kategori = '',
+    unitId = '',
+    prioritas = '',
+    tahap = '',
+    tahun = '',
+    pmId = '',
+    bpId = '',
+    unitKerjaDeveloper = '',
+  }) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('limit', limit);
+    if (search) params.append('search', search);
+    if (status) params.append('status', status);
+    if (kategori) params.append('kategori', kategori);
+    if (unitId) params.append('unitId', unitId);
+    if (prioritas) params.append('prioritas', prioritas);
+    if (tahap) params.append('tahap', tahap);
+    if (tahun) params.append('tahun', tahun);
+    if (pmId) params.append('pmId', pmId);
+    if (bpId) params.append('bpId', bpId);
+    if (unitKerjaDeveloper) {
+      params.append('unitKerjaDeveloper', unitKerjaDeveloper);
+    }
+
+    const response = await _fetchWithAuth(`${BASE_URL}/projects?${params.toString()}`);
+    const responseJson = await response.json();
+
+    const { success, message, data, pagination } = responseJson;
+
+    if (success !== true) {
+      throw new Error(message);
+    }
+
+    return {
+      data,
+      pagination,
+    };
   }
 
   async function getProjectDetail(projectId) {
@@ -168,6 +216,7 @@ const projectApi = (() => {
 
   return {
     getProjects,
+    filterProject,
     getProjectDetail,
     addProject,
     addDocument,
