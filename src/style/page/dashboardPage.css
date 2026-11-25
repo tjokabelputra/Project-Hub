@@ -5,6 +5,7 @@
 @import '../dashboard/missedDeadline.css';
 @import '../dashboard/insight.css';
 @import '../dashboard/projectSearch.css';
+@import '../dashboard/staleProject.css';
 
 .dashboard-page {
     display: flex;

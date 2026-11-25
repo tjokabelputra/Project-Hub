@@ -1,0 +1,109 @@
+.stale-project {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--surface-secondary);
+    border-radius: 16px;
+}
+
+.stale-project__header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.stale-project-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.stale-project-table__header {
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--background);
+}
+
+.stale-project-table__header td, .stale-project-table__body td {
+    padding-block: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.stale-project-table__header td:nth-child(1),
+.stale-project-table__body td:nth-child(1) {
+    width: 40%;
+    padding-inline: 16px;
+}
+
+.stale-project-table__header td:nth-child(2),
+.stale-project-table__body td:nth-child(2) {
+    width: 10%;
+}
+
+.stale-project-table__header td:nth-child(3),
+.stale-project-table__body td:nth-child(3) {
+    width: 10%;
+}
+
+.stale-project-table__header td:nth-child(4),
+.stale-project-table__body td:nth-child(4) {
+    width: 20%;
+}
+
+.stale-project-table__header td:nth-child(5),
+.stale-project-table__body td:nth-child(5) {
+    width: 20%;
+}
+
+.stale-project-table__date {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stale-project-table__status {
+    width: max-content;
+    padding-block: 8px;
+    padding-inline: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.stale-project-table__status-draft {
+    background: var(--surface);
+    color: var(--text-tertiary);
+}
+
+.stale-project-table__status-inisiasi {
+    background: var(--border);
+    color: var(--text-primary);
+}
+
+.stale-project-table__status-on_progress {
+    background: var(--success-surface);
+    color: var(--success);
+}
+
+.stale-project-table__status-pending {
+    background: var(--warning-surface);
+    color: var(--warning);
+}
+
+.stale-project-table__status-on_hold {
+    background: var(--danger-surface);
+    color: var(--danger);
+}
+
+.stale-project-table__status-selesai {
+    background: var(--primary-surface);
+    color: var(--primary);
+}
+
+.stale-project-table__duration {
+    font-size: 14px;
+    color: var(--text-tertiary);
+}

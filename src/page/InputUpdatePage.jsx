@@ -6,7 +6,7 @@ import MessagePreviewComponent from '../components/UpdatePage/MessagePreviewComp
 import { asyncGetUpdates } from '../states/updates/action.js';
 import updateApi from '../util/updateApi.js';
 import SearchableSelectComponent from '../components/input/SearchableSelectComponent.jsx';
-import { asyncGetProjects } from '../states/projects/action.js';
+import projectApi from '../util/projectApi.js';
 
 function getTodayDate() {
   const today = new Date();
@@ -34,9 +34,9 @@ function createEmptyItem() {
 
 function InputUpdatePage() {
   const updates = useSelector((states) => states.updates);
-  const projects = useSelector((states) => states.projects.data);
   const dispatch = useDispatch();
 
+  const [projects, setProjects] = useState([]);
   const [historyProjectId, setHistoryProjectId] = useState('');
   const [items, setItems] = useState(() => [createEmptyItem()]);
   const [message, setMessage] = useState('');
@@ -49,8 +49,22 @@ function InputUpdatePage() {
     }));
 
   useEffect(() => {
-    dispatch(asyncGetProjects(1, 100));
-  }, [dispatch]);
+    const getProjects = async () => {
+      try {
+        const response = await projectApi.getProjects({
+          page: 1,
+          limit: 100
+        });
+
+        setProjects(response.data);
+      }
+      catch (error) {
+        console.error('Gagal mengambil data project:', error);
+      }
+    };
+
+    getProjects();
+  }, []);
 
   useEffect(() => {
     const getUpdate = () => {

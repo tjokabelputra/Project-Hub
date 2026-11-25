@@ -5,6 +5,7 @@
     padding: 24px;
     background: var(--surface-secondary);
     border-radius: 16px;
+    color: var(--text-primary);
 }
 
 .project-search__input {

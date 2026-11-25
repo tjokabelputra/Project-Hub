@@ -17,6 +17,7 @@ import { asyncGetBps } from '../states/bps/action.js';
 import { asyncGetUnits } from '../states/unit/action.js';
 import { asyncGetEnums } from '../states/enums/action.js';
 import { asyncGetProjects } from '../states/projects/action.js';
+import StaleProjectComponent from "../components/DashboardPage/StaleProjectComponent.jsx";
 
 function DashboardPage() {
   const dashboardData = useSelector((states) => states.dashboard);
@@ -159,6 +160,8 @@ function DashboardPage() {
         pms={pms}
         bps={bps}
         units={units}/>
+      <StaleProjectComponent
+        staleProjects={dashboardData.staleProjects}/>
     </section>
   );
 }
