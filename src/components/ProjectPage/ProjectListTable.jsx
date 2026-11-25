@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { FaPencil } from 'react-icons/fa6';

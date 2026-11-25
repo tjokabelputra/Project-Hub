@@ -13,7 +13,9 @@ function FilterComponent({ filters, filterIndex, setFilterIndex }) {
           }
           onClick={() => setFilterIndex(index)}
         >
-          {filter.label} ({filter.count})
+          {filter.count != null
+            ? `${filter.label} (${filter.count})`
+            : filter.label}
         </li>
       ))}
     </ul>
