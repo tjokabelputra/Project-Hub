@@ -25,7 +25,7 @@ function UpdateListTable({ updates }) {
               <td>{update.aktivitas}</td>
               <td>{update.kendala}</td>
               <td>{update.nextAction}</td>
-              <td>{update.modifiedBy.nama}</td>
+              <td>{update.modifiedBy?.nama || '-'}</td>
             </tr>
           ))}
           {updates.length === 0 && (
