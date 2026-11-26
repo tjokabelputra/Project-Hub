@@ -50,7 +50,6 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
               <h2>Latest analysis</h2>
               <p>{formatDateTime(insight?.generatedAt)}</p>
             </div>
-
             <span className="insight__latest-period">
               {insight?.period?.start && insight?.period?.end
                 ? `${formatPeriod(insight.period.start)} – ${formatPeriod(insight.period.end)}`
@@ -61,20 +60,10 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
             <p>OVERALL CONDITION</p>
             <h3>Portofolio membutuhkan perhatian</h3>
             <span>{insight?.condition}</span>
-          </div>
-          <div className="insight__latest-stats">
-            <div>
-              <strong>{insight?.attention?.length ?? 0}</strong>
-              <span>Needs attention</span>
-            </div>
-            <div>
-              <strong>{insight?.stageChangeProjectCount ?? 0}</strong>
-              <span>Stage changes</span>
-            </div>
-            <div>
-              <strong>{insight?.completedProjectCount ?? 0}</strong>
-              <span>Completed</span>
-            </div>
+            <h3>Pola Kendala</h3>
+            <span>{insight?.blockerPattern}</span>
+            <h3>Kualitas Data</h3>
+            <span>{insight?.dataQualityNote}</span>
           </div>
         </div>
         <div className="insight__attention">
@@ -94,7 +83,6 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
             </div>
           ))}
         </div>
-        <div className="insight__"></div>
       </div>
     </div>
   );
