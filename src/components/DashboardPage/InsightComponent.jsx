@@ -62,8 +62,6 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
             <span>{insight?.condition}</span>
             <h3>Pola Kendala</h3>
             <span>{insight?.blockerPattern}</span>
-            <h3>Kualitas Data</h3>
-            <span>{insight?.dataQualityNote}</span>
           </div>
         </div>
         <div className="insight__attention">
