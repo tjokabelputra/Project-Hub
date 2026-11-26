@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDateTime, formatLabel } from '../../util/util.js';
 import PaginationComponent from '../PaginationComponent.jsx';
 
@@ -66,5 +67,11 @@ function ProjectSearchTableComponent({ projects, pagination, onPageChange }) {
     </div>
   );
 }
+
+ProjectSearchTableComponent.propTypes = {
+  projects: PropTypes.array.isRequired,
+  pagination: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired
+};
 
 export default ProjectSearchTableComponent;

@@ -59,7 +59,8 @@ function SidebarComponent({ name, email, role }) {
 
 SidebarComponent.propTypes = {
   name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired
 };
 
 export default SidebarComponent;

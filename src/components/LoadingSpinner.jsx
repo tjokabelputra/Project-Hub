@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function LoadingSpinner({ size = 20 }) {
   return (
@@ -11,5 +12,9 @@ function LoadingSpinner({ size = 20 }) {
     />
   );
 }
+
+LoadingSpinner.propTypes = {
+  size: PropTypes.number
+};
 
 export default LoadingSpinner;

@@ -29,7 +29,7 @@ function InputUpdateItemComponent({ item, index, projects, onChange, onRemove, c
           label="Tanggal"
           value={item.date}
           onChange={(value) => handleChange('date', value)}
-        />
+          placeholder="Tanggal Project"/>
         <SearchableSelectComponent
           id={`project-${index}`}
           label="Project"

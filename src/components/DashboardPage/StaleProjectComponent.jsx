@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import StaleProjectTableComponent from './StaleProjectTableComponent.jsx';
 
 function StaleProjectComponent({ staleProjects }) {
@@ -13,5 +14,9 @@ function StaleProjectComponent({ staleProjects }) {
     </div>
   );
 }
+
+StaleProjectComponent.propTypes = {
+  staleProjects: PropTypes.array.isRequired
+};
 
 export default StaleProjectComponent;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GeneralInputComponent from '../input/GeneralInputComponent.jsx';
 import { formatLabel } from '../../util/util.js';
 import DropdownInputComponent from '../input/DropdownInputComponent.jsx';
@@ -93,5 +94,13 @@ function ProjectSearchInputComponent({ filterInfo, enums, pms, bps, units }) {
     </div>
   );
 }
+
+ProjectSearchInputComponent.propTypes = {
+  filterInfo: PropTypes.object.isRequired,
+  enums: PropTypes.object.isRequired,
+  pms: PropTypes.array.isRequired,
+  bps: PropTypes.array.isRequired,
+  units: PropTypes.array.isRequired
+};
 
 export default ProjectSearchInputComponent;

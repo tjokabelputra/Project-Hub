@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function PaginationComponent({ type, filteredDataLength, tableSize, startIndex, endIndex, currentPage, setCurrentPage }) {
   const pageCount = Math.ceil(filteredDataLength / tableSize);
@@ -58,5 +59,15 @@ function PaginationComponent({ type, filteredDataLength, tableSize, startIndex, 
     </div>
   );
 }
+
+PaginationComponent.propTypes = {
+  type: PropTypes.string.require,
+  filteredDataLength: PropTypes.number.isRequired,
+  tableSize: PropTypes.number.isRequired,
+  startIndex: PropTypes.number.isRequired,
+  endIndex: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired
+};
 
 export default PaginationComponent;

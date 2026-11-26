@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import FilterComponent from '../../FilterComponent.jsx';
 import { FaPlus } from 'react-icons/fa';
 import DataListTable from '../DataListTable.jsx';
@@ -47,5 +48,14 @@ function DataListComponent({ pms, bps, units, users, onAddData, onRoleSelected, 
     </section>
   );
 }
+
+DataListComponent.propTypes = {
+  pms: PropTypes.array.isRequired,
+  bps: PropTypes.array.isRequired,
+  units: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
+  onRoleSelected: PropTypes.func.isRequired,
+  onUnitSelected: PropTypes.func.isRequired
+};
 
 export default DataListComponent;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaFolder, FaRegClock, FaCheck, FaRegPauseCircle } from 'react-icons/fa';
 import ProjectCard from '../components/DashboardPage/ProjectCard.jsx';
@@ -7,7 +7,6 @@ import ProjectStepChart from '../components/DashboardPage/ProjectStepChart.jsx';
 import PriorityProjectCard from '../components/DashboardPage/PriorityProjectCard.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncGenerateInsight, asyncGetLatestInsight } from '../states/insight/action.js';
-import MissDeadlineComponent from '../components/DashboardPage/MissDeadlineComponent.jsx';
 import InsightComponent from '../components/DashboardPage/InsightComponent.jsx';
 import { asyncGetDashboard } from '../states/dashboard/action.js';
 import { MdOutlinePending } from 'react-icons/md';
@@ -42,31 +41,6 @@ function DashboardPage() {
     dispatch(asyncGetBps());
     dispatch(asyncGetUnits());
   }, [dispatch]);
-
-  /**
-  function getMissedDeadlineProjects(projects) {
-    const today = new Date();
-
-    const todayString = [
-      today.getFullYear(),
-      String(today.getMonth() + 1).padStart(2, '0'),
-      String(today.getDate()).padStart(2, '0')
-    ].join('-');
-
-    return projects.filter((project) => {
-      if (!project.targetGoLive) return false;
-      if (project.status === 'SELESAI') return false;
-
-      const deadlineString = project.targetGoLive.slice(0, 10);
-
-      return deadlineString < todayString;
-    });
-  }
-
-  const missedDeadlineProjects = useMemo(() => {
-    return getMissedDeadlineProjects(projects);
-  }, [projects]);
-   **/
 
   const projectCards = [
     {

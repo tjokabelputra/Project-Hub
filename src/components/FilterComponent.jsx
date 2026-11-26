@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function FilterComponent({ filters, filterIndex, setFilterIndex }) {
   return (
@@ -21,5 +22,11 @@ function FilterComponent({ filters, filterIndex, setFilterIndex }) {
     </ul>
   );
 }
+
+FilterComponent.propTypes = {
+  filters: PropTypes.object.isRequired,
+  filterIndex: PropTypes.number.isRequired,
+  setFilterIndex: PropTypes.func.isRequired
+};
 
 export default FilterComponent;

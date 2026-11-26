@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MdRefresh } from 'react-icons/md';
 import { RxLightningBolt } from 'react-icons/rx';
 import { formatDateTime, formatLabel, formatPeriod } from '../../util/util.js';
@@ -98,5 +99,11 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
     </div>
   );
 }
+
+InsightComponent.propTypes = {
+  insight: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  onGenerate: PropTypes.func.isRequired
+};
 
 export default InsightComponent;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDateTime, formatLabel } from '../../util/util.js';
 
 function StaleProjectTableComponent({ staleProjects = [] }) {
@@ -39,5 +40,9 @@ function StaleProjectTableComponent({ staleProjects = [] }) {
     </div>
   );
 }
+
+StaleProjectTableComponent.propTypes = {
+  staleProjects: PropTypes.array
+};
 
 export default StaleProjectTableComponent;

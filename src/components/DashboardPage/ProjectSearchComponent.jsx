@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import ProjectSearchInputComponent from './ProjectSearchInputComponent.jsx';
 import useInput from '../../hooks/useInput.js';
 import ProjectSearchTableComponent from './ProjectSearchTableComponent.jsx';
@@ -127,5 +128,14 @@ function ProjectSearchComponent({ projects, pagination, enums, pms, bps, units }
     </div>
   );
 }
+
+ProjectSearchComponent.propTypes = {
+  projects: PropTypes.array.isRequired,
+  pagination: PropTypes.object.isRequired,
+  enums: PropTypes.object.isRequired,
+  pms: PropTypes.array.isRequired,
+  bps: PropTypes.array.isRequired,
+  units: PropTypes.array.isRequired
+};
 
 export default ProjectSearchComponent;

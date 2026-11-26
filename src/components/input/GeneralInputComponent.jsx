@@ -31,7 +31,7 @@ GeneralInputComponent.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   disabled: PropTypes.bool,
   isHigh: PropTypes.bool,
 };
