@@ -39,7 +39,7 @@ function UpdateHistory({ history = [] }) {
           })}
           {history.length === 0 && (
             <tr>
-              <td colSpan={6}>Belum ada riwayat perubahan.</td>
+              <td colSpan={6} style={{ textAlign: 'center' }}>Belum ada riwayat perubahan.</td>
             </tr>
           )}
         </tbody>

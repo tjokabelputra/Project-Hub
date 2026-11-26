@@ -18,8 +18,8 @@ function InsightComponent({ insight, isLoading, onGenerate }) {
           </div>
           <div className="insight__text">
             <div className="insight__title">
-              <h1>AI Insight & Recommendatio</h1>
-              <p>{formatDateTime(insight?.generatedAt)}</p>
+              <h1>AI Insight & Recommendation</h1>
+              <p>Terakhir Generate: {formatDateTime(insight?.generatedAt)}</p>
             </div>
             <p>Analisis pola portofolio strategis, audit tata kelola, dan rekomendasi otomatis oleh Project Hub AI engine.</p>
           </div>

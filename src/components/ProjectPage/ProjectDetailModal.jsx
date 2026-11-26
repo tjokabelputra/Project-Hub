@@ -6,9 +6,12 @@ import DocumentListComponent from './DocumentListComponent.jsx';
 import projectApi from '../../util/projectApi.js';
 import CommitteeList from './CommitteeList.jsx';
 import UpdateHistory from './UpdateHistory.jsx';
+import UpdateListTable from '../UpdatePage/UpdateListTable.jsx';
+import updateApi from '../../util/updateApi.js';
 
 function ProjectDetailModal({ project, onClose, onDownloadDocument }) {
   const [selectedProject, setSelectedProject] = useState({});
+  const [projectUpdate, setProjectUpdate] = useState([]);
 
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -21,8 +24,10 @@ function ProjectDetailModal({ project, onClose, onDownloadDocument }) {
 
     const getProjectDetail = async () => {
       try {
-        const result = await projectApi.getProjectDetail(project.id);
-        setSelectedProject(result);
+        const projectDetail = await projectApi.getProjectDetail(project.id);
+        const update = await updateApi.getUpdates(project.id);
+        setSelectedProject(projectDetail);
+        setProjectUpdate(update);
       }
       catch (error) {
         console.error('Gagal mengambil detail project:', error);
@@ -54,7 +59,7 @@ function ProjectDetailModal({ project, onClose, onDownloadDocument }) {
           <CommitteeList stages={selectedProject.stages}/>
         </div>
         <div className="project-detail-modal__history">
-          <p className="project-detail-modal__label">Histori Perubahan</p>
+          <p className="project-detail-modal__label">Histori Perubahan Tahapan Komite</p>
           <UpdateHistory history={selectedProject.stageHistory}/>
         </div>
         <div className="project-detail-modal__documents">
@@ -62,6 +67,11 @@ function ProjectDetailModal({ project, onClose, onDownloadDocument }) {
           <DocumentListComponent
             supportingDocuments={selectedProject.documents}
             onDownload={onDownloadDocument} />
+        </div>
+        <div className="project-detail-modal__updates">
+          <p className="project-detail-modal__label">Update History</p>
+          <UpdateListTable
+            updates={projectUpdate} />
         </div>
       </div>
     </div>

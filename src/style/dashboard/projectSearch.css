@@ -48,7 +48,7 @@
 
 .project-search-table__header td:nth-child(1),
 .project-search-table__body td:nth-child(1) {
-    width: 5%;
+    width: 7%;
     text-align: center;
 }
 
@@ -59,7 +59,7 @@
 
 .project-search-table__header td:nth-child(3),
 .project-search-table__body td:nth-child(3) {
-    width: 10%;
+    width: 13%;
 }
 
 .project-search-table__header td:nth-child(4),
@@ -69,17 +69,12 @@
 
 .project-search-table__header td:nth-child(5),
 .project-search-table__body td:nth-child(5) {
-    width: 15%;
+    width: 20%;
 }
 
 .project-search-table__header td:nth-child(6),
 .project-search-table__body td:nth-child(6) {
-    width: 18%;
-}
-
-.project-search-table__header td:nth-child(7),
-.project-search-table__body td:nth-child(7) {
-    width: 12%;
+    width: 20%;
 }
 
 .project-search__actions {

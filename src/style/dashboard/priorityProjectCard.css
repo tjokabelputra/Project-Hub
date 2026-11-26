@@ -52,7 +52,7 @@
     color: var(--text-tertiary);
 }
 
-.priority-project-card__committee {
+.priority-project-card__priority {
     font-size: 14px;
     text-align: right;
     padding-inline: 16px;
@@ -62,14 +62,14 @@
     color: var(--text-secondary);
 }
 
-.priority-project-card__committee-pra-komite {
+.priority-project-card__priority-high {
     background: var(--danger);
 }
 
-.priority-project-card__committee-komite-ti-b {
+.priority-project-card__priority-medium {
     background: var(--warning);
 }
 
-.priority-project-card__committee-komite-ti-a {
+.priority-project-card__priority-low {
     background: var(--success);
 }

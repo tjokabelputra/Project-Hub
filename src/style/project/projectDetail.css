@@ -4,9 +4,10 @@
     inset: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     background: color-mix(in srgb, var(--background) 50%, transparent);
     z-index: 1000;
+    padding: 24px 0;
 }
 
 .project-detail-modal {
@@ -14,9 +15,10 @@
     flex-direction: column;
     gap: 24px;
     padding: 24px;
-    width: 60%;
+    width: 75%;
     background: var(--surface-secondary);
     border-radius: 16px;
+    margin: auto 0;
 }
 
 .project-detail-modal__header {
@@ -36,7 +38,7 @@
     height: 24px;
 }
 
-.project-detail-modal__info, .project-detail-modal__stages, .project-detail-modal__documents, .project-detail-modal__history {
+.project-detail-modal__info, .project-detail-modal__stages, .project-detail-modal__documents, .project-detail-modal__history, .project-detail-modal__updates {
     display: flex;
     flex-direction: column;
     gap: 16px;

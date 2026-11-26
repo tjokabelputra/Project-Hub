@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, formatDateTime, formatLabel } from '../../util/util.js';
+import { formatDateTime, formatLabel } from '../../util/util.js';
 
 function UpdateListTable({ updates }) {
   return (
@@ -28,6 +28,11 @@ function UpdateListTable({ updates }) {
               <td>{update.modifiedBy.nama}</td>
             </tr>
           ))}
+          {updates.length === 0 && (
+            <tr>
+              <td colSpan={6}>Belum ada riwayat perubahan.</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

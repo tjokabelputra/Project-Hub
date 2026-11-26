@@ -1,7 +1,3 @@
-.history-list-layout {
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-}
 .history-list-table {
     width: 100%;
     table-layout: fixed;
@@ -11,26 +7,29 @@
 }
 
 .history-list-table__header {
+    font-size: 16px;
     font-weight: bold;
     background: var(--background);
 }
 
 .history-list-table__header td, .history-list-table__body td {
-    padding-block: 16px;
+    padding: 16px 16px;
     border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: middle;
 }
 
 /* Tanggal & Jam */
 .history-list-table__header td:nth-child(1),
 .history-list-table__body td:nth-child(1) {
-    width: 15%;
+    width: 12%;
     text-align: center;
 }
 
 /* Status */
 .history-list-table__header td:nth-child(2),
 .history-list-table__body td:nth-child(2) {
-    width: 10%;
+    width: 13%;
 }
 
 /* Aktivitas */

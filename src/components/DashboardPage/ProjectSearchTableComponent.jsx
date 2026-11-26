@@ -35,7 +35,6 @@ function ProjectSearchTableComponent({ projects, pagination, onPageChange }) {
             <td>Nama Project</td>
             <td>Kode Project</td>
             <td>Status</td>
-            <td>Tahapan Komite</td>
             <td>PIC</td>
             <td>Tanggal Update</td>
           </tr>
@@ -47,7 +46,6 @@ function ProjectSearchTableComponent({ projects, pagination, onPageChange }) {
               <td>{project.nama}</td>
               <td>{project.kodeProject}</td>
               <td>{formatLabel(project.status)}</td>
-              <td>{formatLabel(getLatestStage(project.stages)?.tahap || '-')}</td>
               <td>{project.ownerPic}</td>
               <td>{formatDateTime(project.updatedAt)}</td>
             </tr>
