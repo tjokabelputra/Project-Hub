@@ -17,6 +17,8 @@ import { asyncGetUnits } from '../states/unit/action.js';
 import { asyncGetEnums } from '../states/enums/action.js';
 import { asyncGetProjects } from '../states/projects/action.js';
 import StaleProjectComponent from "../components/DashboardPage/StaleProjectComponent.jsx";
+import DashboardActivityChart from "../components/DashboardPage/DashboardActivityChart.jsx";
+import ProjectTimeline from "../components/DashboardPage/ProjectTimeline.jsx";
 
 function DashboardPage() {
   const dashboardData = useSelector((states) => states.dashboard);
@@ -121,6 +123,10 @@ function DashboardPage() {
         <div className="dashboard-page__chart-item">
           <PriorityProjectCard priorities={dashboardData.priorities}/>
         </div>
+      </div>
+      <div className="dashboard-page__extra-section">
+        <DashboardActivityChart data={dashboardData.activityByWeek} />
+        <ProjectTimeline projects={dashboardData.timelineProjects} />
       </div>
       <InsightComponent
         insight={insight}
